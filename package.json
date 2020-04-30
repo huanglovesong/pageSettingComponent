@@ -8,7 +8,7 @@
     "doc": "styleguidist server",
     "doc-build": "styleguidist build",
     "test": "jest",
-    "babel": "babel src/PageSettingComPonent --out-dir lib --copy-files",
+    "babel": "babel src --out-dir lib --copy-files",
     "release": "cross-env operation=separateCSS node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --mode production --config webpack.config.prod.js --colors --progress",
     "deploy": "npm run release && deploy-client"
   },

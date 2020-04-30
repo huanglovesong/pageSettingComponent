@@ -26,7 +26,7 @@ export default merge.smart(commonConfig, {
   },
   entry: [
     'babel-polyfill',
-    join(__dirname, 'src', 'index.js'),
+    join(__dirname, 'src', 'index.dev.js'),
   ],
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

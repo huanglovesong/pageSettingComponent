@@ -1,0 +1,304 @@
+.kaishichouj-bg{
+    width:7.5rem;
+    min-height:100vh;
+    background:#F81E2A;
+    position: relative;
+    .pagetitle{
+        width: 100%;
+        height: 3.4rem;
+        background:url('../images/title-bj.png') no-repeat;
+        background-size: 100%;  
+    }
+    .prize-body{
+        padding-bottom: 0.5rem;
+        width: 100%;
+        .prize-usernum{
+            color: #FBE25B;
+            font-size: 0.26rem;
+            padding: 0.2rem 0.38rem;
+        }
+        .prize-roll{
+            height: 6.8rem;
+            width: 100%;
+            margin-top: 0.05rem;
+        }
+        .draw-section {
+            position: relative;
+            margin: 0 auto;
+            width: 6.74rem;
+            height: 100%;
+            border-radius: 15px;
+            .draw-item {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-sizing: border-box;
+                width: 2.12rem;
+                height: 2.12rem;
+                font-size: .2rem;
+                background:url('../images/pro-bj.png') no-repeat;
+                background-size: 100% 100%;
+                img {
+                    margin-bottom: .1rem;
+                    width: 1rem;
+                    height: 1rem;
+                    transition: transform .05s ease-in-out;
+                    margin: .15rem 0 0.1rem;
+                }
+                .item-prize-name {
+                    width: 70%;
+                    text-align: center;
+                    overflow: hidden;
+                    font-size: 0.26rem;
+                    color:#A2351A;
+                    font-weight: bold;
+                }
+            }
+            .draw-btn {
+                position: absolute;
+                top: 2.34rem;
+                left: 2.34rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                background: url('../images/prize-btn-bj.png') no-repeat;
+                background-size: 100% 100%;
+                .draw-times {
+                    margin-top: 1.12rem;
+                    width: 95%;
+                    height: .3rem;
+                    line-height: .28rem;
+                    text-align: center;
+                    color: #A2351A;
+                    font-size: .2rem;
+                    border-radius: 30px;
+                    font-weight: bold;
+                }
+            }
+            .p0,
+            .p1,
+            .p2 {
+                top: 0rem;
+            }
+            .p3,
+            .p7 {
+                top: 2.34rem;
+            }
+            .p4,
+            .p5,
+            .p6 {
+                top: 4.68rem;
+            }
+            .p0,
+            .p6,
+            .p7 {
+                left: 0rem;
+            }
+            .p1,
+            .p5 {
+                left: 2.34rem;
+            }
+            .p2,
+            .p3,
+            .p4 {
+                left: 4.68rem;
+            }
+            .active {
+                background: url('../images/pro-active-bj.png') no-repeat;
+                background-size: 100% 100%;
+            }
+        }
+        .prize-notice{
+            width: 6.80rem;
+            height: 0.7rem;
+            background:#D51F2E;
+            border-radius:0.35rem;
+            margin:0.38rem auto;
+            line-height: 0.7rem;
+            text-align: center;
+            color: #FBE25B;
+            font-size: 0.26rem;
+            position: relative;
+            overflow: hidden;
+            .pre-notice{
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 0;
+                height: 100%;
+                animation: mymove 6s infinite;
+            }
+            .next-notice{
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 0.7rem;
+                height: 100%;
+                animation: mymovenext 6s infinite;
+            }
+            @keyframes mymove {
+                10%{
+                    top: 0rem;
+                    opacity: 1;
+                }
+                60%{
+                    top: 0rem;
+                    opacity: 1;
+                }
+                75%{
+                    top: -0.7rem;
+                    opacity: 1;
+                }
+                85%{
+                    top: -0.7rem;
+                    opacity: 0;
+                }
+                90%{
+                    top: 0.7rem;
+                    opacity: 0;
+                }
+                95%{
+                    top: 0.7rem;
+                    opacity: 1;
+                }
+            }
+            @keyframes mymovenext {
+                0%{
+                    top: -0.25rem;
+                    opacity: 1;
+                }
+                10%{
+                    top: -0.7rem;
+                    opacity: 1;
+                }
+                20%{
+                    top: -0.7rem;
+                    opacity: 0;
+                }
+                25%{
+                    top: 0.7rem;
+                    opacity: 0;
+                }
+                30%{
+                    top: 0.7rem;
+                    opacity: 1;
+                }
+                45%{
+                    top: 0rem;
+                    opacity: 1;
+                }
+                95%{
+                    top: 0rem;
+                    opacity: 1;
+                }
+                100%{
+                    top: -0.25rem;
+                    opacity: 1;
+                }
+            }
+        }
+        .prize-rule{
+            padding: 0 0.48rem;
+            h1{
+                font-size: 0.4rem;
+                color: #fff;
+            }
+            p{
+                font-size: 0.28rem;
+                color: #fff;
+                padding-bottom: 0.14rem;
+                line-height: 0.38rem;
+                span{
+                    display: block;
+                    font-size: 0.28rem;
+                }
+            }
+        }
+    }
+    .myprize{
+        position: fixed;
+        bottom: 1.8rem;
+        width: 1.48rem;
+        height: 1.68rem;
+        border-radius: 50%;
+        background:url('../images/myprize.png') no-repeat;
+        background-size: 100% 100%;
+        right: 0.44rem;
+    }
+}
+.choujiangmodal{
+    width: 6.3rem;
+    height: 7.52rem;
+    background: url('../images/modal-bj.png') no-repeat;
+    background-size: 100% 100%;
+    .am-modal-content{
+        background: none;
+        overflow: visible;
+        padding-top: 30px !important;
+        h1{
+            width: 3.76rem;
+            height: 0.44rem;
+            background: url('../images/suceess-title.png') no-repeat;
+            background-size: 100% 100%;
+            margin: 0.42rem auto;
+        }
+        .filedmodal-title{
+            background: url('../images/feild-title.png') no-repeat;
+            background-size: 100% 100%;
+        }
+        .errmodal-title{
+            background: url('../images/err-title.png') no-repeat;
+            background-size: 100% 100%;
+        }
+        img{
+            width: 1.6rem;
+            height: 1.6rem;
+            margin: 0 auto;
+        }
+        .proname{
+            font-size: 0.4rem;
+            color: #A2351A;
+            text-align: center;
+            height: 0.48rem;
+            line-height: 0.48rem;
+            margin-top: 0.12rem;
+        }
+        .pro-notice{
+            font-size: 0.22rem;
+            color:#A2351A;
+            opacity: 0.5;
+            width: 3.26rem;
+            margin: 0.22rem auto;
+        }
+        .gotoexchange{
+            color: #D51F2E;
+            font-size: 0.4rem;
+            text-align: center;
+            font-weight: bold;
+            position: absolute;
+            bottom: 1.05rem;
+            width: 100%;
+            left: 0;
+        }
+        .close{
+            position: absolute;
+            width: 0.6rem;
+            height: 0.6rem;
+            background:url('../images/close.png') no-repeat;
+            background-size: 100% 100%;
+            top: -0.66rem;
+            right: 0.66rem;
+        }
+        .err-mes{
+            color: #A2351A;
+            font-size: 0.4rem;
+            font-weight: bold;
+        }
+    }
+}
+.am-modal-mask{
+    background-color: rgba(0,0,0,.65);
+}

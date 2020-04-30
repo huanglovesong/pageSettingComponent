@@ -1,0 +1,45 @@
+.footer-bg{
+   height: 1rem;
+   background: #fff;
+   position: fixed;
+   bottom: 0;
+   width:7.5rem;
+   display: flex;
+   box-shadow: 0 10px 30px #888;
+   z-index:9;
+   .item{
+        width:3.75rem;
+        text-align: center;
+         padding: .16rem;
+        color: #999;
+        &.active{
+            color: #4191EA;
+            .icon{
+                color: #4191EA;
+            }
+        }
+        .icon{
+            display: block;
+            margin: 0 auto;
+            font-size: .4rem;
+            margin-bottom: .05rem;
+            color: #999;
+        }
+   }
+}
+
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    .footer-bg{
+        height: 1rem;
+    }
+  }
+  
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+    .footer-bg{
+        height: 1rem;
+    }
+}
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio:2) {
+      
+}
