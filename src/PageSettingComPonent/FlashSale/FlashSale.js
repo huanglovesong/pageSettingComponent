@@ -1,5 +1,5 @@
 import React from 'react';
-import Icons, { arrowRight } from '../../Icon';
+import Icons, { arrowRight } from '../Icon';
 import './less/flashSale.less';
 
 class FlashSale extends React.Component {

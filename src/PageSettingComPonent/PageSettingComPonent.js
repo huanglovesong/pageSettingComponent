@@ -83,7 +83,7 @@ class PageSettingComPonent extends React.Component {
         const { allInfo } = this.state;
         const { disableClick } = this.props;
         return (
-            <div className={`clearfix`}>
+            <div className={`main-bg ${disableClick && 'point-events-none'}`}>
                 <div className="page-setting-content" style={{ background: allInfo.backgroud }}>
                     {this.getCom()}
                 </div>

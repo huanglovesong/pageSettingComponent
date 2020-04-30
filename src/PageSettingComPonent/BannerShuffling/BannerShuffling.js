@@ -7,7 +7,6 @@ export default class BannerShufflingBox extends Component {
     prop: PropTypes
   }
   toBanner = (v) => {
-    debugger
     if (v.bannerType === 1) {
       window.open(v.linkurl, '_blank')
     } else if (v.bannerType === 2 && v.ifSkip === 1) {

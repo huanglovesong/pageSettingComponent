@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import PageSettingComPonent from '../PageSettingComPonent';
+import PageSettingComPonent from '../../PageSettingComPonent';
 
 class Home extends React.Component {
 
@@ -10,9 +10,8 @@ class Home extends React.Component {
       }
    }
    render() {
-
       return (
-         <PageSettingComPonent/>
+         <PageSettingComPonent history={this.props.history} />
       )
    }
 }

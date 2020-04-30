@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import './less/classification.less';
-import mathManage from '../../../utils/mathManage';
+import mathManage from '../../utils/mathManage';
 
 export default class ClassificationBox extends Component {
   static propTypes = {
@@ -10,7 +10,6 @@ export default class ClassificationBox extends Component {
   }
   constructor(props) {
     super(props);
-
     this.state = {
       activeTab: 0,
       goodList: [],
