@@ -1,0 +1,153 @@
+.page-setting-content {
+
+  // 分类
+  .classification-box {
+    position: relative;
+    display: flex;
+    width: 7.5rem;
+    flex-wrap: wrap;
+    margin-top: .3rem;
+
+    .item {
+      // width: 50%;
+      float: left;
+      margin-right: .2rem;
+      margin-bottom: .2rem;
+      border-radius: .16rem;
+      background: #FFFFFF;
+    }
+
+    .item:nth-child(even) {
+      margin-right: 0;
+    }
+
+    .item .img-bg {
+      width: 100%;
+      background: #FAF9F9;
+      margin-bottom: .2rem;
+      text-align: center;
+      border-radius: .16rem;
+      position: relative;
+    }
+
+    .item .img-bg img {
+      // width: 100%;
+      width: 3.25rem;
+      height: 2.58rem;
+      border-radius: .16rem .16rem 0 0;
+    }
+
+    .item .name {
+      white-space: pre-wrap;
+      font-size: .28rem;
+      font-weight: 500;
+      color: #333;
+      text-align: left;
+      height: .64rem;
+      line-height: .32rem;
+      width: 2.68rem;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      margin: .14rem 0rem .08rem .2rem;
+    }
+
+    .item .price {
+      font-size: .32rem;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      height: .32rem;
+      text-align: left;
+      color: #FF503F;
+      overflow: hidden;
+      margin-bottom: .28rem;
+      margin-left: .2rem;
+      font-weight: 700;
+    }
+
+    .item .price .small {
+      font-size: .2rem;
+    }
+
+    .item .del-price {
+      text-decoration: line-through;
+      text-align: left;
+      height: .2rem;
+      line-height: .2rem;
+      font-size: .2rem;
+      color: #B3B3B3;
+      margin-left: .08rem;
+    }
+
+    // .am-tabs {
+    //   height: .68rem;
+    // }
+
+    .am-tabs-default-bar {
+      padding-right: .2rem;
+      height: .68rem;
+      background: transparent !important;
+    }
+
+    .class-content {
+      margin-top: .28rem;
+      // padding-bottom: 1rem;
+    }
+
+    .am-tabs-default-bar-tab {
+      height: .6rem;
+      line-height: .6rem;
+      font-size: .28rem;
+      justify-content: left;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #666;
+
+      &.am-tabs-default-bar-tab-active {
+        color: #333;
+        font-weight: 600;
+        font-size: .36rem;
+      }
+
+      &:after {
+        display: none !important;
+      }
+    }
+
+    .am-tabs-default-bar-nextpage,
+    .am-tabs-default-bar-prevpage {
+      background: transparent !important;
+    }
+
+    .am-tabs-default-bar-underline {
+      border: none;
+      height: .08rem;
+      background: #028FFF;
+      width: .48rem !important;
+      border-radius: .04rem;
+      margin-left: 0rem;
+    }
+
+    /*角标*/
+    .right-tips {
+      position: absolute;
+      right: -.1rem;
+      top: -.1rem;
+      width: .7rem;
+      height: .54rem;
+      line-height: .38rem;
+      font-size: .22rem;
+      text-align: center;
+      color: #fff;
+      background: url('../../imgs/tips-bg.png') no-repeat;
+      background-size: contain;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+  }
+}

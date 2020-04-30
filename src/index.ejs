@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="borderbox" style="font-size: 50px;">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 使用高清方案生成 -->
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
+  <meta name="keywords" content="<%= htmlWebpackPlugin.options.keywords %>">
+  <title id="title">
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <style>
+    html {
+      font-size: 50px;
+      font-family: '微软雅黑';
+    }
+
+    @media screen and (min-width:320px) {
+      html {
+        font-size: 42.66px
+      }
+    }
+
+    @media screen and (min-width:360px) {
+      html {
+        font-size: 48px
+      }
+    }
+
+    @media screen and (min-width:375px) {
+      html {
+        font-size: 50px
+      }
+    }
+
+    @media screen and (min-width:400px) {
+      html {
+        font-size: 53.33px
+      }
+    }
+
+    @media screen and (min-width:414px) {
+      html {
+        font-size: 55.2px
+      }
+    }
+
+    @media screen and (min-width:440px) {
+      html {
+        font-size: 58.66px
+      }
+    }
+
+    @media screen and (min-width:480px) {
+      html {
+        font-size: 64px
+      }
+    }
+
+    @media screen and (min-width:520px) {
+      html {
+        font-size: 69.33px
+      }
+    }
+
+    @media screen and (min-width:560px) {
+      html {
+        font-size: 74.66px
+      }
+    }
+
+    @media screen and (min-width:600px) {
+      html {
+        font-size: 80px
+      }
+    }
+
+    html,
+    body,
+    div,
+    p,
+    h1,
+    h2,
+    h3,
+    span,
+    button,
+    input,
+    img,
+    ul,
+    li,
+    table,
+    th,
+    tr,
+    td,
+    a {
+      margin: 0;
+      padding: 0;
+      font-size: .24rem;
+    }
+
+    html,
+    body,
+    #app {
+      min-height: 100%;
+    }
+
+    html>body {
+      background: #fff;
+    }
+
+    #app {
+      /* padding-top: .88rem; */
+      position: relative;
+    }
+
+    input,
+    button,
+    select,
+    textarea {
+      outline: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      border: none;
+      outline: none;
+      background: none;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .clearfix:after {
+      content: " ";
+      display: block;
+      font-size: 0;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+
+    .bottom-x {
+      display: none;
+    }
+
+    #cnzz_stat_icon_1278829827{
+      display: none;
+    }
+
+    /*iphoneX*/
+
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+      .detail-bg .detail-con .order-btn.order-btn-x {
+        bottom: 1rem;
+      }
+
+      .bottom-x {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1rem;
+        background: #fff;
+      }
+    }
+  </style>
+  <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1278829827'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1278829827%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+  <script>
+    //声明_czc对象:
+    var _czc = _czc || [];
+    //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
+    _czc.push(["_setAccount", "1278829827"]);
+  </script>
+  <script type="text/javascript">
+    // 判断是否为 IE 浏览器
+    var browser = navigator.appName;
+    // 判断 IE 浏览器的版本号
+    var b_version = navigator.appVersion,
+      version = b_version.split(';'),
+      trimVersion = version[1].replace(/[ ]/g, ''),
+      trimVersionTrans = trimVersion.substr(4);
+    // 如果访问的浏览器是 IE 浏览器，且版本号小于 9，
+    // 则跳转到 /upgrade/index.html
+    if (browser == 'Microsoft Internet Explorer' && trimVersionTrans < 9) {
+      window.location.href = '/upgrade/';
+    }
+
+    // rem动态计算
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+        };
+
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+    // 引入 Promise 的 fallback 支持 (部分安卓手机不支持 Promise)
+    if (!window.Promise) {
+      document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"' +
+        '>' + '<' + '/' + 'script>');
+    }
+
+  </script>
+
+  <script type="text/javascript">
+    var js = "<script src=\"/resources/js/configs.js?time=" + Math.random() + "\" ><\/script>"
+    document.write(js);
+    function GetQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return decodeURIComponent(r[2]);
+      return null;
+    }
+    var codeid = GetQueryString('codeid') || localStorage.getItem('codeid');
+  </script>
+  <script src="<%= htmlWebpackPlugin.options.bundle %>"></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script type="text/javascript">
+    var jq = "<script src=\"/resources/js/jquery.js?time=" + Math.random() + "\" ><\/script>"
+    document.write(jq);
+    if (codeid.toLowerCase() === configs.chinaBank.toLowerCase()) { // 中国银行
+      var cordovaJs = "<script src=\"/resources/js/cordova.js?time=" + Math.random() + "\" ><\/script>"
+      document.write(cordovaJs);
+    }
+  </script>
+
+  <script>
+    // 获取初始设备高度
+    var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    window.deviceHeight = clientHeight;
+
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="text/javascript">
+
+    var codeid = GetQueryString('codeid') || localStorage.getItem('codeid');
+    if (!codeid) {
+      window.location.href = '/nothing';
+    }
+    if (GetQueryString('fuluId') && GetQueryString('fuluToken')) {
+      var userInfo = {
+        fuluId: GetQueryString('fuluId'),
+        fuluToken: GetQueryString('fuluToken')
+      }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+    var userid = GetQueryString('userid');
+    var accesstoken = GetQueryString('accesstoken');
+    var uuid = GetQueryString('uuid');
+    var eventId = GetQueryString('eventId');
+    localStorage.setItem('eventId', eventId);
+    // 
+    if (userid || accesstoken || uuid) {
+      localStorage.setItem('userid', userid || uuid);
+      localStorage.setItem('accesstoken', accesstoken);
+    }
+
+
+    if (codeid.toLowerCase() === configs.chinaBank.toLowerCase()) { // 中国银行
+      localStorage.setItem('theme', 'red-theme');
+      $("#app").attr("class", "red-theme");
+      //如果是中国银行，需要将链接中的ibknum 存起来
+      var ibknum = GetQueryString('ibknum');
+      var mobile = GetQueryString('mobile');
+      var ifnew = GetQueryString('ifnew');
+      ibknum && localStorage.setItem('ibknum', ibknum);
+      mobile && localStorage.setItem('mobile', mobile);
+      ifnew && localStorage.setItem('ifnew', ifnew);
+    } else if (codeid.toLowerCase() === configs.mangoTV.toLowerCase()) { // 芒果TV
+      localStorage.setItem('theme', 'orange-theme');
+      $("#app").attr("class", "orange-theme");
+    }
+
+    localStorage.setItem('codeid', codeid)
+
+    function isAlipayOrWechat() {
+      var userAgent = navigator.userAgent.toLowerCase();
+      if (userAgent.match(/Alipay/i) == "alipay") {
+        // 支付宝浏览器
+        return 0;
+      } else if (userAgent.match(/MicroMessenger/i) == "micromessenger") {
+        return 1;
+      } else {
+        return 2;
+      }
+    }
+    var payType = isAlipayOrWechat();
+    $.ajax({
+      type: "get",
+      url: configs.openAPI + '/api/Merchant/GetMerinfo', // 
+      data: {
+        codeKey: codeid,
+        payType: payType, // 0支付宝 1微信  2、不返回appid
+      },
+      async: false,
+      success: function (res) {
+        // 成功调取商户信息
+        if (res.code === '1000') {
+          var data = res.data;
+          $("#title").html(data.merInfoTemplates.infoTitle)
+          localStorage.setItem('shopInfo', JSON.stringify(data)); // 保存商户信息 
+        }
+      },
+      error: function (err) {
+        // window.location.href = '/nothing';
+      }
+    });
+
+  </script>
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af2748bb7d9347d923d6993822d5ae6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</body>
+
+</html>

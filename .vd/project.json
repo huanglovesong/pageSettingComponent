@@ -1,0 +1,119 @@
+{
+  "directory": {
+    "development": {
+      "envName": "src",
+      "component": "components",
+      "container": "routes",
+      "model": "models",
+      "service": "services",
+      "config": "configs",
+      "util": "utils",
+      "sprite": "sprite",
+      "style": "less",
+      "data": "json",
+      "test": "__test__",
+      "document": "doc"
+    },
+    "build": {
+      "envName": ".build"
+    },
+    "production": {
+      "envName": "dist",
+      "resource": "resources",
+      "javascript": "js",
+      "style": "css",
+      "asset": "images"
+    }
+  },
+  "theme": {
+    "hd": "2px",
+    "primary-color": "#ad8d43",
+    "font-color": "#959595",
+    "title-color": "#5c5c5c",
+    "bg-color": "#f6f6f6",
+    "border-color": "#e9e9e9",
+    "pic-height": "1.55rem",
+    "pic-width": "3.36rem"
+  },
+  "general": {
+    "publicPath": "",
+    "externals": {
+      "configs": "configs"
+    },
+    "resolve": {
+      "alias": {
+        "rework": "rework.less/rework.less",
+        "sprite": "sprite.less",
+        "moment": "moment/moment.js"
+      },
+      "extensions": [
+        ".web.js",
+        ".js"
+      ],
+      "mainFields": [
+        "browser",
+        "jsnext:main",
+        "main"
+      ]
+    },
+    "performance": {
+      "maxAssetSize": 400000,
+      "maxEntrypointSize": 600000
+    },
+    "target": "web",
+    "devtool": "source-map",
+    "html": {
+      "title": "",
+      "description": "",
+      "keywords": ""
+    }
+  },
+  "optimizer": {
+    "js": {},
+    "css": {
+      "minimize": true,
+      "browsers": [
+        "last 3 versions",
+        "> 1%"
+      ]
+    },
+    "asset": {
+      "limit": 10000,
+      "extract": false
+    }
+  },
+  "debug": {
+    "port": 8899,
+    "sync": false,
+    "browsersync": {
+      "port": 4000,
+      "open": true
+    }
+  },
+  "preview": {
+    "port": 5000
+  },
+  "deploy": {
+    "environment": "Node",
+    "url": "",
+    "port": "",
+    "token": ""
+  },
+  "type": "mobileWeb",
+  "name": "H5Shop",
+  "productName": "H5Shop",
+  "description": "H5Shop",
+  "version": "1.0.0",
+  "compatibility": {
+    "chrome": "latest",
+    "firefox": "latest",
+    "safari": "latest",
+    "ie": "9+"
+  },
+  "autoCreateDefaultComponents": "1",
+  "routerType": "BrowserRouter",
+  "environment": "Node",
+  "skin": true,
+  "dir": "__dirname",
+  "id": "17e75150-59ad-11e8-b049-590d848802f1"
+}
