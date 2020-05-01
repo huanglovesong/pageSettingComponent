@@ -1,4 +1,4 @@
-import axios from '../utils/axios';
+import axios from '../utils/axiosPageSetting';
 import Api from '../configs/api';
 export function getPage(params) {
     return axios.get(configs.openAPI + Api.getPage, { params });

@@ -1,21 +1,3 @@
-import PageSettingComPonent from './PageSettingComPonent';
-import ActiveModalCom from './ActiveModalCom';
-import ActiveModal from './ActiveModalCom/ActiveModal';
-import BannerShuffling from './BannerShuffling';
-import BannerAdvertising from './BannerAdvertising';
-import Classification from './Classification';
-import FlashSale from './FlashSale';
-import ImageText from './ImageText';
-import Notice from './Notice';
+import Home from './Page/Home';
 
-export default PageSettingComPonent;
-export {
-    ActiveModalCom,
-    ActiveModal,
-    BannerShuffling,
-    BannerAdvertising,
-    Classification,
-    FlashSale,
-    ImageText,
-    Notice,
-};
+export { Home };

@@ -1,4 +1,4 @@
-import PageSettingComPonent from './components/PageSettingComPonent';
+import Home from './components/PageSettingComPonent/Page/Home';
 import ActiveModalCom from './components/PageSettingComPonent/ActiveModalCom';
 import ActiveModal from './components/PageSettingComPonent/ActiveModalCom/ActiveModal';
 import BannerShuffling from './components/PageSettingComPonent/BannerShuffling';
@@ -8,9 +8,10 @@ import FlashSale from './components/PageSettingComPonent/FlashSale';
 import ImageText from './components/PageSettingComPonent/ImageText';
 import Notice from './components/PageSettingComPonent/Notice';
 
-export default PageSettingComPonent;
+import pageSetting from './models/pageSetting';
 
 export {
+  // 组件
   ActiveModal,
   ActiveModalCom,
   BannerShuffling,
@@ -19,4 +20,9 @@ export {
   FlashSale,
   ImageText,
   Notice,
+
+  // models
+  pageSetting,
+  //页面
+  Home
 };

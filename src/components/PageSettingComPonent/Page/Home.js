@@ -21,15 +21,37 @@ class PageSettingComPonent extends React.Component {
             },
         }
     }
-    componentWillMount() {
+    // componentWillMount() {
 
+    // }
+    // componentWillReceiveProps(nextProps) {
+    //     const { allInfo } = this.state;
+    //     if (allInfo !== nextProps.allInfo) {
+    //         this.setState({
+    //             allInfo: nextProps.allInfo
+    //         })
+    //     }
+    // }
+    componentWillMount() {
+        this.props.dispatch({
+            type: 'pageSetting/getPage',
+            payload: {
+                pageType: 1
+            }
+        });
     }
     componentWillReceiveProps(nextProps) {
-        const { allInfo } = this.state;
-        if (allInfo !== nextProps.allInfo) {
-            this.setState({
-                allInfo: nextProps.allInfo
-            })
+        const { props } = this;
+        const { pageSetting: { getPageResult } } = nextProps;
+        if (getPageResult !== props.pageSetting.getPageResult) {
+            const { code, data, message } = getPageResult;
+            if (code === '0') {
+                return this.setState({
+                    allInfo: data
+                })
+            } else {
+                Toast.info(message);
+            }
         }
     }
     getCom = () => {
