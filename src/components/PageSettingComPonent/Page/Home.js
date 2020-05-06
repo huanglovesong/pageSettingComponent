@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Toast } from 'antd-mobile';
-import BannerShuffling from './BannerShuffling';
-import BannerAdvertising from './BannerAdvertising';
-import Classification from './Classification';
-import FlashSale from './FlashSale';
-import ImageText from './ImageText';
-import Notice from './Notice';
-import ActiveModalCom from './ActiveModalCom';
-import ActiveModal from './ActiveModalCom/ActiveModal';
-import './less/pageSetting.less';
+import BannerShuffling from '../BannerShuffling';
+import BannerAdvertising from '../BannerAdvertising';
+import Classification from '../Classification';
+import FlashSale from '../FlashSale';
+import ImageText from '../ImageText';
+import Notice from '../Notice';
+import ActiveModalCom from '../ActiveModalCom';
+import ActiveModal from '../ActiveModalCom/ActiveModal';
+import '../less/pageSetting.less';
 
 class PageSettingComPonent extends React.Component {
 
