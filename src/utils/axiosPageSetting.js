@@ -100,25 +100,25 @@ function isLoginOrAuth() {
 axios.interceptors.response.use(response => {
   // console.log('【response】', response);
   // 2xx 进入
-  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : '';
+  // const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : '';
 
-  if (response.data && response.data.code === '-2') {
-    window.location.href = '/nothing';
-  } else if (response.data.code === '-3' || response.data.code === '1013' || response.data.code === '1014' || response.data.code === '1015') {
-    //详情页、订单页接口单独做处理 弹窗需要添加
-    const detailApiUrl = ['/api/Order/SendOrder', '/api/Order/SendCardOrder', '/api/Product/GetPassCode',
-      '/api/Product/GetPassCodeStatus', '/api/Order/GetOrderList', '/api/Order/GetOrderDetail'];
-    let detailFlag = detailApiUrl.some((item) => {
-      return response.config.url.indexOf(item) !== -1;
-    });
-    // 如果不是详情页
-    if (!detailFlag) {
-      let userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
-      userInfo.fuluToken = '';
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      isLoginOrAuth()
-    }
-  }
+  // if (response.data && response.data.code === '-2') {
+  //   window.location.href = '/nothing';
+  // } else if (response.data.code === '-3' || response.data.code === '1013' || response.data.code === '1014' || response.data.code === '1015') {
+  //   //详情页、订单页接口单独做处理 弹窗需要添加
+  //   const detailApiUrl = ['/api/Order/SendOrder', '/api/Order/SendCardOrder', '/api/Product/GetPassCode',
+  //     '/api/Product/GetPassCodeStatus', '/api/Order/GetOrderList', '/api/Order/GetOrderDetail'];
+  //   let detailFlag = detailApiUrl.some((item) => {
+  //     return response.config.url.indexOf(item) !== -1;
+  //   });
+  //   // 如果不是详情页
+  //   if (!detailFlag) {
+  //     let userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
+  //     userInfo.fuluToken = '';
+  //     localStorage.setItem("userInfo", JSON.stringify(userInfo));
+  //     isLoginOrAuth()
+  //   }
+  // }
   return response;
 }, error => {
   // console.log('【response error】', error);
