@@ -34,7 +34,7 @@ export default class ClassificationBox extends Component {
       parseInt(tabsItem.dataDetailCacheModels.length / 2) + 1;
     // let productHeight = `${(len * 229) / 50}rem`;
     const style = {
-      margin: `${productMargin/50}rem`,
+      margin: `${productMargin / 50}rem`,
       display: 'inline-block',
       // width: '100%'
     };
@@ -50,10 +50,11 @@ export default class ClassificationBox extends Component {
               </div>
               <div class="name">{item.childCategoryName}</div>
               <div className="status-content">
-                {/* <div className="discount-price-img"></div> */}
+                {item.isCouponAfterPrice && item.couponBatchid && <div className="discount-price-img"></div>}
               </div>
               <div className="price" >
-                {item.integral && <span>{item.integral}积分+</span>}<span className="small">￥</span>{item.price}
+                {item.integral && <span>{item.integral}积分+</span>}<span className="small">￥</span>
+                {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price}
                 <s className="del-price">￥{item.faceValue}</s>
               </div>
             </span>
@@ -83,15 +84,15 @@ export default class ClassificationBox extends Component {
       // 页面边距
       let pageMargin = item.modelStyle.classStyleModel.pageMargin;
       const style = {
-        margin: `${productMargin/50}rem`,
+        margin: `${productMargin / 50}rem`,
         display: 'inline-block',
         // width: '100%'
       };
       const style1 = {
-        marginLeft: `-${productMargin/50}rem`,
-        marginRight: `-${productMargin/50}rem`,
-        paddingLeft: `${pageMargin/50}rem`,
-        paddingRight: `${pageMargin/50}rem`
+        marginLeft: `-${productMargin / 50}rem`,
+        marginRight: `-${productMargin / 50}rem`,
+        paddingLeft: `${pageMargin / 50}rem`,
+        paddingRight: `${pageMargin / 50}rem`
       };
 
       return <div class="classification-box clearfix" style={{ ...style1 }}>
