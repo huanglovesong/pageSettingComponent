@@ -10,7 +10,12 @@ class ActiveModalCom extends React.Component {
   }
   toPage = () => {
     const { allInfo } = this.props;
-    this.props.history.push(allInfo.sidebarDetail.linkUrl);
+    // 如果是自定义链接
+    if (allInfo.sidebarDetail.linkType === 1) {
+      return window.location.href = allInfo.sidebarDetail.linkUrl;
+    }
+    // 如果是内部商品
+    this.props.history.push(`/detail?gid=${allInfo.sidebarDetail.linkUrl}&pid=${allInfo.sidebarDetail.linkData}`);
   }
   render() {
     const { allInfo } = this.props;

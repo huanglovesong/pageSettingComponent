@@ -62,7 +62,12 @@ export default class ActiveModal extends Component {
     }
     toPage = () => {
         const { allInfo } = this.props;
-        this.props.history.push(allInfo.sidebarDetail.linkUrl);
+        // 如果是自定义链接
+        if (allInfo.popupDetail.linkType === 1) {
+            return window.location.href = allInfo.popupDetail.linkUrl;
+        }
+        // 如果是内部商品
+        this.props.history.push(`/detail?gid=${allInfo.popupDetail.linkUrl}&pid=${allInfo.popupDetail.linkData}`);
     }
     render() {
         const { allInfo, disableClick } = this.props;
