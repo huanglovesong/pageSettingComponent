@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Carousel } from 'antd-mobile';
 import Icons, { zpbz, jstk, zxzk, shwy } from '../Icon';
 import PropTypes from 'prop-types'
+import './less/bannerShuffling.less';
 export default class BannerShufflingBox extends Component {
   static propTypes = {
     prop: PropTypes
@@ -34,16 +35,16 @@ export default class BannerShufflingBox extends Component {
       return <div className="banner-shuffling-box" style={{ ...style }}>
         <Carousel autoplay infinite>
           {item.moduleDataList.map((nowItem) => {
-            return <li style={{ width: '100%', height: '2.7rem' }}>
+            return <li style={{ width: '100%' }}>
               <a
                 key={nowItem.productId}
                 onClick={() => { this.toBanner(nowItem) }}
-                style={{ display: 'inline-block', width: '100%', height: '2.7rem' }}
+                style={{ display: 'inline-block', width: '100%' }}
               >
                 <img
                   src={nowItem.bannerUrl}
                   alt=""
-                  className="banner-img"
+                  className="banner-shuffling-box-img"
                   style={{
                     width: '100%', verticalAlign: 'top',
                     borderRadius: item.modelStyle.bannerRollStyleModel.imageChamfer === 'fillet' ? '.16rem' : '0px',

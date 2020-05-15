@@ -39,7 +39,12 @@ class Notice extends React.Component {
   }
   setMarquee = () => {
     const { item } = this.props;
-    let arr = [item.moduleDataList[0].textData, item.moduleDataList[0].textData, item.moduleDataList[0].textData];
+    let arr = [item.moduleDataList[0].textData,
+    item.moduleDataList[0].textData,
+    item.moduleDataList[0].textData,
+    item.moduleDataList[0].textData,
+    item.moduleDataList[0].textData,
+    ];
     return arr;
   }
   clickNotice = (e) => {
