@@ -7,6 +7,7 @@ import Classification from '../Classification';
 import FlashSale from '../FlashSale';
 import ImageText from '../ImageText';
 import Notice from '../Notice';
+import Coupons from '../Coupons';
 import ActiveModalCom from '../ActiveModalCom';
 import ActiveModal from '../ActiveModalCom/ActiveModal';
 import '../less/pageSetting.less';
@@ -82,6 +83,11 @@ class PageSettingComPonent extends React.Component {
             else if (item.moduleType === 'notice') {
                 arr.push(<Notice item={item} history={this.props.history} />)
             }
+            // 优惠券
+            else if (item.moduleType === 'coupon') {
+                arr.push(<Coupons item={item} history={this.props.history} />)
+            }
+            
         });
         return arr;
     }
