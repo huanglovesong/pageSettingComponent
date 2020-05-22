@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Tabs, } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import './less/classification.less';
@@ -16,11 +16,28 @@ export default class ClassificationBox extends Component {
       tabs: []
     }
   }
+  componentDidMount() {
+    const { item } = this.props;
+    // 页面边距
+    let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+    let tabBarEle = document.querySelector('.am-tabs-tab-bar-wrap');
+    tabBarEle.style.paddingLeft = `${pageMargin / 50}rem`;
+    tabBarEle.style.paddingRight = `${pageMargin / 50}rem`;
+  }
+
   toDetail = (gid, pid) => {
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ''}`);
   }
   changeTabs = (activeTab) => {
     this.setState({ activeTab })
+  }
+  getPrice = (item) => {
+    let price = item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price;
+    let priceArr = price ? price.toString().split('.') : [];
+    return <Fragment>
+      <span className="big-font">{priceArr[0]}</span>
+      {priceArr.length === 2 ? <span className="middle-font">.{priceArr[1]}</span> : ''}
+    </Fragment>
   }
   renderContent = (tabsItem) => {
     const { item } = this.props;
@@ -38,9 +55,15 @@ export default class ClassificationBox extends Component {
       display: 'inline-block',
       // width: '100%'
     };
+    const style1 = {
+      marginLeft: `-${productMargin / 50}rem`,
+      marginRight: `-${productMargin / 50}rem`,
+      paddingLeft: `${pageMargin / 50}rem`,
+      paddingRight: `${pageMargin / 50}rem`
+    };
     return (<div style={{ display: 'flex' }}>
       {/* <div className="class-content" style={{ height: productHeight }}> */}
-      <div className="class-content" >
+      <div className="class-content" style={{ ...style1 }}>
         {tabsItem.dataDetailCacheModels.map((item) =>
           <div className="item" onClick={() => { this.toDetail(item.childCategoryId, item.productId) }}>
             <span style={{ ...style }}>
@@ -53,8 +76,9 @@ export default class ClassificationBox extends Component {
                 {item.isCouponAfterPrice && item.couponBatchid && <div className="discount-price-img"></div>}
               </div>
               <div className="price" >
-                {item.integral && <span>{item.integral}积分+</span>}<span className="small">￥</span>
-                {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price}
+                {item.integral && <span>{item.integral}积分+</span>}<span className="middle-font">￥</span>
+                {this.getPrice(item)}
+                {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
                 <s className="del-price">￥{item.faceValue}</s>
               </div>
             </span>
@@ -80,22 +104,17 @@ export default class ClassificationBox extends Component {
     }
     else {
       // 商品间距
-      let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
-      // 页面边距
-      let pageMargin = item.modelStyle.classStyleModel.pageMargin;
-      const style = {
-        margin: `${productMargin / 50}rem`,
-        display: 'inline-block',
-        // width: '100%'
-      };
-      const style1 = {
-        marginLeft: `-${productMargin / 50}rem`,
-        marginRight: `-${productMargin / 50}rem`,
-        paddingLeft: `${pageMargin / 50}rem`,
-        paddingRight: `${pageMargin / 50}rem`
-      };
-
-      return <div class="classification-box clearfix" style={{ ...style1 }}>
+      // let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
+      // // 页面边距
+      // let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+      // const style1 = {
+      //   marginLeft: `-${productMargin / 50}rem`,
+      //   marginRight: `-${productMargin / 50}rem`,
+      //   paddingLeft: `${pageMargin / 50}rem`,
+      //   paddingRight: `${pageMargin / 50}rem`
+      // };
+      // 由于pc端和移动端组件不同，所以代码实现方式有调整，没有直接改classification-box，而是加载页面的时候调整样式
+      return <div class="classification-box clearfix">
         <Tabs tabs={this.getTabs()} renderTabBar={props => <Tabs.DefaultTabBar {...props} page={4} />}>
           {this.renderContent}
         </Tabs>
