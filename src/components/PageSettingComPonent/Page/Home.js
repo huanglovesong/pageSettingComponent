@@ -10,6 +10,17 @@ import Notice from '../Notice';
 import Coupons from '../Coupons';
 import ActiveModalCom from '../ActiveModalCom';
 import ActiveModal from '../ActiveModalCom/ActiveModal';
+
+// 登录弹框
+import MallLoginModalPageSetting from '../../LoginModal/MallLoginModalPageSetting';
+// 用户授权失败调用函数
+import { authorizationFailurePageSetting } from '../../../utils/auth';
+
+
+import Loading from '../../Loading';
+
+
+
 import '../less/pageSetting.less';
 
 class PageSettingComPonent extends React.Component {
@@ -18,7 +29,10 @@ class PageSettingComPonent extends React.Component {
         super(props);
         this.state = {
             allInfo: {
-                pageModuleList: []
+                pageModuleList: [],
+                showMallLoginModal: false,
+                // 授权的key
+                authKey: '',
             },
         }
     }
@@ -54,6 +68,15 @@ class PageSettingComPonent extends React.Component {
                 Toast.info(message);
             }
         }
+        const { loginPageSetting: { fuluusertoken } } = nextProps;
+        if (fuluusertoken !== props.loginPageSetting.fuluusertoken) {
+            const { code, data, message } = fuluusertoken;
+            if (code === '1000') {
+                this.loginSuccess(data);
+            } else {
+                Toast.fail(message);
+            }
+        }
     }
     getCom = () => {
         const { allInfo } = this.state;
@@ -85,19 +108,40 @@ class PageSettingComPonent extends React.Component {
             }
             // 优惠券
             else if (item.moduleType === 'coupon') {
-                arr.push(<Coupons item={item} history={this.props.history} />)
+                arr.push(<Coupons item={item} history={this.props.history}
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
-            
         });
         return arr;
+    }
+    // 用于设置组件唯一标识，便于后续寻找组件
+    authorizationFailurePageSetting = (authKey) => {
+        this.setState({
+            authKey
+        }, () => {
+            authorizationFailurePageSetting(this);
+        })
     }
     hideModal = () => {
         const { allInfo } = this.state;
         allInfo.isPopup = false;
         this.setState({ allInfo })
     }
+
+    // 登录成功调用
+    loginSuccess = (data) => {
+        const { authKey } = this.state;
+        this.hideLoginModal();
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), authKey } });
+    }
+    hideLoginModal = () => {
+        this.setState({
+            showMallLoginModal: false,
+        })
+    }
     render() {
-        const { allInfo } = this.state;
+        const { allInfo, showMallLoginModal, authKey } = this.state;
         const { disableClick } = this.props;
         return (
             <div className={`main-bg ${disableClick && 'point-events-none'}`}>
@@ -106,6 +150,13 @@ class PageSettingComPonent extends React.Component {
                 </div>
                 {allInfo.isPopup && <ActiveModal history={this.props.history} allInfo={allInfo} disableClick={disableClick} hideModal={this.hideModal} />}
                 {allInfo.isSidebar && <ActiveModalCom history={this.props.history} allInfo={allInfo} />}
+                {showMallLoginModal && <MallLoginModalPageSetting
+                    loginSuccess={this.loginSuccess} hideLoginModal={this.hideLoginModal} />}
+
+                {
+                    !!this.props.loading.models.pageSetting &&
+                    <Loading />
+                }
             </div>
         )
     }

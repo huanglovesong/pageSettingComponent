@@ -36,12 +36,12 @@ export default {
     // userPrizeList: '/api/Boc/MerDrawnList',//所有用户的中奖信息
 
     //小米
-    getPrizeNum : '/api/Mi/PrizeNum', //用户抽奖次数
+    getPrizeNum: '/api/Mi/PrizeNum', //用户抽奖次数
     prizeSendOrder: '/api/Mi/GetLuckDrawOrder',//下单
     isPrizeRight: '/api/Mi/IsPrizeRight',//是否有抽奖资格
     saveUserData: '/api/Mi/PostLuckDrawOrder',//保存用户下单信息
     prizeResult: '/api/Mi/DrawnList',//用户中奖内容(我的奖品)
-    handlePrize:'/api/Mi/PostDraw',//点击抽奖,返回抽奖结果
+    handlePrize: '/api/Mi/PostDraw',//点击抽奖,返回抽奖结果
     activeOpen: '/api/Mi/GetEventList',//活动是否开启
     prizeProList: '/api/Mi/GetPrizeList',//奖品商品列表
     payInfo: '/api/Mi/PayOrderInfo',//获取支付信息
@@ -60,10 +60,7 @@ export default {
 
     getPage: '/api/Page/GetPage',
     getPagePreview: '/api/Page/getPagePreview',
-   // 优惠券
-   CardActivityOvered: '/api/MerCouponActivity/CardActivityOvered',  //卡券活动是否过期
-   ObtainCard: '/api/MerCouponActivity/ObtainCard', // 取卡
-   GetProInfoDetailCouponList:'/api/MerCouponActivity/GetProInfoDetailCouponList',   // 获取商品详情优惠券列表
-   GetUserCouponList: '/api/MerCouponActivity/GetUserCouponList',   // 我的优惠券
-   GetCouponProductList:'/api/MerCouponActivity/GetCouponProductList'   // 获取优惠券对应商品 
+    // 优惠券
+    CardActivityOvered: '/api/MerCouponActivity/CardActivityOvered',  //卡券活动是否过期
+    ObtainCard: '/api/MerCouponActivity/ObtainCard', // 取卡
 };

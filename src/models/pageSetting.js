@@ -15,6 +15,26 @@ export default {
             callback && callback(testRes);
             return testRes;
         },
+        *CardActivityOvered({ payload }, { call, put }) {
+            const result = yield call(pageSettingService.CardActivityOvered, payload);
+            yield put({
+                type: 'success',
+                payload: {
+                    CardActivityOvered: result,
+                },
+            });
+            return result;
+        },
+        *ObtainCard({ payload }, { call, put }) {
+            const result = yield call(pageSettingService.ObtainCard, payload);
+            yield put({
+                type: 'success',
+                payload: {
+                    ObtainCard: result,
+                },
+            });
+            return result;
+        },
     },
     reducers: {
         success(state, { payload }) {
@@ -22,6 +42,12 @@ export default {
                 ...state,
                 ...payload
             }
-        }
+        },
+        commonRequest(state, { payload }) {
+            return {
+              ...state,
+              ...payload,
+            };
+          },
     }
 }

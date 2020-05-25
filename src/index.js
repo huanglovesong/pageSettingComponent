@@ -9,6 +9,7 @@ import ImageText from './components/PageSettingComPonent/ImageText';
 import Notice from './components/PageSettingComPonent/Notice';
 
 import pageSetting from './models/pageSetting';
+import loginPageSetting from './models/loginPageSetting';
 
 export {
   // 组件
@@ -23,6 +24,7 @@ export {
 
   // models
   pageSetting,
+  loginPageSetting,
   //页面
   Home
 };

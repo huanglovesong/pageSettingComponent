@@ -12,7 +12,7 @@ function getUrl(config) {
   const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
   const commonApiUrl = [];
-  const openApiUrl = ['/api/Page/GetPage'];
+  const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
   // 获取数组是否在url里有
   const openUrl = findIndex(openApiUrl, function (item) {
     return config["url"].indexOf(item) !== -1;
