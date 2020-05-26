@@ -133,7 +133,10 @@ class PageSettingComPonent extends React.Component {
         const { authKey } = this.state;
         this.hideLoginModal();
         localStorage.setItem('userInfo', JSON.stringify(data));
-        this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), authKey } });
+        // 防止数据发送太快导致会多次进入子组件的判断
+        setTimeout(() => {
+            this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), authKey } });
+        }, 1000);
     }
     hideLoginModal = () => {
         this.setState({

@@ -14,8 +14,8 @@ class Coupons extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            merCouponId: ''
-        }
+            merCouponId: '',
+        };
     }
     componentWillReceiveProps(nextProps) {
         const { merCouponId } = this.state;
