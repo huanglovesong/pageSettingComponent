@@ -18,9 +18,10 @@ class Coupons extends Component {
         };
     }
     componentWillReceiveProps(nextProps) {
-        const { merCouponId } = this.state;
+
         // 如果是登录成功，找到对应组件authKey进行接下来的步骤
-        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && merCouponId === nextProps.pageSetting.authKey) {
+        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
+            console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
             this.getCouponFn();
         }
     }
@@ -63,7 +64,8 @@ class Coupons extends Component {
                     _this.jumpTo(data)
                 }, 1500)
             } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
-                this.props.authorizationFailurePageSetting(merCouponId);
+                const { componentIndex } = this.props;
+                this.props.authorizationFailurePageSetting(componentIndex);
             } else {
                 Toast.info(message);
             }
@@ -99,7 +101,8 @@ class Coupons extends Component {
         this.props.history.push(url);
     }
     getCom = () => {
-        const { item, isChoose, index } = this.props;
+        const { item, isChoose, componentIndex } = this.props;
+        console.log(componentIndex, 2222)
         let len = item.moduleDataList.length;
         let margin = item.modelStyle.couponStyleModel.imageClearance / 2;
         // 判断是否选中的是当前组件
@@ -130,7 +133,8 @@ class Coupons extends Component {
                         </div>
                     </div>
                 )
-            } else if (template === 'two') {
+            }
+            else if (template === 'two') {
                 customEle = item.moduleDataList.map((item) =>
                     <div className={`coupons-box-img ${template}-module ${template}-module-${nowStyle} float-left`}
                         onClick={() => this.cardActivityOvered(item.relationId)}>

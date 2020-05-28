@@ -31,8 +31,8 @@ class PageSettingComPonent extends React.Component {
             allInfo: {
                 pageModuleList: [],
                 showMallLoginModal: false,
-                // 授权的key
-                authKey: '',
+                // 授权的组件索引
+                componentIndex: '',
             },
         }
     }
@@ -81,7 +81,7 @@ class PageSettingComPonent extends React.Component {
     getCom = () => {
         const { allInfo } = this.state;
         let arr = [];
-        allInfo.pageModuleList.map((item) => {
+        allInfo.pageModuleList.map((item, index) => {
             // banner轮播
             if (item.moduleType === 'bannerRoll') {
                 arr.push(<BannerShuffling item={item} history={this.props.history} />)
@@ -108,16 +108,16 @@ class PageSettingComPonent extends React.Component {
             }
             // 优惠券
             else if (item.moduleType === 'coupon') {
-                arr.push(<Coupons item={item} history={this.props.history}
+                arr.push(<Coupons item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
         });
         return arr;
     }
     // 用于设置组件唯一标识，便于后续寻找组件
-    authorizationFailurePageSetting = (authKey) => {
+    authorizationFailurePageSetting = (componentIndex) => {
         this.setState({
-            authKey
+            componentIndex
         }, () => {
             authorizationFailurePageSetting(this);
         })
@@ -130,13 +130,13 @@ class PageSettingComPonent extends React.Component {
 
     // 登录成功调用
     loginSuccess = (data) => {
-        const { authKey } = this.state;
+        const { componentIndex } = this.state;
         this.hideLoginModal();
         localStorage.setItem('userInfo', JSON.stringify(data));
         // 防止数据发送太快导致会多次进入子组件的判断
-        setTimeout(() => {
-            this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), authKey } });
-        }, 1000);
+        // setTimeout(() => {
+        this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), componentIndex } });
+        // }, 1000);
     }
     hideLoginModal = () => {
         this.setState({
@@ -144,7 +144,7 @@ class PageSettingComPonent extends React.Component {
         })
     }
     render() {
-        const { allInfo, showMallLoginModal, authKey } = this.state;
+        const { allInfo, showMallLoginModal, componentIndex } = this.state;
         const { disableClick } = this.props;
         return (
             <div className={`main-bg ${disableClick && 'point-events-none'}`}>
