@@ -10,12 +10,23 @@ class ActiveModalCom extends React.Component {
   }
   toPage = () => {
     const { allInfo } = this.props;
+    const { linkType, linkData } = allInfo.sidebarDetail;
     // 如果是自定义链接
-    if (allInfo.sidebarDetail.linkType === 1) {
+    if (linkType === 1) {
       return window.location.href = allInfo.sidebarDetail.linkUrl;
     }
     // 如果是内部商品
-    this.props.history.push(`/detail?gid=${allInfo.sidebarDetail.linkUrl}&pid=${allInfo.sidebarDetail.linkData}`);
+    else if (linkType === 2) {
+      this.props.history.push(`/detail?gid=${allInfo.sidebarDetail.linkUrl}&pid=${allInfo.sidebarDetail.linkData}`);
+    }
+    // 如果是跳转分类页
+    else if (linkType === 3) {
+      return this.props.history.push(`/list?mid=${linkData}`);
+    }
+    // 如果是跳转频道页
+    else if (linkType === 4) {
+      return this.props.history.push(`/channel?pageId=${linkData}`);
+    }
   }
   render() {
     const { allInfo } = this.props;

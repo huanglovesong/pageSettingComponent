@@ -13,12 +13,12 @@ import ActiveModal from '../ActiveModalCom/ActiveModal';
 
 // 登录弹框
 import MallLoginModalPageSetting from '../../LoginModal/MallLoginModalPageSetting';
-// 用户授权失败调用函数
-import { authorizationFailurePageSetting } from '../../../utils/auth';
-
 
 import Loading from '../../Loading';
 
+// 用户授权失败调用函数
+import { authorizationFailurePageSetting } from '../../../utils/auth';
+import mathManage from '../../../utils/mathManage';
 
 
 import '../less/pageSetting.less';
@@ -34,6 +34,7 @@ class PageSettingComPonent extends React.Component {
                 // 授权的组件索引
                 componentIndex: '',
             },
+            pageId: mathManage.getParam('pageId')
         }
     }
     // componentWillMount() {
@@ -48,16 +49,20 @@ class PageSettingComPonent extends React.Component {
     //     }
     // }
     componentWillMount() {
-        this.props.dispatch({
-            type: 'pageSetting/getPage',
-            payload: {
-                pageType: 1
-            }
-        });
+        this.getPage();
     }
     componentWillReceiveProps(nextProps) {
         const { props } = this;
         const { pageSetting: { getPageResult } } = nextProps;
+        let pageId = mathManage.getParam('pageId');
+        // 如果路由的pageId发生变化则重新请求页面信息
+        if (pageId !== this.state.pageId) {
+            this.setState({
+                pageId
+            }, () => {
+                this.getPage();
+            })
+        }
         if (getPageResult !== props.pageSetting.getPageResult) {
             const { code, data, message } = getPageResult;
             if (code === '0') {
@@ -77,6 +82,17 @@ class PageSettingComPonent extends React.Component {
                 Toast.fail(message);
             }
         }
+    }
+    getPage = () => {
+        const { pageId } = this.state;
+        const { pageType } = this.props;
+        this.props.dispatch({
+            type: 'pageSetting/getPage',
+            payload: {
+                pageType,
+                pageId
+            }
+        });
     }
     getCom = () => {
         const { allInfo } = this.state;
