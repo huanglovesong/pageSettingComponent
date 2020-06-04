@@ -7,6 +7,7 @@ import Classification from './components/PageSettingComPonent/Classification';
 import FlashSale from './components/PageSettingComPonent/FlashSale';
 import ImageText from './components/PageSettingComPonent/ImageText';
 import Notice from './components/PageSettingComPonent/Notice';
+import Coupons from './components/PageSettingComPonent/Coupons';
 
 import pageSetting from './models/pageSetting';
 import loginPageSetting from './models/loginPageSetting';
@@ -21,7 +22,7 @@ export {
   FlashSale,
   ImageText,
   Notice,
-
+  Coupons,
   // models
   pageSetting,
   loginPageSetting,
