@@ -1,7 +1,7 @@
 {
-  "name": "pageSettingComHs",
-  "version": "1.1.1",
-  "description": "VD project boilerplate",
+  "name": "pagesettingcomfulu",
+  "version": "1.0.11",
+  "description": "自定义页面",
   "main": "lib/index.js",
   "scripts": {
     "start": "cross-env electronMode=dev node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --mode development --config webpack.config.dev.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yincw/webpack-boilerplate.git"
+    "url": "git+https://github.com/huanglovesong/pageSettingComponent.git"
   },
   "keywords": [
     "Webpack",
@@ -31,12 +31,8 @@
     "StyleLint",
     "Ant Mobile"
   ],
-  "author": "yincw",
+  "author": "hs",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yincw/webpack-boilerplate/issues"
-  },
-  "homepage": "https://github.com/yincw/webpack-boilerplate#readme",
   "dependencies": {
     "antd-mobile": "^2.1.8",
     "axios": "^0.18.0",
