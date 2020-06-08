@@ -121,10 +121,25 @@ const RouterWrapper = ({ history, app }) => {
     app,
     component: () => import('./components/CouponPage')
   });
+
+  const Channel = dynamic({
+    app,
+    component: () => import('./components/Channel')
+  });
+
+
+  let HomeComponent = Home;
+  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
+  // 如果需要替换为自定义首页
+  let flag = configs.pageSettingCodeId.some(item => item === shopInfo.codeKey);
+  if (flag) {
+    HomeComponent = MHome;
+  }
   return (
     <ConnectedRouter history={history}>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={HomeComponent} />
+        <Route exact path="/channel" component={Channel} />
         <Route exact path="/list" component={List} />
         <Route exact path="/detail" component={Detail} />
         <Route exact path="/orderStatus" component={OrderStatus} />

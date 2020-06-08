@@ -21,4 +21,5 @@ var configs = {
   tencentSH: '0E6ESsAQ',
   xiaomi: 'XjT4K70q',
   eventId: 'CJ100030',
+  pageSettingCodeId: ['XjT4K70q', 'f2wdbgXK'],
 };
