@@ -11,6 +11,7 @@ import Coupons from './components/PageSettingComPonent/Coupons';
 
 import pageSetting from './models/pageSetting';
 import loginPageSetting from './models/loginPageSetting';
+import exchangePageSetting from './models/exchange';
 
 export {
   // 组件
@@ -26,6 +27,7 @@ export {
   // models
   pageSetting,
   loginPageSetting,
+  exchangePageSetting,
   //页面
   Home
 };

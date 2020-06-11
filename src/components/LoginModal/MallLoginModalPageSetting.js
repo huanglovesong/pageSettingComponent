@@ -41,6 +41,8 @@ class MallLoginModalPageSetting extends React.Component {
             const { code, message, data } = touristlogin;
             if (code === '1000') {
                 Toast.success('登录成功！');
+                localStorage.setItem("fuluToken", data.fuluToken);
+                localStorage.setItem("fuluId", data.fuluId);
                 localStorage.setItem('userInfo', JSON.stringify(data));
                 this.props.loginSuccess(data);
             } else {

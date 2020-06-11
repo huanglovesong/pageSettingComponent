@@ -11,7 +11,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';  // 设置请�
 function getUrl(config) {
   const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
-  const commonApiUrl = [];
   const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
   // 获取数组是否在url里有
   const openUrl = findIndex(openApiUrl, function (item) {
@@ -28,17 +27,16 @@ function getUrl(config) {
       config.headers.merchantId = shopInfo.id;
     }
   }
-  const commonUrl = findIndex(commonApiUrl, function (item) {
+  // 兑换页
+  const exchangeAuthArr = ['/api/Ctrip/GetProductList'];
+  const exchangeAuthIndex = findIndex(exchangeAuthArr, function (item) {
     return config["url"].indexOf(item) !== -1;
   });
-  if (commonUrl !== -1) {
-    if (userInfo.fuluId && userInfo.fuluToken) {
-      config.headers.token = userInfo.fuluId;
-      config.headers.account = userInfo.fuluToken;
-    }
-    if (shopInfo.merInfoTemplates.visitType !== 3) {
-      config.headers.codeKey = shopInfo.codeKey;
-    }
+  if (exchangeAuthIndex !== -1) {
+    config.headers["codeKey"] = shopInfo.codeKey;
+    config.headers["merchantId"] = shopInfo.id;
+    config.headers["fuluToken"] = localStorage.getItem("fuluToken") || '';
+    config.headers["fuluId"] = shopInfo.merInfoTemplates.visitType === '3' ? '10.10.10.28' : localStorage.getItem("fuluId");
   }
   return config;
 }

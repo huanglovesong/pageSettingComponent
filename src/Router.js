@@ -127,6 +127,18 @@ const RouterWrapper = ({ history, app }) => {
     component: () => import('./components/Channel')
   });
 
+  // const Exchange = dynamic({
+  //   app,
+  //   component: () => import('./components/PageSettingComPonent/BusinessComponent/Exchange')
+  // });
+
+
+  const Exchange = dynamic({
+    app,
+    component: () => import('./components/MyExchange')
+  });
+
+
 
   let HomeComponent = Home;
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
@@ -139,6 +151,7 @@ const RouterWrapper = ({ history, app }) => {
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/" component={HomeComponent} />
+        <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/channel" component={Channel} />
         <Route exact path="/list" component={List} />
         <Route exact path="/detail" component={Detail} />

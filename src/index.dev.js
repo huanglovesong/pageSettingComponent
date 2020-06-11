@@ -17,6 +17,7 @@ import { default as prize } from './models/prize';
 import { default as pageSetting } from './models/pageSetting';
 import { default as coupons } from './models/coupons';
 import { default as loginPageSetting } from './models/loginPageSetting';
+import { default as exchangeSetting } from './models/exchange';
 
 // antd-mobile modal.alert组件iOS10兼容
 FastClick.attach(document.body);
@@ -52,6 +53,7 @@ app.model(prize);
 app.model(pageSetting);
 app.model(coupons);
 app.model(loginPageSetting);
+app.model(exchangeSetting);
 
 // =======================
 // 4. Router
