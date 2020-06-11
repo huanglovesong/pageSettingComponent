@@ -1,0 +1,117 @@
+.mall-login-modal {
+  background: #F6F7F7;
+  width: 6.16rem !important;
+  border-radius: 0.08rem;
+}
+.mall-login-modal .login-bg {
+  width: 5.12rem;
+  margin: 0 auto;
+  border-radius: 0.08rem;
+  background: #fff;
+  z-index: 2;
+}
+.mall-login-modal .am-modal-title {
+  font-size: 0.32rem !important;
+  font-weight: 500;
+  color: #333;
+}
+.mall-login-modal .am-modal-close {
+  right: 0px;
+}
+.mall-login-modal .am-modal-close-x {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+.mall-login-modal .am-modal-header {
+  padding: 0.5rem 0.2rem 0.4rem !important;
+}
+.mall-login-modal .am-modal-content {
+  padding-top: 0 !important;
+}
+.mall-login-modal .am-modal-content .am-modal-body {
+  padding: 0 0.3rem 0.6rem !important;
+}
+.mall-login-modal .am-modal-content .am-modal-button {
+  font-size: 0.32rem !important;
+  height: 1rem !important;
+  line-height: 1rem !important;
+}
+.mall-login-modal .am-list-line:after {
+  display: none !important;
+}
+.mall-login-modal .am-list-item.am-input-item {
+  padding: 0;
+  width: 5.12rem;
+  height: 0.8rem;
+  min-height: 0.8rem;
+  margin-bottom: 0.2rem;
+  background: #f1f2f6;
+  border-radius: 0.08rem;
+}
+.mall-login-modal .am-list-item.am-input-item .am-list-line {
+  padding: 0;
+}
+.mall-login-modal .am-list-item.am-input-item * {
+  font-size: 0.28rem !important;
+}
+.mall-login-modal .am-list-item.am-input-item .am-input-label.am-input-label-5 {
+  width: 1rem !important;
+}
+.mall-login-modal .am-list-item.am-input-item .am-input-extra {
+  color: #108ee9;
+  max-height: 0.84rem;
+}
+.mall-login-modal .am-list-item.am-input-item .am-input-control input {
+  font-size: 0.28rem;
+  min-width: 1rem;
+  padding-left: 0.32rem;
+}
+.mall-login-modal .link {
+  border: none;
+  height: 0.84rem;
+  padding: 0;
+  line-height: 0.84rem;
+  font-size: 0.28rem;
+  color: #4191EA;
+  background: #f1f2f6;
+}
+.mall-login-modal .link:before {
+  display: none;
+}
+.mall-login-modal .link span {
+  padding-right: 0.32rem;
+}
+.mall-login-modal .link .icon {
+  margin-right: 0.1rem;
+}
+.mall-login-modal .am-button-disabled {
+  color: #999;
+  opacity: 1;
+}
+.mall-login-modal .btn-bg {
+  margin-top: 0.48rem;
+  margin-bottom: 0.3rem;
+}
+.mall-login-modal .btn-bg .btn {
+  width: 5.12rem;
+  height: 0.8rem;
+  background: #4191EA;
+  border-radius: 0.08rem;
+  font-size: 0.32rem;
+  font-weight: 500;
+  color: #fefefe;
+}
+.mall-login-modal .tel-bg {
+  color: #424242;
+}
+.mall-login-modal .tel-bg .am-icon {
+  color: #ADACB1;
+  font-size: 0.18rem;
+  width: 0.3rem;
+  vertical-align: middle;
+  margin-left: 0.1rem;
+}
+.mall-login-modal .tel-bg .line {
+  color: #D8D8D8;
+  padding-right: 0.1rem;
+}

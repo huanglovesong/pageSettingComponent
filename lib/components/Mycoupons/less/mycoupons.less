@@ -1,0 +1,230 @@
+
+.mycoupons-list{
+    .am-tabs{
+        position: fixed;
+        width:7.5rem;
+        height: .8rem;
+        z-index: 99;
+        left: 0;
+        top:0;
+        .am-tabs-default-bar-tab{
+            height: .8rem;
+            line-height:.8rem;
+            font-size: .28rem;
+            color: #999;
+            &.am-tabs-default-bar-tab-active{
+                color: #333;
+            }
+        }
+        .am-tabs-default-bar-underline{
+            border:.02rem solid #333;
+            width:.4rem !important;
+            margin-left: 1rem;
+        }
+    }
+    .tabs-top{
+        .am-tabs{
+            top:.88rem !important;
+        }
+    }
+    .list-view {
+        transition: all .5s ease-in-out;
+        min-height: 100vh;
+        padding-top: .8rem;
+    }
+    .order-line{
+        
+    * { touch-action: pan-y; } 
+        margin-top: .2rem;
+        background: #fff;
+        .down-bg{
+            width: 6.7rem;
+            min-height: .8rem;
+            border-radius:0 0 .16rem .16rem;
+            border:.01rem solid rgba(216,216,216,1);
+            border-top:none;
+            margin: 0 auto;
+            padding: .2rem;
+            font-size:.24rem;
+            font-weight:400;
+            color:#666;
+            line-height:.34rem;
+            padding-right: 1.5rem;
+            position: relative;
+            max-height: 200;
+            &.closed {
+                max-height: 0;
+            }
+            .am-icon {
+                width: .4rem;
+                height: .4rem;
+                vertical-align: middle;
+            }
+            .more{
+                color: #FF503F;
+                font-size:.24rem;
+                position: absolute;
+                right: .2rem;
+                bottom: .2rem;
+            }
+            &.unStart{
+                .more{
+                    color: #999;
+                }
+            }
+        }
+        .item{
+            width: 6.7rem;
+            height: 2rem;
+            margin: 0 auto;
+            display: flex;
+            position: relative;
+            &.unStart{
+                .left{
+                    border-color: #E7E7E7;
+                    background:#f7f7f7;
+                    color: #999;
+                }
+                .line{
+                    border-color: #BBBBBB;
+                }
+                .right{
+                    border-color: #E7E7E7;
+                    background-color:#f7f7f7;
+                    background-image: url(../../Detail/images/line-bg2.png);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position-x: center;
+                    background-position-y: center;
+                    .txt{
+                        color: #999;
+                    }
+                
+                    .use-down{
+                        color: #999;
+                        border-top-color: #bbb;
+                    }
+                }
+                .btn-txt{
+                   color: #999; 
+                   position: absolute;
+                   right: .2rem;
+                   top:.4rem;
+                   font-size:.28rem;
+                }
+
+            }
+            .left{
+                width:1.5rem;
+                height:2rem;
+                border: .01rem solid transparent;
+                border-radius: .1rem;
+                background:#FFEDEB;
+                text-align: center;
+                padding: .38rem 0;
+                color:rgba(255,80,63,1);
+                font-size:.24rem;
+                .l-txt{
+                    height:.34rem;
+                    font-size:.30rem;
+                    font-weight:700;
+                    color:rgba(255,80,63,1);
+                    line-height:.34rem;
+                    margin-top: .45rem;
+                    display: inline-block;
+                }
+                strong{
+                    font-size:.6rem;
+                    font-weight:bold;
+                    line-height:.7rem;
+                }
+            }
+            .line{
+                width: 0;
+                height:1.7rem;
+                border-left: .02rem dotted #E9AC9E;
+                position: absolute;
+                top:.15rem;
+                left: 1.5rem;
+                z-index:2;
+            }
+            .right{
+                width:5.2rem;
+                height:2rem;
+                border: .01rem solid transparent;
+                border-radius: .1rem;
+                background-color:#FFEDEB;
+                padding: .44rem .2rem .4rem .54rem;
+                position: relative;
+                background-image: url(../../Detail/images/line-bg.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position-x: center;
+                background-position-y: center;
+                line-height: .32rem;
+                .txt{
+                    color: #333;
+                    font-size: .28rem;
+                    line-height: .32rem;
+                    margin-bottom: .14rem;
+                    max-width: 3.5rem;
+                }
+                .time{
+                    color: #999;
+                    font-size: .2rem;
+                    line-height: .32rem;
+                }
+                .tips{
+                    color: #FF503F;
+                    font-size: .20rem;
+                    line-height: .28rem;
+                }
+                .get-btn{
+                    width:1.2rem;
+                    height:.56rem;
+                    background:linear-gradient(149deg,rgba(255,108,94,1) 0%,rgba(255,80,63,1) 100%);
+                    border-radius:.28rem;
+                    color: #fff;
+                    position: absolute;
+                    right: .2rem;
+                    top:.24rem;
+                    &.btn-border{
+                        border:.02rem solid #FF503F;
+                        background: transparent;
+                        color: #FF503F;
+                    }
+                }
+                .use-down{
+                    margin-top: .2rem;
+                    color: #FF503F;
+                    font-size: .20rem;
+                    line-height: .28rem;
+                    border-top:1px dotted #FF503F;
+                    padding-top: .08rem;
+                    .am-icon {
+                        float: right;
+                        width: .4rem;
+                        height: .4rem;
+                    }
+                }
+            }
+        }
+    }
+    .am-list-view-scrollview-content{
+        min-height: calc(~"100vh - .88rem");
+        .list-view-section-body{
+            min-height: calc(~"100vh - .88rem");
+        }
+    }
+
+
+}
+
+.disc-bg{
+    padding: .4rem;
+    color: #666;
+    font-size:.28rem;
+    font-weight:400;
+    color:rgba(102,102,102,1);
+    line-height:.48rem;
+}

@@ -1,0 +1,109 @@
+.order-status{
+    background: #F6F7F7;
+    min-height: 100vh - 0.88rem;
+    position: relative;
+    .last-gray{
+        position: absolute;
+        bottom: .5rem;
+    }
+    .more-bg {
+        margin-top: .7rem;
+        .more-txt {
+            margin-bottom: .33rem;
+            height: .25rem;
+            font-size: .24rem;
+            color: #999;
+            text-align: center;
+        }
+        
+        .more-pro {
+            width: 6.86rem;
+            height: 5.80rem;
+            background: #fff;
+            border-radius: .04rem;
+            margin: 0 auto;
+            padding: .42rem .32rem 0;
+            display:flex;
+            flex-wrap:wrap;
+            .item{
+                width: 2rem;
+                img{
+                    display: block;
+                    width:1.08rem;
+                    height:1.08rem;
+                    margin: 0 auto .27rem;
+                    background: #F6F8FA;
+                    border-radius: .04rem;
+                }
+                .name{
+                    display: block;
+                    text-align: center;
+                    color: #333;
+                    font-size: .26rem;
+                    margin-bottom: .13rem;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .price{
+                    text-align: center;
+                    display: block;
+                    color: #FF503F;
+                    font-size: .28rem;
+                    small{
+                        font-size: .2rem;
+                    }
+                }
+            }
+        }
+    }
+    .top{
+        background: #fff;
+        padding: .32rem .32rem .5rem;
+        margin-bottom: .71rem;
+        .succ-icon {
+            width: 1rem;
+            height: 1rem;
+            background: url(../images/dui.png) no-repeat;
+            background-size: contain;
+            margin: 0 auto .12rem;
+            &.pay-icon{
+                background: url(../../OrderDetail/images/status11.png) no-repeat;
+                background-size: contain;
+            }
+        }
+        .txt {
+            height: .38rem;
+            font-size: .32rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: .72rem;
+        }
+        button {
+            width: 6.86rem;
+            height: .88rem;
+            border-radius: .08rem;
+            margin: 0 auto;
+            line-height: .88rem;
+            padding: 0;
+            font-size: .36rem;
+            &.primary-btn{
+                background:linear-gradient(270deg,rgba(2,143,255,1) 0%,rgba(61,169,255,1) 100%);
+                color: #fff;
+                margin-bottom: .2rem;
+            }
+            &.ghost-btn{
+                background:#fff;
+                border:.02rem solid #0892FF;
+                color: #0892FF;
+            }
+        }
+    }
+    .gray-tips{
+        color: #DAE1E5;
+        text-align: center;
+        line-height:.26rem;
+        font-size: .22rem;
+        margin-top: .6rem;
+    }
+}
