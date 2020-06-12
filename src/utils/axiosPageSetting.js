@@ -28,7 +28,7 @@ function getUrl(config) {
     }
   }
   // 兑换页
-  const exchangeAuthArr = ['/api/Ctrip/GetProductList'];
+  const exchangeAuthArr = ['/api/Ctrip/GetProductList', '/api/Ctrip/SendCardOrder', '/api/Ctrip/SendOrder'];
   const exchangeAuthIndex = findIndex(exchangeAuthArr, function (item) {
     return config["url"].indexOf(item) !== -1;
   });

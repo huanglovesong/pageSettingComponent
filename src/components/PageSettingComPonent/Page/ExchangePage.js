@@ -139,7 +139,7 @@ class ExchangePage extends React.Component {
     // 用于设置组件唯一标识，便于后续寻找组件
     authorizationFailurePageSetting = (componentIndex) => {
         this.setState({
-            componentIndex
+            componentIndex,
         }, () => {
             authorizationFailurePageSetting(this);
         })
@@ -154,6 +154,8 @@ class ExchangePage extends React.Component {
     loginSuccess = (data) => {
         const { componentIndex } = this.state;
         this.hideLoginModal();
+        localStorage.setItem("fuluToken", data.fuluToken);
+        localStorage.setItem("fuluId", data.fuluId);
         localStorage.setItem('userInfo', JSON.stringify(data));
         // 防止数据发送太快导致会多次进入子组件的判断
         // setTimeout(() => {

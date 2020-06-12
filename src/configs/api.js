@@ -71,4 +71,6 @@ export default {
     "GetProductTemp": "/api/Product/GetProductTemp",//取模板
     "GetBanner": '/api/Advertisement/GetBanner',//获取banner图
     "getcard": '/api/Order/MdExtractCard',//免登模式,提卡密
+    "sendCtripOrder": "/api/Ctrip/SendOrder",//下单
+    'sendCtripCardOrder': '/api/Ctrip/SendCardOrder',//卡密商品下单
 };

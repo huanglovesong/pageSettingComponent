@@ -12,6 +12,44 @@
     position: relative;
     overflow: hidden;
 
+    .am-list-item {
+      padding: 0 !important;
+      font-size: .32rem;
+      border-radius: .05rem;
+      font-size: .32rem;
+      color: #666;
+      height: 1rem;
+      line-height: .32rem;
+      width: 100%;
+      min-height: 0;
+
+      .am-list-line {
+        padding-right: .3rem;
+
+        &:after {
+          display: none !important;
+        }
+
+        .am-list-content,
+        .am-list-extra {
+          font-size: .32rem !important;
+          padding: 0;
+          // color: #333;
+        }
+
+        .am-list-content {
+          padding-left: .3rem;
+          // color: #999;
+        }
+
+        .am-list-arrow {
+          width: .3rem;
+          height: .3rem;
+          margin-left: .16rem;
+        }
+      }
+    }
+
     .am-list-item .am-list-line .am-list-arrow-horizontal {
       transform: rotate(90deg);
     }
@@ -83,6 +121,10 @@
 
     .am-button {
       float: left;
+
+      span {
+        font-size: .32rem;
+      }
     }
 
     .am-button::before {
@@ -99,6 +141,9 @@
       font-size: 0.32rem;
       color: #999;
       line-height: 0.88rem;
+      // a{
+      //   font-size: .32rem;
+      // }
     }
 
     .exchange-btn-light {
@@ -136,6 +181,97 @@
       width: 100%;
     }
   }
+
+  //模板form样式
+  .am-list-item {
+    min-height: 44px;
+    margin-bottom: 0.2rem;
+
+    .am-list-line::after {
+      background-color: #f7f7f7 !important;
+    }
+  }
+
+  .am-list-body::before {
+    background-color: #f7f7f7 !important;
+  }
+
+  .am-list-body::after {
+    background-color: #f7f7f7 !important;
+  }
+
+  .prim-btn {
+    width: 6.84rem;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    background: @color;
+    border-radius: 0.08rem;
+    border: none;
+    margin-top: 0.32rem;
+    font-size: 0.32rem;
+    color: #fff;
+
+    span {
+      font-size: 0.32rem;
+
+    }
+  }
+
+  .contantsevice-a {
+    color: #287DFA
+  }
+
+  .am-input-item {
+    padding: 0;
+    height: .93rem;
+    min-height: .93rem;
+    margin-bottom: .15rem;
+    position: relative;
+    border-radius: .08rem;
+
+    .am-input-clear {
+      width: .4rem;
+      height: .4rem;
+      background-size: 100%;
+      background-position: .04rem .04rem;
+      position: absolute;
+      top: .24rem;
+      right: .24rem;
+      // background: url(../images/close.png) no-repeat;
+      background-size: 100%;
+    }
+
+    .am-list-line {
+      padding: 0;
+    }
+
+    .am-input-label {
+      &.am-input-label-5 {
+        width: 1rem !important;
+      }
+    }
+    .am-input-extra {
+      color: #108ee9;
+      max-height: .84rem;
+    }
+    .am-input-control {
+      border-radius: .08rem;
+      input {
+        font-size: .28rem;
+        padding: 0 .36rem;
+        width: 6.62rem;
+        height: .92rem;
+        border: none;
+      }
+      .am-input-clear {
+        width: .4rem;
+        height: .4rem;
+        background-size: auto;
+        background-position: .04rem .04rem;
+      }
+    }
+  }
 }
+
 
 // }

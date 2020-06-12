@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // import { Form, Input, Button, message, Spin, Select, Modal } from 'antd';
 import { Picker, List, InputItem, Toast, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
-
+import './less/templateModal.less';
 class TemplateModal extends React.Component {
 
   constructor(props) {
@@ -44,11 +44,11 @@ class TemplateModal extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { props } = this;
-    const { ctripcard: { getGameProTemp, toOrderMid } } = nextProps;
+    const { exchange: { getGameProTemp, toOrderMid } } = nextProps;
     if (this.props.TemplateId !== nextProps.TemplateId) {
       this.getTemplate(nextProps.TemplateId);
     }
-    if (getGameProTemp !== props.ctripcard.getGameProTemp) {
+    if (getGameProTemp !== props.exchange.getGameProTemp) {
       const { code, data } = getGameProTemp;
       if (code === '1000') {
         if (data.addressId) {
@@ -72,7 +72,7 @@ class TemplateModal extends React.Component {
         Toast.info(getGameProTemp.message);
       }
     }
-    if (toOrderMid !== props.ctripcard.toOrderMid) {
+    if (toOrderMid !== props.exchange.toOrderMid) {
       const { postData } = this.state;
       postData.ChargeNum = '1';
       this.getTemplate()
@@ -85,7 +85,7 @@ class TemplateModal extends React.Component {
   getTemplate = (id) => {
     // 如果TemplateID不存在则不查询
     if (id) {
-      this.props.dispatch({ type: 'ctripcard/GetProductTemp', payload: { productTemplateId: id } });
+      this.props.dispatch({ type: 'exchange/GetProductTemp', payload: { productTemplateId: id } });
     }
   }
 

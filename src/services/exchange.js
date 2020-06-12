@@ -21,8 +21,8 @@ export function GetOrderDetail(params) {
     return axios.get(configs.openAPI + Api.GetOrderDetail, { 'params': params });
 }
 
-export function sendOrder(params) {
-    return axios.post(configs.openAPI + Api.sendOrder, params);
+export function sendCtripOrder(params) {
+    return axios.post(configs.openAPI + Api.sendCtripOrder, params);
 }
 
 
@@ -34,6 +34,6 @@ export function getcard(params) {
     return axios.post(configs.openAPI + Api.getcard, params);
 }
 
-export function sendCardOrder(params) {
-    return axios.post(configs.openAPI + Api.sendCardOrder, params);
+export function sendCtripCardOrder(params) {
+    return axios.post(configs.openAPI + Api.sendCtripCardOrder, params);
 }

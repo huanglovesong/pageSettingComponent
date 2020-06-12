@@ -71,6 +71,7 @@ function isLoginOrAuth(that) {
 function authorizationFailurePageSetting(that) {
   const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : ''
   userInfo.fuluToken = '';
+  localStorage.setItem("fuluToken", '');
   localStorage.setItem("userInfo", JSON.stringify(userInfo));
   isLoginOrAuthPageSetting(that);
 }

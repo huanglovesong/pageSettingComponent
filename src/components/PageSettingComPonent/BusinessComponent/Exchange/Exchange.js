@@ -24,6 +24,9 @@ class Exchange extends React.Component {
       cardNumber,
       shopInfo,
       extractCode: shopInfo.merInfoTemplates.visitType !== 3 ? localStorage.getItem("fuluId") : '',
+      showMallLoginModal: false,
+      // 授权模板的类型
+      authType: ''
     }
   }
   componentWillMount() {
@@ -41,22 +44,31 @@ class Exchange extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps) {
-    const { GetProductListResult, GetProductTempResult, sendOrderResult, sendCardOrderResult } = nextProps.exchange;
-    if (sendCardOrderResult !== this.props.exchange.sendCardOrderResult) {
-      if (sendCardOrderResult.code == 0) {
+    const { GetProductListResult, GetProductTempResult, sendCtripOrderResult, sendCtripCardOrderResult } = nextProps.exchange;
+    const { authType } = this.state;
+    // 如果是登录成功，找到对应组件authKey进行接下来的步骤
+    if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
+      console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
+      if (authType === 'GetProductList') {
+        this.submitcode();
+      }
+    }
+    if (sendCtripCardOrderResult !== this.props.exchange.sendCtripCardOrderResult) {
+      if (sendCtripCardOrderResult.code == 0) {
         //下单成功,跳转到orderstatus
-        this.props.history.push(`./exchangestatus?orderNo=${sendCardOrderResult.data}&extractCode=${this.state.extractCode}`);
+        this.props.history.push(`./exchangestatus?orderNo=${sendCtripCardOrderResult.data}&extractCode=${this.state.extractCode}`);
         //const { value1 , value2 , value3 , value4 } = this.state;
-        //this.props.history.push(`./exchangestatus?orderNo=${sendCardOrderResult.data}&extractCode=${value1 + value2 + value3 + value4}`);
+        //this.props.history.push(`./exchangestatus?orderNo=${sendCtripCardOrderResult.data}&extractCode=${value1 + value2 + value3 + value4}`);
       } else {
-        Toast.fail(sendCardOrderResult.message);
+        Toast.fail(sendCtripCardOrderResult.message);
         this.setState({
           exchangloading: false
         })
       }
     }
     if (GetProductListResult !== this.props.exchange.GetProductListResult) {
-      if (GetProductListResult.code == 0) {
+      const { code } = GetProductListResult;
+      if (code == 0) {
         GetProductListResult.data.list && GetProductListResult.data.list.map((item, index) => {
           item.label = item.productName;
           item.value = item.productId;
@@ -70,6 +82,12 @@ class Exchange extends React.Component {
           productDetail: GetProductListResult.data.list ? GetProductListResult.data.list[0] : {},
           proTypeKaMi: GetProductListResult.data.list && GetProductListResult.data.list[0].productType === 3 ? true : false,
         })
+      } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
+        const { componentIndex } = this.props;
+        this.setState({
+          authType: 'GetProductList'
+        })
+        this.props.authorizationFailurePageSetting(componentIndex);
       } else {
         this.setState({
           exchangeerrormessage: GetProductListResult.message
@@ -79,17 +97,31 @@ class Exchange extends React.Component {
         loading: false
       })
     }
-    if (sendOrderResult !== this.props.exchange.sendOrderResult) {
-      if (sendOrderResult.code == 0) {
+    if (sendCtripOrderResult !== this.props.exchange.sendCtripOrderResult) {
+      if (sendCtripOrderResult.code == 0) {
         //下单成功,跳转到orderstatus
-        this.props.history.push(`./exchangestatus?orderNo=${sendOrderResult.data}&extractCode=${this.state.extractCode}`);
+        this.props.history.push(`./exchangestatus?orderNo=${sendCtripOrderResult.data}&extractCode=${this.state.extractCode}`);
       } else {
-        Toast.fail(sendOrderResult.message);
+        Toast.fail(sendCtripOrderResult.message);
         this.setState({
           exchangloading: false
         })
       }
     }
+  }
+
+  // 登录成功调用
+  loginSuccess = (data) => {
+    this.hideLoginModal();
+    this.setState({
+      userInfo: data
+    });
+    this.submitcode();
+  }
+  hideLoginModal = () => {
+    this.setState({
+      showMallLoginModal: false,
+    })
   }
   handleKeyUp = (e) => {
     if (e.keyCode === 8) {
@@ -185,7 +217,7 @@ class Exchange extends React.Component {
       extractCode: extractCode
     })
     this.props.dispatch({
-      type: 'exchange/sendOrder', payload: {
+      type: 'exchange/sendCtripOrder', payload: {
         "productId": productDetail.productId,
         "exchangeCode": codevalue.replace(/\s/g, ""),
         "chargeAccount": val.ChargeAccount || '',
@@ -216,7 +248,7 @@ class Exchange extends React.Component {
       extractCode: extractCode
     })
     this.props.dispatch({
-      type: 'exchange/sendCardOrder', payload: {
+      type: 'exchange/sendCtripCardOrder', payload: {
         "productId": productDetail.productId,
         "exchangeCode": codevalue.replace(/\s/g, ""),
         "mobile": extractCode,
@@ -268,7 +300,8 @@ class Exchange extends React.Component {
     })
   }
   render() {
-    const { btnstatus, productList, productDetail, extractCode, shopInfo, codevalue } = this.state;
+    const { btnstatus, productList, productDetail, extractCode, shopInfo, codevalue, proTypeKaMi, customColor, showMallLoginModal } = this.state;
+    console.log(btnstatus, 8888)
     return (
       <div className="exchange-box clearfix">
         {
@@ -322,8 +355,9 @@ class Exchange extends React.Component {
               </div>
               {/* <input value={this.state.account} onChange={(e) => { this.setState({ account: e.target.value }) }} className="account-input" placeholder="请输入充值账号" type="text" /> */}
               {
-                this.state.proTypeKaMi && <button onClick={this.KMtoPay} style={{ background: `${this.state.customColor}` }} className="exchange-btn-light">立即兑换</button>
+                this.state.proTypeKaMi && <button onClick={this.KMtoPay} className="exchange-btn-light">立即兑换</button>
               }
+              {showMallLoginModal && <MallLoginModalPageSetting loginSuccess={this.loginSuccess} hideLoginModal={this.hideLoginModal} />}
             </div>
         }
       </div >

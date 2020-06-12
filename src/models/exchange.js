@@ -5,12 +5,12 @@ export default {
     namespace: 'exchange',
     state: {},
     effects: {
-        *sendCardOrder({ payload }, { call, put }) {
-            const result = yield call(exchange.sendCardOrder, payload);
+        *sendCtripCardOrder({ payload }, { call, put }) {
+            const result = yield call(exchange.sendCtripCardOrder, payload);
             yield put({
                 type: 'success',
                 payload: {
-                    sendCardOrderResult: result
+                    sendCtripCardOrderResult: result
                 },
             });
         },
@@ -32,12 +32,12 @@ export default {
                 },
             });
         },
-        *sendOrder({ payload }, { call, put }) {
-            const result = yield call(exchange.sendOrder, payload);
+        *sendCtripOrder({ payload }, { call, put }) {
+            const result = yield call(exchange.sendCtripOrder, payload);
             yield put({
                 type: 'success',
                 payload: {
-                    sendOrderResult: result
+                    sendCtripOrderResult: result
                 },
             });
         },
