@@ -26,7 +26,7 @@ export default class BannerShufflingBox extends Component {
       </div>
     }
     else {
-      let { pageMargin = 0 } = item.modelStyle.bannerRollStyleModel;
+      let { pageMargin = 0, isHideText } = item.modelStyle.bannerRollStyleModel;
       const style = {
 
         boxShadow: item.modelStyle.bannerRollStyleModel.imageStyle === 'Projection' ? 'rgba(47,54,70,0.1) 0px 0px .2rem' : '',
@@ -55,12 +55,12 @@ export default class BannerShufflingBox extends Component {
             </li>
           })}
         </Carousel>
-        <div className="advantage">
+        {!isHideText && <div className="advantage">
           <span><Icons glyph={zpbz} />正品保证</span>
           <span><Icons glyph={zxzk} />专享折扣</span>
           <span><Icons glyph={jstk} />急速到账</span>
           <span><Icons glyph={shwy} />售后无忧</span>
-        </div>
+        </div>}
       </div>
     }
   }

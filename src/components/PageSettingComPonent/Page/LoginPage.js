@@ -30,7 +30,7 @@ import mathManage from '../../../utils/mathManage';
 import '../less/pageSetting.less';
 import './less/exchangePage.less';
 
-class ExchangePage extends React.Component {
+class LoginPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -59,7 +59,15 @@ class ExchangePage extends React.Component {
     //     }
     // }
     componentWillMount() {
-        this.getPage();
+        const shopInfo = localStorage.getItem('shopInfo') && JSON.parse(localStorage.getItem('shopInfo'));
+        //如果是游客模式，并且已经登录，则跳转至兑换页
+        const fuluToken = localStorage.getItem('fuluToken');
+        //如果是免登模式或者用户有登录token,直接跳转到兑换页
+        if (shopInfo.merInfoTemplates.visitType === '3' || fuluToken) {
+            this.props.history.push('./exchange');
+        } else {
+            this.getPage();
+        }
     }
     componentWillReceiveProps(nextProps) {
         const { props } = this;
@@ -202,8 +210,6 @@ class ExchangePage extends React.Component {
                     !!this.props.loading.models.pageSetting &&
                     <Loading />
                 }
-                {shopInfo.merInfoTemplates.visitType != 3 && <div className="listicon" onClick={() => { this.props.history.push('./orderlist') }}></div>}
-                <div className="serviceicon" onClick={() => { this.props.history.push('./service') }}></div>
             </div>
         )
     }
@@ -215,4 +221,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps)(ExchangePage);
+export default connect(mapStateToProps)(LoginPage);

@@ -7,7 +7,7 @@ class MyExchange extends React.Component {
 
   render() {
     return (
-      <ExchangePage history={this.props.history} pageType={1} />
+      <ExchangePage history={this.props.history} pageType={3} />
     )
   }
 }

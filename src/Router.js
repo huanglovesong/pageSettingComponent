@@ -133,6 +133,11 @@ const RouterWrapper = ({ history, app }) => {
   // });
 
 
+
+  const MyLogin = dynamic({
+    app,
+    component: () => import('./components/MyLogin')
+  });
   const Exchange = dynamic({
     app,
     component: () => import('./components/MyExchange')
@@ -151,6 +156,7 @@ const RouterWrapper = ({ history, app }) => {
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/" component={HomeComponent} />
+        <Route exact path="/login" component={MyLogin} />
         <Route exact path="/exchange" component={Exchange} />
         <Route exact path="/channel" component={Channel} />
         <Route exact path="/list" component={List} />

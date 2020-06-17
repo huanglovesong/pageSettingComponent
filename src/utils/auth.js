@@ -69,16 +69,15 @@ function isLoginOrAuth(that) {
 }
 // 授权失效 authKey用于标识唯一组件
 function authorizationFailurePageSetting(that) {
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : ''
+  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
   userInfo.fuluToken = '';
   localStorage.setItem("fuluToken", '');
-  localStorage.setItem("userInfo", JSON.stringify(userInfo));
   isLoginOrAuthPageSetting(that);
 }
 // 详情页针对授权失效单独处理,authKey用于标识唯一组件
 function isLoginOrAuthPageSetting(that) {
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : ''
-  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : ''
+  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
+  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
   // 游客模式、联登模式 并且没有登陆
   if (!(userInfo && userInfo.fuluToken) && shopInfo.merInfoTemplates.visitType != 3) {
     let payType = mathManage.isAlipayOrWechat();
@@ -95,7 +94,6 @@ function isLoginOrAuthPageSetting(that) {
         console.log('userInfo', userInfo)
         // 用户已经登录但是授权失效
         if (userInfo.fuluId && !userInfo.fuluToken) {
-
           that.props.dispatch({
             type: 'loginPageSetting/fuluusertoken',
             payload: {

@@ -45,6 +45,15 @@ class TemplateModal extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { props } = this;
     const { exchange: { getGameProTemp, toOrderMid } } = nextProps;
+    // 如果是登录成功，找到对应组件authKey进行接下来的步骤
+    if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
+      console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
+      const { authType } = nextProps;
+      // 卡密订单、直充订单
+      if (authType === 'sendCtripCardOrder' || authType === 'sendCtripOrder') {
+        this.exchange();
+      }
+    }
     if (this.props.TemplateId !== nextProps.TemplateId) {
       this.getTemplate(nextProps.TemplateId);
     }
@@ -325,7 +334,7 @@ class TemplateModal extends React.Component {
   render() {
     const { isServiceArea, inputs, chargeNum, shopInfo, chargeSelect, ChargeGameList, ChargeRegionList, ChargeServerList,
       ChargeTypeList, postData } = this.state;
-    const { choseProduct, passCodeStatus, startSecound, surplusTime, isLoading } = this.props;
+    const { choseProduct, passCodeStatus, startSecound, surplusTime, isLoading, themeColor } = this.props;
     const { getFieldProps } = this.props.form;
     let gameList = [], regionList = [], serverList = [], typeList = [];
     ChargeGameList && ChargeGameList[0] && ChargeGameList.map(v => {
@@ -506,7 +515,7 @@ class TemplateModal extends React.Component {
             :
             <div className="btn-bg">
               <Button
-                style={{ background: `${this.state.customColor}` }}
+                style={{ background: `${themeColor}` }}
                 className="btn-block prim-btn"
                 onClick={() => { this.exchange() }}
                 disabled={this.props.exchangloading}

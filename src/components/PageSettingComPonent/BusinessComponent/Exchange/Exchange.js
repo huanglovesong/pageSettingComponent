@@ -26,7 +26,7 @@ class Exchange extends React.Component {
       extractCode: shopInfo.merInfoTemplates.visitType !== 3 ? localStorage.getItem("fuluId") : '',
       showMallLoginModal: false,
       // 授权模板的类型
-      authType: ''
+      authType: '',
     }
   }
   componentWillMount() {
@@ -45,20 +45,32 @@ class Exchange extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { GetProductListResult, GetProductTempResult, sendCtripOrderResult, sendCtripCardOrderResult } = nextProps.exchange;
-    const { authType } = this.state;
+    const { authType, proTypeKaMi } = this.state;
     // 如果是登录成功，找到对应组件authKey进行接下来的步骤
     if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
       console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
+      // 如果是获取·1商品
       if (authType === 'GetProductList') {
         this.submitcode();
       }
+      // 卡密
+      if (authType === 'sendCtripCardOrder' && proTypeKaMi) {
+        this.KMtoPay();
+      }
     }
     if (sendCtripCardOrderResult !== this.props.exchange.sendCtripCardOrderResult) {
-      if (sendCtripCardOrderResult.code == 0) {
+      const { code } = sendCtripCardOrderResult;
+      if (code == 0) {
         //下单成功,跳转到orderstatus
         this.props.history.push(`./exchangestatus?orderNo=${sendCtripCardOrderResult.data}&extractCode=${this.state.extractCode}`);
         //const { value1 , value2 , value3 , value4 } = this.state;
         //this.props.history.push(`./exchangestatus?orderNo=${sendCtripCardOrderResult.data}&extractCode=${value1 + value2 + value3 + value4}`);
+      } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
+        const { componentIndex } = this.props;
+        this.setState({
+          authType: 'sendCtripCardOrder'
+        })
+        this.props.authorizationFailurePageSetting(componentIndex);
       } else {
         Toast.fail(sendCtripCardOrderResult.message);
         this.setState({
@@ -98,9 +110,16 @@ class Exchange extends React.Component {
       })
     }
     if (sendCtripOrderResult !== this.props.exchange.sendCtripOrderResult) {
-      if (sendCtripOrderResult.code == 0) {
+      const { code } = sendCtripOrderResult;
+      if (code == 0) {
         //下单成功,跳转到orderstatus
         this.props.history.push(`./exchangestatus?orderNo=${sendCtripOrderResult.data}&extractCode=${this.state.extractCode}`);
+      } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
+        const { componentIndex } = this.props;
+        this.setState({
+          authType: 'sendCtripOrder'
+        })
+        this.props.authorizationFailurePageSetting(componentIndex);
       } else {
         Toast.fail(sendCtripOrderResult.message);
         this.setState({
@@ -183,7 +202,6 @@ class Exchange extends React.Component {
     //删除操作后,再将btnstatu设为1
     const { codevalue } = this.state;
     this.setState({
-      btnstatus: 3,
       loading: true
     })
     this.props.dispatch({
@@ -278,29 +296,11 @@ class Exchange extends React.Component {
       extractCode: e
     })
   }
-  submitcode = () => {
-    //点击验证,返回信息后,将btnstatu设为3
-    //删除操作后,再将btnstatu设为1
-    const { codevalue } = this.state;
-    this.setState({
-      btnstatus: 3,
-      loading: true
-    })
-    this.props.dispatch({
-      type: 'exchange/GetProductList', payload: {
-        ExchangeCode: codevalue.replace(/\s/g, "")
-      }
-    })
-  }
-  clearcode = () => {
-    this.setState({
-      codevalue: '',
-      btnstatus: 1,
-      exchangeerrormessage: ''
-    })
-  }
   render() {
-    const { btnstatus, productList, productDetail, extractCode, shopInfo, codevalue, proTypeKaMi, customColor, showMallLoginModal } = this.state;
+    const { btnstatus, productList, productDetail, extractCode, shopInfo, codevalue,
+      proTypeKaMi, customColor, showMallLoginModal, authType } = this.state;
+    const { item, componentIndex } = this.props;
+    let { themeColor } = item.modelStyle.exchangeStyleModel;
     console.log(btnstatus, 8888)
     return (
       <div className="exchange-box clearfix">
@@ -316,7 +316,7 @@ class Exchange extends React.Component {
                   <span className="clear-code" onClick={this.clearcode}></span>
                 }
               </div>
-              <Button loading={this.state.loading} style={btnstatus !== 1 ? { background: `${this.state.customColor}` } : {}}
+              <Button loading={this.state.loading} style={btnstatus !== 1 ? { background: `${themeColor}` } : {}}
                 className={btnstatus === 1 ? "exchange-btn-grey" : btnstatus === 3 ? 'exchange-btn-disabled' : 'exchange-btn-light'}
                 onClick={btnstatus === 2 ? this.submitcode : null}>立即验证</Button>
               <span className="submitmessage">{this.state.exchangeerrormessage || ''}</span>
@@ -347,6 +347,9 @@ class Exchange extends React.Component {
                     getGameInfo={this.toPay}
                     choseProduct={productList}
                     payment={3}
+                    themeColor={themeColor}
+                    componentIndex={componentIndex}
+                    authType={authType}
                     exchangloading={this.state.exchangloading}
                     validType={productDetail.validType}
                     inputTips={productDetail.inputTips}
@@ -355,9 +358,48 @@ class Exchange extends React.Component {
               </div>
               {/* <input value={this.state.account} onChange={(e) => { this.setState({ account: e.target.value }) }} className="account-input" placeholder="请输入充值账号" type="text" /> */}
               {
-                this.state.proTypeKaMi && <button onClick={this.KMtoPay} className="exchange-btn-light">立即兑换</button>
+                this.state.proTypeKaMi && <button onClick={this.KMtoPay} style={btnstatus !== 1 ? { background: `${themeColor}` } : {}} className="exchange-btn-light">立即兑换</button>
               }
               {showMallLoginModal && <MallLoginModalPageSetting loginSuccess={this.loginSuccess} hideLoginModal={this.hideLoginModal} />}
+            </div>
+        }
+        {
+          productDetail ? productDetail.exchangeDetail &&
+            <div className="exchange-rule">
+              {
+                productDetail.exchangeDetail.split('|').map((v, i) => (
+                  <div key={i} dangerouslySetInnerHTML={{
+                    __html: v
+                  }} />
+                ))
+              }
+            </div> :
+            <div className="exchange-rule">
+              <div className="rule-item">
+                <h5 className="h5-title">兑换码使用流程</h5>
+                <div className="flow-list flow-list-img">
+                  <p><span className="icon-bj icon1"></span></p>
+                  <p className="dot-list"><span className="dot"></span><span className="dot"></span><span className="dot"></span></p>
+                  <p><span className="icon-bj icon2"></span></p>
+                  <p className="dot-list"><span className="dot"></span><span className="dot"></span><span className="dot"></span></p>
+                  <p><span className="icon-bj icon3"></span></p>
+                  <p className="dot-list"><span className="dot"></span><span className="dot"></span><span className="dot"></span></p>
+                  <p><span className="icon-bj icon4"></span></p>
+                </div>
+                <div className="flow-list">
+                  <p><span>1. 验证兑换码</span></p>
+                  <p><span>2. 选择商品&nbsp;</span></p>
+                  <p><span>3. 输入账号&nbsp;&nbsp;&nbsp;</span></p>
+                  <p><span>4. 兑换成功</span></p>
+                </div>
+              </div>
+              <div className="rule-item">
+                <h5 className="h5-title">兑换码使用说明</h5>
+                <p>1. 请在有效期内激活，逾期激活码将失效；</p>
+                <p>2. 会员类型商品有效期从激活日算起，同一帐号使用多个激活码，会员期自动延长；</p>
+                <p>3. 兑换码为数字+字母的16位字符，字母要区分大小写；</p>
+                <p>4. 请谨慎输入兑换码，比如“B”与“8”，“0”与“O”容易出错；</p>
+              </div>
             </div>
         }
       </div >

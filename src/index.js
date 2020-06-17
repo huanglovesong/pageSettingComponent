@@ -1,4 +1,5 @@
-import Home from './components/PageSettingComPonent/Page/Home';
+import { Home, ExchangePage, LoginPage } from './components/PageSettingComPonent/Page';
+
 import ActiveModalCom from './components/PageSettingComPonent/ActiveModalCom';
 import ActiveModal from './components/PageSettingComPonent/ActiveModalCom/ActiveModal';
 import BannerShuffling from './components/PageSettingComPonent/BannerShuffling';
@@ -29,5 +30,7 @@ export {
   loginPageSetting,
   exchangePageSetting,
   //页面
-  Home
+  Home,
+  ExchangePage,
+  LoginPage
 };
