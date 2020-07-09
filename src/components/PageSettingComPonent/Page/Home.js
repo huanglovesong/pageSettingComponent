@@ -55,8 +55,9 @@ class PageSettingComPonent extends React.Component {
         const { props } = this;
         const { pageSetting: { getPageResult } } = nextProps;
         let pageId = mathManage.getParam('pageId');
-        // 如果路由的pageId发生变化则重新请求页面信息
-        if (pageId !== this.state.pageId) {
+        console.log(props, 8888)
+        // 如果路由的pageId发生变化则重新请求页面信息,并且是频道页才会做查询
+        if (pageId !== this.state.pageId && props.history.location.pathname === '/channel') {
             this.setState({
                 pageId
             }, () => {
