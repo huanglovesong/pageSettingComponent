@@ -22,10 +22,10 @@ function getUrl(config) {
       config.headers.fuluId = userInfo.fuluId;
       config.headers.fuluToken = userInfo.fuluToken;
     }
-    if (shopInfo.merInfoTemplates.visitType !== 3) {
-      config.headers.codeKey = shopInfo.codeKey;
-      config.headers.merchantId = shopInfo.id;
-    }
+    // if (shopInfo.merInfoTemplates.visitType !== 3) {
+    config.headers.codeKey = shopInfo.codeKey;
+    config.headers.merchantId = shopInfo.id;
+    // }
   }
   // 兑换页
   const exchangeAuthArr = ['/api/Ctrip/GetProductList', '/api/Ctrip/SendCardOrder', '/api/Ctrip/SendOrder'];

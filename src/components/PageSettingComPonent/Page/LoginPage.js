@@ -63,7 +63,7 @@ class LoginPage extends React.Component {
         //如果是游客模式，并且已经登录，则跳转至兑换页
         const fuluToken = localStorage.getItem('fuluToken');
         //如果是免登模式或者用户有登录token,直接跳转到兑换页
-        if (shopInfo.merInfoTemplates.visitType === '3' || fuluToken) {
+        if (shopInfo.merInfoTemplates.visitType === 3 || fuluToken) {
             this.props.history.push('./exchange');
         } else {
             this.getPage();

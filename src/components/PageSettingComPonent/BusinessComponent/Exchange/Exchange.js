@@ -11,7 +11,8 @@ class Exchange extends React.Component {
   constructor(props) {
     super(props);
     const cardNumber = localStorage.getItem('cardNumber') || '';
-    const shopInfo = localStorage.getItem('shopInfo') && JSON.parse(localStorage.getItem('shopInfo'));
+    const shopInfo = localStorage.getItem('shopInfo') && JSON.parse(localStorage.getItem('shopInfo')) || {};
+    const extractCode = shopInfo.merInfoTemplates ? shopInfo.merInfoTemplates.visitType !== 3 ? localStorage.getItem("fuluId") : '' : '';
     this.state = {
       codevalue: '',
       btnstatus: cardNumber.length > 0 ? 2 : 1,
@@ -23,7 +24,7 @@ class Exchange extends React.Component {
       exchangloading: false,
       cardNumber,
       shopInfo,
-      extractCode: shopInfo.merInfoTemplates.visitType !== 3 ? localStorage.getItem("fuluId") : '',
+      extractCode,
       showMallLoginModal: false,
       // 授权模板的类型
       authType: '',
@@ -44,7 +45,8 @@ class Exchange extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps) {
-    const { GetProductListResult, GetProductTempResult, sendCtripOrderResult, sendCtripCardOrderResult } = nextProps.exchange;
+    const { GetProductListResult, sendCtripOrderResult, sendCtripCardOrderResult } = nextProps.exchange || {};
+    const { exchange = {} } = this.props;
     const { authType, proTypeKaMi } = this.state;
     // 如果是登录成功，找到对应组件authKey进行接下来的步骤
     if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
@@ -58,7 +60,7 @@ class Exchange extends React.Component {
         this.KMtoPay();
       }
     }
-    if (sendCtripCardOrderResult !== this.props.exchange.sendCtripCardOrderResult) {
+    if (sendCtripCardOrderResult !== exchange.sendCtripCardOrderResult) {
       const { code } = sendCtripCardOrderResult;
       if (code == 0) {
         //下单成功,跳转到orderstatus
@@ -78,7 +80,7 @@ class Exchange extends React.Component {
         })
       }
     }
-    if (GetProductListResult !== this.props.exchange.GetProductListResult) {
+    if (GetProductListResult !== exchange.GetProductListResult) {
       const { code } = GetProductListResult;
       if (code == 0) {
         GetProductListResult.data.list && GetProductListResult.data.list.map((item, index) => {
@@ -109,7 +111,7 @@ class Exchange extends React.Component {
         loading: false
       })
     }
-    if (sendCtripOrderResult !== this.props.exchange.sendCtripOrderResult) {
+    if (sendCtripOrderResult !== exchange.sendCtripOrderResult) {
       const { code } = sendCtripOrderResult;
       if (code == 0) {
         //下单成功,跳转到orderstatus
