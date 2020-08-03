@@ -27,7 +27,7 @@ function getUrl(config) {
     config.headers.merchantId = shopInfo.id;
     // }
   }
-  // 兑换页
+  // 兑换页专属逻辑
   const exchangeAuthArr = ['/api/Ctrip/GetProductList', '/api/Ctrip/SendCardOrder', '/api/Ctrip/SendOrder'];
   const exchangeAuthIndex = findIndex(exchangeAuthArr, function (item) {
     return config["url"].indexOf(item) !== -1;
@@ -36,7 +36,7 @@ function getUrl(config) {
     config.headers["codeKey"] = shopInfo.codeKey;
     config.headers["merchantId"] = shopInfo.id;
     config.headers["fuluToken"] = localStorage.getItem("fuluToken") || '';
-    config.headers["fuluId"] = shopInfo.merInfoTemplates.visitType === '3' ? '10.10.10.28' : localStorage.getItem("fuluId");
+    config.headers["fuluId"] = shopInfo.merInfoTemplates.visitType === 3 ? '10.10.10.28' : localStorage.getItem("fuluId");
   }
   return config;
 }

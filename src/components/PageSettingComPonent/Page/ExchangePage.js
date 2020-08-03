@@ -107,6 +107,8 @@ class ExchangePage extends React.Component {
     getCom = () => {
         const { allInfo } = this.state;
         let arr = [];
+        const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
+        const { visitType } = shopInfo.merInfoTemplates;
         allInfo.pageModuleList.map((item, index) => {
             // banner轮播
             if (item.moduleType === 'bannerRoll') {
@@ -142,8 +144,8 @@ class ExchangePage extends React.Component {
                 arr.push(<Exchange item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
-            // 登录
-            else if (item.moduleType === 'touristLogin') {
+            // 登录并且不是游客
+            else if (item.moduleType === 'touristLogin' && visitType !== 3) {
                 arr.push(<TouristLogin item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
