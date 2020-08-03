@@ -9,10 +9,30 @@ export default class BannerShufflingBox extends Component {
   }
   toBanner = (v) => {
     if (v.bannerType === 1) {
-      window.open(v.linkurl, '_blank')
+      this.toPageFuluIdAndToken(v);
+      // window.open(v.linkurl, '_blank')
     } else if (v.bannerType === 2 && v.ifSkip === 1) {
       this.props.history.push(`/detail?gid=${v.childCategoryId}&pid=${v.productId}`)
     }
+  }
+  toPageFuluIdAndToken = (v) => {
+    let shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
+    const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
+    let { fuluId, fuluToken } = userInfo;
+    // 如果需要页面跳转添加fuluId和token
+    let flag = configs.codeIdFuluIdAndToken ? configs.codeIdFuluIdAndToken.some(item => item.toLowerCase() === shopInfo.codeKey.toLowerCase()) : false;
+    let { linkurl } = v;
+    if (flag) {
+      // 如果存在?符号
+      if (linkurl.indexOf('?') !== -1) {
+        linkurl = `${linkurl}${fuluId ? '&fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+      }
+      // 如果不存在
+      else {
+        linkurl = `${linkurl}${fuluId ? '?fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+      }
+    }
+    window.open(linkurl, '_blank')
   }
   getCom = () => {
     const { item } = this.props;

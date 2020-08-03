@@ -10,7 +10,7 @@ class Exchange extends React.Component {
   // *****支持链接中带兑换码,自动填入
   constructor(props) {
     super(props);
-    const cardNumber = localStorage.getItem('cardNumber') || '';
+    const cardNumber = sessionStorage.getItem('cardNumber') || '';
     const shopInfo = localStorage.getItem('shopInfo') && JSON.parse(localStorage.getItem('shopInfo')) || {};
     const extractCode = shopInfo.merInfoTemplates ? shopInfo.merInfoTemplates.visitType !== 3 ? localStorage.getItem("fuluId") : '' : '';
     this.state = {

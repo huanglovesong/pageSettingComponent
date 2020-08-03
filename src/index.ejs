@@ -283,6 +283,9 @@
       localStorage.setItem('accesstoken', accesstoken);
     }
 
+    //自动填写兑换码功能(兑换项目)
+    GetQueryString('cardNumber') && sessionStorage.setItem('cardNumber', GetQueryString('cardNumber'));
+
 
     if (codeid.toLowerCase() === configs.chinaBank.toLowerCase()) { // 中国银行
       localStorage.setItem('theme', 'red-theme');
@@ -333,8 +336,6 @@
         // window.location.href = '/nothing';
       }
     });
-    //自动填写兑换码功能
-    localStorage.setItem('cardNumber', GetQueryString('cardNumber') || '');
   </script>
   <script>
     var _hmt = _hmt || [];
