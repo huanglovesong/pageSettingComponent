@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
 import './less/touristLogin.less';
- class TouristLogin extends Component {
+class TouristLogin extends Component {
   static propTypes = {
     prop: PropTypes
   }
@@ -13,14 +13,16 @@ import './less/touristLogin.less';
       window.location.href = './exchange';
     }
   }
-
-
   login = () => {
     const { componentIndex } = this.props;
     localStorage.setItem("fuluToken", '');
     localStorage.setItem("fuluId", '');
     localStorage.setItem('userInfo', '');
     this.props.authorizationFailurePageSetting(componentIndex);
+  }
+  changeLogin = () => {
+    const { componentIndex } = this.props;
+    this.props.showLoginModal(componentIndex);
   }
   getCom = () => {
     const { item, isChoose } = this.props;
@@ -38,7 +40,7 @@ import './less/touristLogin.less';
         </div> :
         <div className="exchange-phone-con">
           <span className="bind-phone">绑定手机号: {localStorage.getItem("fuluId") || ''}</span>
-          <span className="changephone" onClick={this.login}>更换手机号</span>
+          <span className="changephone" onClick={this.changeLogin}>更换手机号</span>
         </div>}
     </div>
 

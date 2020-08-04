@@ -144,10 +144,10 @@ class ExchangePage extends React.Component {
                 arr.push(<Exchange item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
-            // 登录并且不是游客
+            // 登录并且不是游客   showLoginModal只登录
             else if (item.moduleType === 'touristLogin' && visitType !== 3) {
                 arr.push(<TouristLogin item={item} history={this.props.history} componentIndex={index}
-                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} showLoginModal={this.showLoginModal} />)
             }
             // 富文本编辑
             else if (item.moduleType === 'richText') {
@@ -182,6 +182,12 @@ class ExchangePage extends React.Component {
         // setTimeout(() => {
         this.props.dispatch({ type: 'pageSetting/commonRequest', payload: { guid: Math.random(), componentIndex } });
         // }, 1000);
+    }
+    showLoginModal = (componentIndex) => {
+        this.setState({
+            showMallLoginModal: true,
+            componentIndex
+        })
     }
     hideLoginModal = () => {
         this.setState({
