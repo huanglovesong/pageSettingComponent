@@ -17,6 +17,8 @@ import pageSetting from './models/pageSetting';
 import loginPageSetting from './models/loginPageSetting';
 import exchangePageSetting from './models/exchange';
 
+
+import * as  umBuriedPoint from './utils/umBuriedPoint';
 export {
   // 组件
   ActiveModal,
@@ -38,5 +40,7 @@ export {
   //页面
   Home,
   ExchangePage,
-  LoginPage
+  LoginPage,
+  // 埋点函数
+  umBuriedPoint
 };

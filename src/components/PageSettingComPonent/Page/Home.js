@@ -18,6 +18,10 @@ import Loading from '../../Loading';
 
 // 用户授权失败调用函数
 import { authorizationFailurePageSetting } from '../../../utils/auth';
+
+// 友盟埋点
+import { homeBuriedPoin, pageLoadPoin, commonBuriedPoin } from '../../../utils/umBuriedPoint';
+
 import mathManage from '../../../utils/mathManage';
 
 
@@ -50,6 +54,8 @@ class PageSettingComPonent extends React.Component {
     // }
     componentWillMount() {
         this.getPage();
+        // 页面加载埋点
+        pageLoadPoin.pageLoad('首页');
     }
     componentWillReceiveProps(nextProps) {
         const { props } = this;
@@ -84,6 +90,26 @@ class PageSettingComPonent extends React.Component {
             }
         }
     }
+
+    componentWillUnmount() {
+        const { pathname } = window.location;
+        // 频道页
+        if (pathname === '/channel') {
+            localStorage.setItem('commodity_detail_souce', '频道页');
+        } else {
+            localStorage.setItem('commodity_detail_souce', '首页');
+        }
+    }
+    // 首页运营位埋点
+    clickUmBuired = (location) => {
+        const { pathname } = window.location;
+        // 频道页
+        if (pathname === '/channel') {
+            commonBuriedPoin.operationBitClick('频道页', location);
+        } else {
+            commonBuriedPoin.operationBitClick('首页', location);
+        }
+    }
     getPage = () => {
         const { pageId } = this.state;
         const { pageType } = this.props;
@@ -101,27 +127,27 @@ class PageSettingComPonent extends React.Component {
         allInfo.pageModuleList.map((item, index) => {
             // banner轮播
             if (item.moduleType === 'bannerRoll') {
-                arr.push(<BannerShuffling item={item} history={this.props.history} />)
+                arr.push(<BannerShuffling item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // banner广告
             else if (item.moduleType === 'banner') {
-                arr.push(<BannerAdvertising item={item} history={this.props.history} />)
+                arr.push(<BannerAdvertising item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 分类
             else if (item.moduleType === 'class') {
-                arr.push(<Classification item={item} history={this.props.history} />)
+                arr.push(<Classification item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 限时抢购
             else if (item.moduleType === 'flashSale') {
-                arr.push(<FlashSale item={item} history={this.props.history} />)
+                arr.push(<FlashSale item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 图文导航
             else if (item.moduleType === 'imageText') {
-                arr.push(<ImageText item={item} history={this.props.history} />)
+                arr.push(<ImageText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 图文导航
             else if (item.moduleType === 'notice') {
-                arr.push(<Notice item={item} history={this.props.history} />)
+                arr.push(<Notice item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 优惠券
             else if (item.moduleType === 'coupon') {
@@ -131,6 +157,7 @@ class PageSettingComPonent extends React.Component {
         });
         return arr;
     }
+
     // 用于设置组件唯一标识，便于后续寻找组件
     authorizationFailurePageSetting = (componentIndex) => {
         this.setState({

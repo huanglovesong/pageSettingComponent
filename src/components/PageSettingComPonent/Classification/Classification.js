@@ -26,6 +26,9 @@ export default class ClassificationBox extends Component {
   }
 
   toDetail = (gid, pid) => {
+    // 友盟埋点二级分类点击
+    this.props.clickUmBuired('二级分类');
+
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ''}`);
   }
   changeTabs = (activeTab) => {

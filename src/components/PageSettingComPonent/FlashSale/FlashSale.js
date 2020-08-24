@@ -7,6 +7,8 @@ class FlashSale extends React.Component {
     this.props.history.push(`/list?mid=${mid}`);
   }
   toDetail = (gid, pid) => {
+    // 友盟埋点限时抢购点击
+    this.props.clickUmBuired('限时活动位');
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ''}`);
   }
   getCom = () => {

@@ -6,6 +6,8 @@ export default class ImageTextBox extends Component {
         prop: PropTypes
     }
     toBanner = (v) => {
+        // 友盟埋点图文导航点击
+        this.props.clickUmBuired('icon位');
         if (v.bannerType === 1) {
             this.toPageFuluIdAndToken(v);
             // window.open(v.linkurl, '_blank')
