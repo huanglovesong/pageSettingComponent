@@ -5,14 +5,14 @@ var commonBuriedPoin = {
     // 友盟埋点，运营位点击
     operationBitClick(um_key_page_type = '', um_key_bit_type = '') {
         // 友盟埋点 category action label
-        fl_cnzz.push(["_trackEvent", um_key_page_type, 'Um_Event_OperationBitClick', um_key_bit_type]);
+        fl_cnzz.push(["_trackEvent", um_key_page_type, '运营位点击', um_key_bit_type]);
     },
     // 点击导航栏切换首页
     switchTab: function (um_key_buttonname = '') {
         const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
         let um_key_userid = userInfo.fuluId || '';
         // 友盟埋点 category action label
-        fl_cnzz.push(["_trackEvent", um_key_buttonname, 'UM_Event_BottomNaviClick', um_key_userid]);
+        fl_cnzz.push(["_trackEvent", um_key_buttonname, '下导航点击', um_key_userid]);
     },
     // 授权上报事件
     authLogin(obj = {}) {
@@ -87,7 +87,7 @@ var pageLoadPoin = {
         // 来源页面
         let um_key_sourcepage = localStorage.getItem('commodity_detail_souce') || '';
         // 友盟埋点 category action label
-        fl_cnzz.push(["_trackEvent", um_key_pagecategory, 'Um_Event_PageView', um_key_sourcepage]);
+        fl_cnzz.push(["_trackEvent", um_key_pagecategory, '页面浏览', um_key_sourcepage]);
     },
     pageLoadDetail(obj = {}) {
         const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
@@ -95,7 +95,7 @@ var pageLoadPoin = {
         // 友盟埋点 category action label value
         fl_cnzz.push(["_trackEvent",
             obj.productName || '',
-            'Um_Event_ItemDetail',
+            '查看商品详情',
             um_key_userid,
             obj.proInfoId || obj.productId || ''
         ]);
@@ -105,7 +105,7 @@ var pageLoadPoin = {
         // 友盟埋点 category action label value
         fl_cnzz.push(["_trackEvent",
             obj.productName || '',
-            'Um_Event_OrderResult',
+            '订单结果页',
             true,
             obj.proInfoId || obj.productId || ''
         ]);
@@ -120,7 +120,7 @@ var pageLoadPoin = {
         // 友盟埋点 category action label value
         fl_cnzz.push(["_trackEvent",
             obj.productName || '',
-            'Um_Event_Payorder',
+            '支付订单详情',
             ordetStatusObj[obj.orderStatus],
             obj.proInfoId || obj.productId || ''
         ]);
@@ -134,7 +134,7 @@ var detailBuriedPoin = {
         // 友盟埋点 category action label value
         fl_cnzz.push(["_trackEvent",
             obj.productName || '',
-            'Um_Event_ExchangeNow',
+            '立即兑换',
             obj.activityId || '',
             obj.proInfoId || obj.productId || ''
         ]);
@@ -147,7 +147,7 @@ var sureOrderBuriedPoin = {
         // 友盟埋点 category action label value
         fl_cnzz.push(["_trackEvent",
             obj.productName || '',
-            'Um_Event_SubmitOrder',
+            '去支付',
             obj.is_success || false,
             obj.proInfoId || obj.productId || ''
         ]);
