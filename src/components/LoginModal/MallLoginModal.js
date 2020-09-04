@@ -5,9 +5,9 @@ import { Modal, InputItem, Toast, Button, Icon } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import Icons, { shouji, user } from '../Icon';
 import './less/mallLoginModal.less';
-import Header from '../Header';
-import parse from 'url-parse';
-import Footer from '../Footer';
+// import Header from '../Header';
+// import parse from 'url-parse';
+// import Footer from '../Footer';
 
 const RegTel = /^1(3|4|5|6|7|8|9)\d{9}$/;
 let timer = null;

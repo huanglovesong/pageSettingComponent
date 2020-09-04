@@ -42,6 +42,15 @@ export default class ClassificationBox extends Component {
       {priceArr.length === 2 ? <span className="middle-font">.{priceArr[1]}</span> : ''}
     </Fragment>
   }
+  getDelPrice = (item) => {
+    let price = item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price;
+    let { faceValue } = item;
+    // 如果销售价大于划线价,则不展示划线价
+    if (price > faceValue) {
+      return ''
+    }
+    return <s className="del-price">￥{item.faceValue}</s>
+  }
   renderContent = (tabsItem) => {
     const { item } = this.props;
     // 商品间距
@@ -82,7 +91,7 @@ export default class ClassificationBox extends Component {
                 {item.integral && <span>{item.integral}积分+</span>}<span className="middle-font">￥</span>
                 {this.getPrice(item)}
                 {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
-                <s className="del-price">￥{item.faceValue}</s>
+                {this.getDelPrice(item)}
               </div>
             </span>
           </div>
