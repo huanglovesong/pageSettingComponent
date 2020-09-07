@@ -228,7 +228,7 @@ export default {
         css: join(__dirname, directory.build.envName, 'sprite.less'),
       },
       apiOptions: {
-        cssImageRef: 'sprite.png',
+        cssImageRef: '~sprite.png',
       },
     }),
     ...optimizer.asset.extract === true ? [
