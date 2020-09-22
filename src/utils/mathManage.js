@@ -1,4 +1,14 @@
 export default {
+  getDeviceType() {
+    var u = navigator.userAgent;
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+    if (isiOS) {
+      return 1;
+    } else if (isAndroid) {
+      return 2;
+    }
+  },
   getParam: function (paramName) {
     // 获取参数
     var url = window.location.search;

@@ -8,7 +8,10 @@ axios.defaults.withCredentials = true;  // 允许跨域且携带 Cookie（或自
 axios.defaults.timeout = 30000; // 设置请求超时时间（ms）不超过半分钟
 axios.defaults.headers.post['Content-Type'] = 'application/json';  // 设置请求提内容类型，其他可选值：application/x-www-form-urlencoded
 
+let fromPlatform = mathManage.getDeviceType();
+
 function getUrl(config) {
+  config.headers.fromPlatform = mathManage.getDeviceType();
   const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
   const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
