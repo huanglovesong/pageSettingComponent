@@ -8,6 +8,52 @@
     flex-wrap: wrap;
     margin-top: .3rem;
 
+    .tab-bar-header {
+      height: .72rem;
+      line-height: .72rem;
+      overflow-x: scroll;
+      overflow-y: hidden;
+
+      .tab-bar-header-content {
+        .tab-bar-item {
+          float: left;
+          width: 3.34rem;
+          text-align: center;
+          font-size: .3rem;
+          font-weight: 500;
+          color: #999999;
+
+          img {
+            width: .36rem;
+            height: .36rem;
+            background-size: contain;
+            margin-right: .14rem;
+            vertical-align: middle;
+          }
+
+          .tab-bar-item-text {
+            padding: .12rem 0rem;
+            font-size: .3rem;
+          }
+        }
+
+        .active-color {
+          color: #01C3AB;
+
+          .tab-bar-item-text {
+            border-bottom: .04rem solid #01C3AB;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    .tab-bar-header::-webkit-scrollbar //滚动条整体部分
+
+      {
+      display: none;
+    }
+
     .item {
       // width: 50%;
       float: left;

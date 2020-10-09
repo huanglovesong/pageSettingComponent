@@ -85,8 +85,7 @@ export default class ClassificationBox extends Component {
         >
           <img
             src={
-              item.bannerUrl ||
-              "https://fulu-mall.oss-cn-hangzhou.aliyuncs.com/2231e6df559c4efd94d994e9e6ad250a.png"
+              item.bannerUrl
             }
           />
           <span className="tab-bar-item-text">
@@ -116,7 +115,7 @@ export default class ClassificationBox extends Component {
     let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
     // 页面边距
     let pageMargin = item.modelStyle.classStyleModel.pageMargin;
-
+    let { imageSource } = item.modelStyle.classStyleModel;
     // 商品高度
     let len =
       tabsItem.dataDetailCacheModels.length % 2 === 0
@@ -158,7 +157,13 @@ export default class ClassificationBox extends Component {
                     {item.cornerMark && (
                       <div class="right-tips">{item.cornerMark}</div>
                     )}
-                    <img src={item.iconPath} />
+                    <img
+                      src={
+                        imageSource && imageSource === "product"
+                          ? item.productImage
+                          : item.iconPath
+                      }
+                    />
                   </div>
                   <div class="name">{item.childCategoryName}</div>
                   <div className="status-content">
