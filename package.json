@@ -1,6 +1,6 @@
 {
   "name": "pagesettingcomfulu",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "自定义页面",
   "main": "lib/index.js",
   "scripts": {
