@@ -20,6 +20,6 @@ var configs = {
   tencentSH: '0E6ESsAQ',
   xiaomi: 'XjT4K70q',
   eventId: 'CJ100030',
-  pageSettingCodeId: ['XjT4K70q', 'f2wdbgXK', 'jADEoWQG'],
+  pageSettingCodeId: ['XjT4K70q', 'f2wdbgXK', 'jADEoWQG','wpANtbFO'],
   // codeIdFuluIdAndToken: ['jADEoWQG'], // 广告跳转需要添加fuluid和token的商户
 };

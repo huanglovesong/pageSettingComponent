@@ -3,7 +3,7 @@ import { Tabs } from "antd-mobile";
 import PropTypes from "prop-types";
 import "./less/classification.less";
 import mathManage from "../../../utils/mathManage";
-
+import QueueAnimFulu from "../../QueueAnimFulu";
 export default class ClassificationBox extends Component {
   static propTypes = {
     prop: PropTypes,
@@ -14,6 +14,8 @@ export default class ClassificationBox extends Component {
       activeTab: 0,
       goodList: [],
       tabs: [],
+      tabsHtml: [],
+      clickTabBarIndex: 0,
     };
   }
   componentDidMount() {
@@ -24,6 +26,10 @@ export default class ClassificationBox extends Component {
     if (tabBarEle) {
       tabBarEle.style.paddingLeft = `${pageMargin / 50}rem`;
       tabBarEle.style.paddingRight = `${pageMargin / 50}rem`;
+    }
+    if (!item.displayStyle) {
+      item.moduleDataList[0] &&
+        this.renderContentStyle2(item.moduleDataList[0], 0);
     }
   }
 
@@ -65,13 +71,51 @@ export default class ClassificationBox extends Component {
     }
     return <s className="del-price">￥{item.faceValue}</s>;
   };
+  getTabsHeader = () => {
+    const { clickTabBarIndex } = this.state;
+    const { item } = this.props;
+    const tabsHtmlArr = [];
+    item.moduleDataList.map((item, index) => {
+      tabsHtmlArr.push(
+        <div
+          className={`tab-bar-item ${
+            clickTabBarIndex === index ? "active-color" : ""
+          }`}
+          onClick={() => this.renderContentStyle2(item, index)}
+        >
+          <img
+            src={
+              item.bannerUrl
+            }
+          />
+          <span className="tab-bar-item-text">
+            {mathManage.stringCutOut(item.textData, 4)}
+          </span>
+        </div>
+      );
+    });
+    return tabsHtmlArr;
+  };
+  getTabs = () => {
+    const { item } = this.props;
+    const tabs = [];
+    item.moduleDataList.map((item, index) => {
+      tabs.push({
+        title: mathManage.stringCutOut(item.textData, 4),
+        key: index,
+        dataDetailCacheModels: item.dataDetailCacheModels,
+      });
+    });
+    return tabs;
+  };
   renderContent = (tabsItem) => {
+    const tabsHtml = [];
     const { item } = this.props;
     // 商品间距
     let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
     // 页面边距
     let pageMargin = item.modelStyle.classStyleModel.pageMargin;
-
+    let { imageSource } = item.modelStyle.classStyleModel;
     // 商品高度
     let len =
       tabsItem.dataDetailCacheModels.length % 2 === 0
@@ -89,56 +133,73 @@ export default class ClassificationBox extends Component {
       paddingLeft: `${pageMargin / 50}rem`,
       paddingRight: `${pageMargin / 50}rem`,
     };
-    return (
+    const { clickTabBarIndex } = this.state;
+    console.log(clickTabBarIndex, 99999);
+    let nowHtml = (
       <div style={{ display: "flex" }}>
         {/* <div className="class-content" style={{ height: productHeight }}> */}
-        <div className="class-content" style={{ ...style1 }}>
-          {tabsItem.dataDetailCacheModels.map((item) => (
-            <div
-              className="item"
-              onClick={() => {
-                this.toDetail(item.childCategoryId, item.productId);
-              }}
-            >
-              <span style={{ ...style }}>
-                <div class="img-bg">
-                  {item.cornerMark && (
-                    <div class="right-tips">{item.cornerMark}</div>
-                  )}
-                  <img src={item.iconPath} />
-                </div>
-                <div class="name">{item.childCategoryName}</div>
-                <div className="status-content">
-                  {item.isCouponAfterPrice && item.couponBatchid && (
-                    <div className="discount-price-img"></div>
-                  )}
-                </div>
-                <div className="price">
-                  {item.integral && <span>{item.integral}积分+</span>}
-                  <span className="middle-font">￥</span>
-                  {this.getPrice(item)}
-                  {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
-                  {this.getDelPrice(item)}
-                </div>
-              </span>
-            </div>
-          ))}
-        </div>
+        <QueueAnimFulu type="left">
+          <div
+            className="class-content clearfix"
+            style={{ ...style1 }}
+            key={clickTabBarIndex}
+          >
+            {tabsItem.dataDetailCacheModels.map((item, index) => (
+              <div
+                className="item"
+                key={index}
+                onClick={() => {
+                  this.toDetail(item.childCategoryId, item.productId);
+                }}
+              >
+                <span style={{ ...style }}>
+                  <div class="img-bg">
+                    {item.cornerMark && (
+                      <div class="right-tips">{item.cornerMark}</div>
+                    )}
+                    <img
+                      src={
+                        imageSource && imageSource === "product"
+                          ? item.productImage
+                          : item.iconPath
+                      }
+                    />
+                  </div>
+                  <div class="name">{item.childCategoryName}</div>
+                  <div className="status-content">
+                    {item.isCouponAfterPrice && item.couponBatchid && (
+                      <div className="discount-price-img"></div>
+                    )}
+                  </div>
+                  <div className="price">
+                    {item.integral && <span>{item.integral}积分+</span>}
+                    <span className="middle-font">￥</span>
+                    {this.getPrice(item)}
+                    {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
+                    {this.getDelPrice(item)}
+                  </div>
+                </span>
+              </div>
+            ))}
+          </div>
+        </QueueAnimFulu>
       </div>
     );
+    return nowHtml;
   };
-  getTabs = () => {
-    const { item } = this.props;
-    const tabs = [];
-    item.moduleDataList.map((item, index) => {
-      tabs.push({
-        title: mathManage.stringCutOut(item.textData, 4),
-        key: index,
-        dataDetailCacheModels: item.dataDetailCacheModels,
-      });
-    });
-    console.log(tabs, 2222);
-    return tabs;
+  // 如果是样式二
+  renderContentStyle2 = (tabsItem, clickTabBarIndex) => {
+    this.setState(
+      {
+        clickTabBarIndex,
+      },
+      () => {
+        let nowHtml = this.renderContent(tabsItem, clickTabBarIndex);
+        let tabsHtml = [];
+        tabsHtml.push(nowHtml);
+        this.setState({ tabsHtml });
+      }
+    );
   };
   getCom = () => {
     const { item } = this.props;
@@ -148,8 +209,12 @@ export default class ClassificationBox extends Component {
     } else {
       // 商品间距
       // let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
-      // // 页面边距
-      // let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+      // 页面边距
+      let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+      const style1 = {
+        paddingLeft: `${pageMargin / 50}rem`,
+        paddingRight: `${pageMargin / 50}rem`,
+      };
       // const style1 = {
       //   marginLeft: `-${productMargin / 50}rem`,
       //   marginRight: `-${productMargin / 50}rem`,
@@ -157,14 +222,34 @@ export default class ClassificationBox extends Component {
       //   paddingRight: `${pageMargin / 50}rem`
       // };
       // 由于pc端和移动端组件不同，所以代码实现方式有调整，没有直接改classification-box，而是加载页面的时候调整样式
+      const { displayStyle } = item.modelStyle.classStyleModel;
+      const { tabsHtml } = this.state;
       return (
         <div class="classification-box clearfix">
-          <Tabs
-            tabs={this.getTabs()}
-            renderTabBar={(props) => <Tabs.DefaultTabBar {...props} page={4} />}
-          >
-            {this.renderContent}
-          </Tabs>
+          {displayStyle === "style2" && (
+            <Fragment>
+              <div className="tab-bar-header" style={{ ...style1 }}>
+                <div
+                  className="tab-bar-header-content clearfix"
+                  style={{ width: `${item.moduleDataList.length * 3.34}rem` }}
+                >
+                  {this.getTabsHeader()}
+                </div>
+              </div>
+              {tabsHtml}
+            </Fragment>
+          )}
+          {(!displayStyle || displayStyle === "style1") && (
+            <Tabs
+              swipeable={false}
+              tabs={this.getTabs()}
+              renderTabBar={(props) => (
+                <Tabs.DefaultTabBar {...props} page={4} />
+              )}
+            >
+              {this.renderContent}
+            </Tabs>
+          )}
         </div>
       );
     }
