@@ -10,12 +10,15 @@ export default class ClassificationBox extends Component {
   };
   constructor(props) {
     super(props);
+    let fontSize = parseFloat(getComputedStyle(window.document.documentElement)['font-size'].replace('px', ''));
+    console.log(fontSize, 888)
     this.state = {
       activeTab: 0,
       goodList: [],
       tabs: [],
       tabsStyle2Html: [],
       clickTabBarIndex: 0,
+      fontSize,
     };
   }
   componentDidMount() {
@@ -78,8 +81,7 @@ export default class ClassificationBox extends Component {
     item.moduleDataList.map((item, index) => {
       tabsStyle2HtmlArr.push(
         <div
-          className={`tab-bar-item ${
-            clickTabBarIndex === index ? "active-color" : ""
+          className={`tab-bar-item ${clickTabBarIndex === index ? "active-color" : ""
             }`}
           onClick={() => this.renderContentStyle2(item, index)}
         >
@@ -188,6 +190,9 @@ export default class ClassificationBox extends Component {
   waterFlow = (clickTabBarIndex = '') => {
     setTimeout(() => {
       const { item } = this.props;
+      const { fontSize } = this.state;
+      // 因为下面else计算高度的地方PageMargin 需要通过rem的转换得出真正的数值
+      let afterChangePageMargin = mathManage.accDiv(item.modelStyle.classStyleModel.pageMargin, mathManage.accDiv(100, fontSize));
       // 商品间距
       let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
       // 页面边距
@@ -202,6 +207,7 @@ export default class ClassificationBox extends Component {
       }
       var columns = 2;
       var arr = [];
+
       for (let i = 0; i < items.length; i++) {
         if (i < columns) {
           // 2- 确定第一行
@@ -223,20 +229,19 @@ export default class ClassificationBox extends Component {
           }
           // 4- 设置下一行的第一个盒子位置
           // top值就是最小列的高度 + gap
-          items[i].style.top = (arr[index] + pageMargin) / 50 + "rem";
+          items[i].style.top = (arr[index] + afterChangePageMargin) / fontSize + "rem";
           // left值就是最小列距离左边的距离
-
-          items[i].style.left = items[index].offsetLeft / 50 + "rem";
+          items[i].style.left = items[index].style.left;
           if (i === items.length - 1) {
             document.getElementById(id).style.height =
-              (arr[index] + 9) / 50 + (items[i].offsetHeight + pageMargin) / 50 + "rem";
+              (arr[index] + afterChangePageMargin) / fontSize + (items[i].offsetHeight + afterChangePageMargin) / fontSize + "rem";
           }
           // 5- 修改最小列的高度
           // 最小列的高度 = 当前自己的高度 + 拼接过来的高度 + 间隙的高度
           arr[index] = arr[index] + items[i].offsetHeight + 9;
         }
       }
-    }, 500);
+    }, 800);
 
   }
   getContentStyle2Dom = (tabsItem, clickTabBarIndex) => {
