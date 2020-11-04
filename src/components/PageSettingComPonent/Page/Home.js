@@ -8,6 +8,8 @@ import FlashSale from '../FlashSale';
 import ImageText from '../ImageText';
 import Notice from '../Notice';
 import Coupons from '../Coupons';
+import CouponsList from '../CouponsList';
+import CouponsPackage from '../CouponsPackage';
 import ActiveModalCom from '../ActiveModalCom';
 import ActiveModal from '../ActiveModalCom/ActiveModal';
 
@@ -154,6 +156,17 @@ class PageSettingComPonent extends React.Component {
                 arr.push(<Coupons item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
+            // 券列表
+            else if (item.moduleType === 'couponsList') {
+                arr.push(<CouponsList item={item} history={this.props.history} componentIndex={index}
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
+            }
+            // 券包
+            else if (item.moduleType === 'couponsPackage') {
+                arr.push(<CouponsPackage item={item} history={this.props.history} componentIndex={index}
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
+            }
+
         });
         return arr;
     }
@@ -188,10 +201,10 @@ class PageSettingComPonent extends React.Component {
         })
     }
     render() {
-        const { allInfo, showMallLoginModal, componentIndex } = this.state;
+        const { allInfo, showMallLoginModal } = this.state;
         const { disableClick } = this.props;
         return (
-            <div className={`main-bg ${disableClick && 'point-events-none'}`}>
+            <div className={`main-bg ${disableClick && 'point-events-none'}`} id="mainBgId">
                 <div className="page-setting-content" style={{ background: allInfo.backgroud }}>
                     {this.getCom()}
                 </div>

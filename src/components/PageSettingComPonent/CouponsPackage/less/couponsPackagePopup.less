@@ -1,0 +1,162 @@
+.page-setting-content {}
+
+.coupon-package-modal {
+  .coupon-package-shade {
+    background-color: gray;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0px;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .popup-com-img {
+    width: 6.78rem;
+    position: absolute;
+    top: 3rem;
+    left: .36rem;
+    z-index: 2;
+  }
+
+  .coupon-package-content {
+    position: absolute;
+    top: 5.4rem;
+    left: .9rem;
+    width: 5.7rem;
+    height: 3.86rem;
+    padding: 0px 13px;
+    z-index: 2;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+
+      display: none
+    }
+
+    .coupon-package-content-list {
+      width: 5.16rem;
+      height: 1.36rem;
+      background: url(../imgs/couponBackground.png);
+      background-size: contain;
+      margin-bottom: .12rem;
+
+      .price-content {
+        padding: .34rem 0px .16rem;
+        width: 1.6rem;
+        height: 1.36rem;
+
+        .price {
+          height: .46rem;
+          font-size: .6rem;
+          font-family: SFMono-Medium, SFMono;
+          font-weight: 500;
+          color: #ED171F;
+          line-height: .46rem;
+          margin-bottom: .16rem;
+          text-align: center;
+
+          .small-font {
+
+            font-size: .24rem;
+            font-family: SFMono-Regular, SFMono;
+            font-weight: 400;
+            color: #ED171F;
+            line-height: .2rem;
+          }
+
+          .big-font {
+            font-size: .6rem;
+          }
+        }
+
+        .price-text {
+
+          font-size: .24rem;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #F25E63;
+          line-height: .24rem;
+          text-align: center;
+        }
+      }
+
+      .text-content {
+        width: 3.56rem;
+        height: 1.36rem;
+        padding: .24rem 11px .16rem .24rem;
+
+        .name {
+          width: 3rem;
+          height: .3rem;
+          font-size: .3rem;
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 500;
+          color: #333333;
+          line-height: .3rem;
+          margin-bottom: .14rem;
+        }
+
+        .name-description {
+          width: 3.08rem;
+          height: .24rem;
+          font-size: .22rem;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #D4993F;
+          line-height: .24rem;
+          margin-bottom: .04rem;
+        }
+
+        .valid-date {
+          height: .24rem;
+          font-size: 11px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #C6C6C6;
+          line-height: .24rem;
+        }
+      }
+    }
+  }
+
+  .btn-get {
+    width: 5.16rem;
+    height: .74rem;
+    background: linear-gradient(180deg, #FFF0CB 0%, #ECC37B 62%, #FFD89A 100%);
+    box-shadow: 0px .08rem .14rem 0px rgba(170, 24, 36, 0.46);
+    border-radius: .48rem;
+
+    position: absolute;
+    top: 9.5rem;
+    left: 1.16rem;
+    z-index: 2;
+
+    color: #B51A27;
+    text-align: center;
+    line-height: .74rem;
+    font-size: .36rem;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+  }
+
+  .active-modal-close-bottom {
+    width: 100%;
+    height: .8rem;
+    position: absolute;
+    top: 10.6rem;
+    left: 0px;
+    padding: .16rem;
+    cursor: pointer;
+    z-index: 2;
+
+    .popup-close {
+      width: .48rem;
+      height: .48rem;
+      margin: 0 auto;
+      background: url(../imgs/guanbi.png);
+      background-size: cover;
+    }
+  }
+}

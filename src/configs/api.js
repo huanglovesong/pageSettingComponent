@@ -64,6 +64,11 @@ export default {
     CardActivityOvered: '/api/MerCouponActivity/CardActivityOvered',  //卡券活动是否过期
     ObtainCard: '/api/MerCouponActivity/ObtainCard', // 取卡
 
+    GetCouponProductList: '/api/MerCouponActivity/GetCouponProductList',   // 获取优惠券对应商品
+    GetProInfoDetailCouponList: '/api/MerCouponActivity/GetProInfoDetailCouponList',   // 获取商品详情优惠券列表
+    GetUserCouponList: '/api/MerCouponActivity/GetUserCouponList',   // 我的优惠券
+    GetCouponProductList: '/api/MerCouponActivity/GetCouponProductList',   // 获取优惠券对应商品
+    GetOrderDetailsCouponList: '/api/MerCouponActivity/GetOrderDetailsCouponList',  // 订单详情界面优惠券列表
     // 兑换
     "orderlist": "/api/Order/GetOrderList",//订单列表
     "getuserinfo": '/api/Merchant/GetMerinfo',//获取商户信息
