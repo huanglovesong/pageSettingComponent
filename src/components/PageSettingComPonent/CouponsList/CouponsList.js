@@ -52,20 +52,21 @@ class CouponsList extends Component {
         }
         // 如果用户已经领取过了
         else {
-            const { activeInfo } = this.state;
-            activeInfo.jumpType = item.jumpType;
-            activeInfo.proClassId = item.proClassId;
-            activeInfo.productId = item.productId;
-            activeInfo.jumpUrl = item.jumpUrl;
-            this.setState({
-                activeInfo
-            }, () => {
-                item.discountsInfo = {
-                    reachedAmount: item.reachedAmount,
-                    reduceAmount: item.reduceAmount
-                };
-                this.jumpTo(item);
-            })
+            // const { activeInfo } = this.state;
+            // activeInfo.jumpType = item.jumpType;
+            // activeInfo.proClassId = item.proClassId;
+            // activeInfo.productId = item.productId;
+            // activeInfo.jumpUrl = item.jumpUrl;
+            // this.setState({
+            //     activeInfo
+            // }, () => {
+            //     item.discountsInfo = {
+            //         reachedAmount: item.reachedAmount,
+            //         reduceAmount: item.reduceAmount
+            //     };
+            //     this.jumpTo(item);
+            // })
+            this.toUrl('/mycoupons');
         }
     }
     getCouponFn = () => {
@@ -125,7 +126,7 @@ class CouponsList extends Component {
         const tabs = [];
         item.moduleDataList.map((item, index) => {
             tabs.push({
-                title: item.textData,
+                title: mathManage.stringCutOut(item.textData, 4),
                 key: index,
                 couponDataList: item.couponDataList,
             });
@@ -187,7 +188,7 @@ class CouponsList extends Component {
                                 {couponDataListItem.isReceive ?
                                     couponDataListItem.isUserReceive ? <div className={"get-coupon"} style={{ background: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem)}>
                                         立即领取</div> :
-                                        <div className={"use-coupon"} style={{ border: `.02rem solid ${couponFontColor}`, color: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem)}>
+                                        <div className={"use-coupon"} style={{ border: `2px solid ${couponFontColor}`, color: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem)}>
                                             去使用
                                         </div>
                                     :
@@ -203,7 +204,7 @@ class CouponsList extends Component {
     };
     render() {
         const { item } = this.props;
-        let { couponFontColor, navigationColor } = item.modelStyle.couponsListStyleModel;
+        let { couponFontColor, navigationColor } = item.modelStyle.couponsListStyleModel || {};
         return (
             <div class="coupons-list-box clearfix">
                 <Tabs

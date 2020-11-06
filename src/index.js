@@ -1,3 +1,7 @@
+if(module && module.hot) {
+  module.hot.accept()
+}
+
 import { Home, ExchangePage, LoginPage } from './components/PageSettingComPonent/Page';
 
 import ActiveModalCom from './components/PageSettingComPonent/ActiveModalCom';

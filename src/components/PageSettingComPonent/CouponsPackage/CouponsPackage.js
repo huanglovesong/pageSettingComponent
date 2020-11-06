@@ -192,7 +192,7 @@ class CouponsPackage extends Component {
     }
     render() {
         const { item } = this.props;
-        let { couponsPackageImage, pageMargin, imageClearance } = item.modelStyle.couponsPackageStyleModel;
+        let { couponsPackageImage, pageMargin, imageClearance } = item.modelStyle.couponsPackageStyleModel || {};
         const { showCouponsPackagePopup } = this.state;
         let pagePadding = pageMargin || 0;
         let margin = imageClearance / 2;
