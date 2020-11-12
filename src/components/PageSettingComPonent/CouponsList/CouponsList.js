@@ -205,6 +205,11 @@ class CouponsList extends Component {
     render() {
         const { item } = this.props;
         let { couponFontColor, navigationColor } = item.modelStyle.couponsListStyleModel || {};
+        let len = item.moduleDataList.length;
+        // 如果没有moduleDataList则隐藏
+        if (!len) {
+            return ''
+        }
         return (
             <div class="coupons-list-box clearfix">
                 <Tabs

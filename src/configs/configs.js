@@ -20,6 +20,11 @@ var configs = {
   tencentSH: '0E6ESsAQ',
   xiaomi: 'XjT4K70q',
   eventId: 'CJ100030',
-  pageSettingCodeId: ['XjT4K70q', 'f2wdbgXK', 'jADEoWQG','wpANtbFO'],
+  pageSettingCodeId: ['XjT4K70q', 'f2wdbgXK', 'jADEoWQG', 'wpANtbFO'],
+  pingAn: '8mhxins7',//平安//i71hBYc8
+  CloudPan: 'MRsSkXOX',//农行网盘
+  CGBank: 'jADEoWQG',   // 广发银行
+  PhoneCGBank: 'qh8n102x',//广发话费
+  FlowCGBank: 'G4w66p53',//广发流量
   // codeIdFuluIdAndToken: ['jADEoWQG'], // 广告跳转需要添加fuluid和token的商户
 };

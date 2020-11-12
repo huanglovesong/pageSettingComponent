@@ -13,6 +13,22 @@ export default {
 
     getCode: '/api/Other/Verificationcode', // 发送验证码
     touristlogin: '/api/Other/Touristlogincode', // 验证验证码
+    getUnionOpenId: '/api/UnPay/GetUnPayOpenId',
+
+
+    //平安银行授权
+    pinanLogin: '/api/Pingan/PinganLogin',
+    //农业银行
+    ablogin: '/api/Abc/AbcLogin',
+    //网盘
+    panlogin: '/api/AbcWp/AbcLogin',
+
+    //广发银行
+    decryptInfo: '/api/Cgb/DecryptInfo', // 广发前端解密测试
+    phoneDecrypt: '/api/cgb/PhoneDecryptInfo',//话费商户联登解密
+    flowDecrypt: '/api/Cgb/FlowDecryptInfo',//流量商户联合解密
+
+
 
     getMerinfo: '/api/Merchant/GetMerinfo', //获取商户和模板信息
     getBanner: '/api/Advertisement/GetBanner', // 获取banner

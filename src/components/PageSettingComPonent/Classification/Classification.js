@@ -201,7 +201,7 @@ export default class ClassificationBox extends Component {
       let id = `class-content`;
       // 1- 确定列数  = 页面的宽度 / 图片的宽度
       var itemWidth = 165;
-      var items = document.getElementById(id).children;
+      var items = document.getElementById(id) ? document.getElementById(id).children : [];
       if (!items.length) {
         document.getElementById(id).style.height = "0rem";
       }
