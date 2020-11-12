@@ -29,7 +29,7 @@ class CouponsList extends Component {
         // 如果用户没有领取过
         if (item.isUserReceive) {
             this.setState({
-                merCouponId
+                merCouponId: item.merCouponId
             }, () => {
                 this.props.dispatch({
                     type: 'pageSetting/CardActivityOvered',
@@ -37,6 +37,7 @@ class CouponsList extends Component {
                         merCouponActivityId: item.merCouponId
                     }
                 }).then(res => {
+                    debugger
                     const { code, data, message } = res;
                     if (code === '1000') {
                         this.setState({
