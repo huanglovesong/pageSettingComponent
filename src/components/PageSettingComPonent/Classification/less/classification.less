@@ -3,7 +3,7 @@
   // 分类
   .classification-box {
     position: relative;
-    display: flex;
+    // display: flex;
     width: 7.5rem;
     flex-wrap: wrap;
     margin-top: .3rem;
@@ -13,6 +13,7 @@
       line-height: .72rem;
       overflow-x: scroll;
       overflow-y: hidden;
+
       .tab-bar-header-content {
         .tab-bar-item {
           float: left;
@@ -20,7 +21,7 @@
           text-align: center;
           font-size: .3rem;
           font-weight: 500;
-          color: #999999;
+          color: #7C9894;
 
           img {
             width: .36rem;
@@ -40,7 +41,7 @@
           color: #01C3AB;
 
           .tab-bar-item-text {
-            border-bottom: 1px solid #01C3AB;
+            border-bottom: .04rem solid #01C3AB;
             font-weight: 600;
           }
         }
@@ -50,22 +51,50 @@
     .tab-bar-header::-webkit-scrollbar //滚动条整体部分
 
       {
+      height: .12rem;
+      background-color: #f7f8fa;
       display: none;
     }
 
-    .item {
-      // width: 50%;
-      float: left;
-      margin-right: .2rem;
-      margin-bottom: .2rem;
-      border-radius: .16rem;
-      background: #FFFFFF;
+
+    .tab-bar-header::-webkit-scrollbar-thumb //scroll轨道背景
+
+      {
+      -webkit-box-shadow: inset 0 0 .12rem gray;
+      border-radius: .2rem;
+      background-color: gray;
+
     }
 
-    .item:nth-child(even) {
-      margin-right: 0;
+    .content-style1 {
+      .item {
+        // width: 50%;
+        float: left;
+        margin-right: .2rem;
+        margin-bottom: .2rem;
+        border-radius: .16rem;
+        background: #FFFFFF;
+      }
+
+      .item:nth-child(even) {
+        margin-right: 0;
+      }
     }
 
+
+
+    // .item {
+    //   // width: 50%;
+    //   float: left;
+    //   margin-right: .2rem;
+    //   margin-bottom: .2rem;
+    //   border-radius: .16rem;
+    //   background: #FFFFFF;
+    // }
+
+    // .item:nth-child(even) {
+    //   margin-right: 0;
+    // }
     .item .img-bg {
       width: 100%;
       background: #FAF9F9;
@@ -214,5 +243,22 @@
       text-overflow: ellipsis;
     }
 
+    /*样式二*/
+    .content-style2 {
+      .class-content {
+        position: relative;
+        width: 7.5rem;
+      }
+
+      .item {
+        position: absolute;
+        background: #FFFFFF;
+        border-radius: .16rem;
+
+        .name {
+          height: auto;
+        }
+      }
+    }
   }
 }

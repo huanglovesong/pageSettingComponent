@@ -10,24 +10,27 @@ export default class ClassificationBox extends Component {
   };
   constructor(props) {
     super(props);
+    let fontSize = parseFloat(getComputedStyle(window.document.documentElement)['font-size'].replace('px', ''));
+    console.log(fontSize, 888)
     this.state = {
       activeTab: 0,
       goodList: [],
       tabs: [],
-      tabsHtml: [],
+      tabsStyle2Html: [],
       clickTabBarIndex: 0,
+      fontSize,
     };
   }
   componentDidMount() {
     const { item } = this.props;
     // 页面边距
-    let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+    let { pageMargin, displayStyle } = item.modelStyle.classStyleModel;
     let tabBarEle = document.querySelector(".am-tabs-tab-bar-wrap");
     if (tabBarEle) {
       tabBarEle.style.paddingLeft = `${pageMargin / 50}rem`;
       tabBarEle.style.paddingRight = `${pageMargin / 50}rem`;
     }
-    if (!item.displayStyle) {
+    if (displayStyle && displayStyle === 'style2') {
       item.moduleDataList[0] &&
         this.renderContentStyle2(item.moduleDataList[0], 0);
     }
@@ -54,8 +57,8 @@ export default class ClassificationBox extends Component {
         {priceArr.length === 2 ? (
           <span className="middle-font">.{priceArr[1]}</span>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </Fragment>
     );
   };
@@ -74,19 +77,17 @@ export default class ClassificationBox extends Component {
   getTabsHeader = () => {
     const { clickTabBarIndex } = this.state;
     const { item } = this.props;
-    const tabsHtmlArr = [];
+    const tabsStyle2HtmlArr = [];
     item.moduleDataList.map((item, index) => {
-      tabsHtmlArr.push(
+      tabsStyle2HtmlArr.push(
         <div
-          className={`tab-bar-item ${
-            clickTabBarIndex === index ? "active-color" : ""
-          }`}
+          className={`tab-bar-item ${clickTabBarIndex === index ? "active-color" : ""
+            }`}
           onClick={() => this.renderContentStyle2(item, index)}
         >
           <img
             src={
-              item.bannerUrl ||
-              "https://fulu-mall.oss-cn-hangzhou.aliyuncs.com/2231e6df559c4efd94d994e9e6ad250a.png"
+              item.bannerUrl
             }
           />
           <span className="tab-bar-item-text">
@@ -95,7 +96,7 @@ export default class ClassificationBox extends Component {
         </div>
       );
     });
-    return tabsHtmlArr;
+    return tabsStyle2HtmlArr;
   };
   getTabs = () => {
     const { item } = this.props;
@@ -109,14 +110,15 @@ export default class ClassificationBox extends Component {
     });
     return tabs;
   };
-  renderContent = (tabsItem) => {
-    const tabsHtml = [];
+  // 样式一
+  renderContentStyle1 = (tabsItem) => {
+    console.log(tabsItem, 9999888);
     const { item } = this.props;
     // 商品间距
     let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
     // 页面边距
     let pageMargin = item.modelStyle.classStyleModel.pageMargin;
-
+    let { imageSource } = item.modelStyle.classStyleModel;
     // 商品高度
     let len =
       tabsItem.dataDetailCacheModels.length % 2 === 0
@@ -137,12 +139,122 @@ export default class ClassificationBox extends Component {
     const { clickTabBarIndex } = this.state;
     console.log(clickTabBarIndex, 99999);
     let nowHtml = (
-      <div style={{ display: "flex" }}>
-        {/* <div className="class-content" style={{ height: productHeight }}> */}
+      <div style={{ display: "flex" }} className="content-style1">
+        <div
+          className="class-content clearfix"
+          style={{ ...style1 }}
+          key={clickTabBarIndex}
+        >
+          {tabsItem.dataDetailCacheModels.map((item, index) => (
+            <div
+              className="item"
+              key={index}
+              onClick={() => {
+                this.toDetail(item.childCategoryId, item.productId);
+              }}
+            >
+              <span style={{ ...style }}>
+                <div class="img-bg">
+                  {item.cornerMark && (
+                    <div class="right-tips">{item.cornerMark}</div>
+                  )}
+                  <img
+                    src={
+                      imageSource && imageSource === "product"
+                        ? item.productImage
+                        : item.iconPath
+                    }
+                  />
+                </div>
+                <div class="name">{item.childCategoryName}</div>
+                <div className="status-content">
+                  {item.isCouponAfterPrice && item.couponBatchid && (
+                    <div className="discount-price-img"></div>
+                  )}
+                </div>
+                <div className="price">
+                  {item.integral && <span>{item.integral}积分+</span>}
+                  <span className="middle-font">￥</span>
+                  {this.getPrice(item)}
+                  {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
+                  {this.getDelPrice(item)}
+                </div>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+    return nowHtml;
+  };
+  waterFlow = (clickTabBarIndex = '') => {
+    setTimeout(() => {
+      const { item } = this.props;
+      const { fontSize } = this.state;
+      // 因为下面else计算高度的地方PageMargin 需要通过rem的转换得出真正的数值
+      let afterChangePageMargin = mathManage.accDiv(item.modelStyle.classStyleModel.pageMargin, mathManage.accDiv(100, fontSize));
+      // 商品间距
+      let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
+      // 页面边距
+      let pageMargin = item.modelStyle.classStyleModel.pageMargin / 2;
+      console.log(productMargin, pageMargin, 222211);
+      let id = `class-content`;
+      // 1- 确定列数  = 页面的宽度 / 图片的宽度
+      var itemWidth = 165;
+      var items = document.getElementById(id).children;
+      if (!items.length) {
+        document.getElementById(id).style.height = "0rem";
+      }
+      var columns = 2;
+      var arr = [];
+
+      for (let i = 0; i < items.length; i++) {
+        if (i < columns) {
+          // 2- 确定第一行
+          items[i].style.top = 0;
+          items[i].style.left = ((itemWidth + pageMargin) * i + pageMargin * 2) / 50 + "rem";
+          arr.push(items[i].offsetHeight);
+          document.getElementById(id).style.height =
+            (items[i].offsetHeight + pageMargin) / 50 + "rem";
+        } else {
+          // 其他行
+          // 3- 找到数组中最小高度  和 它的索引
+          var minHeight = arr[0];
+          var index = 0;
+          for (var j = 0; j < arr.length; j++) {
+            if (minHeight > arr[j]) {
+              minHeight = arr[j];
+              index = j;
+            }
+          }
+          // 4- 设置下一行的第一个盒子位置
+          // top值就是最小列的高度 + gap
+          items[i].style.top = (arr[index] + afterChangePageMargin) / fontSize + "rem";
+          // left值就是最小列距离左边的距离
+          items[i].style.left = items[index].style.left;
+          if (i === items.length - 1) {
+            document.getElementById(id).style.height =
+              (arr[index] + afterChangePageMargin) / fontSize + (items[i].offsetHeight + afterChangePageMargin) / fontSize + "rem";
+          }
+          // 5- 修改最小列的高度
+          // 最小列的高度 = 当前自己的高度 + 拼接过来的高度 + 间隙的高度
+          arr[index] = arr[index] + items[i].offsetHeight + 9;
+        }
+      }
+    }, 800);
+
+  }
+  getContentStyle2Dom = (tabsItem, clickTabBarIndex) => {
+    console.log(tabsItem, 9999888);
+    const { item } = this.props;
+    let { imageSource } = item.modelStyle.classStyleModel;
+    console.log(clickTabBarIndex, 99999);
+    let nowHtml = (
+      <div style={{ display: "flex" }} className="content-style2">
         <QueueAnimFulu type="left">
           <div
             className="class-content clearfix"
-            style={{ ...style1 }}
+            id="class-content"
             key={clickTabBarIndex}
           >
             {tabsItem.dataDetailCacheModels.map((item, index) => (
@@ -153,19 +265,23 @@ export default class ClassificationBox extends Component {
                   this.toDetail(item.childCategoryId, item.productId);
                 }}
               >
-                <span style={{ ...style }}>
+                <span>
                   <div class="img-bg">
                     {item.cornerMark && (
                       <div class="right-tips">{item.cornerMark}</div>
                     )}
-                    <img src={item.iconPath} />
+                    <img
+                      src={
+                        imageSource && imageSource === "product"
+                          ? item.productImage
+                          : item.iconPath
+                      }
+                    />
                   </div>
                   <div class="name">{item.childCategoryName}</div>
-                  <div className="status-content">
-                    {item.isCouponAfterPrice && item.couponBatchid && (
-                      <div className="discount-price-img"></div>
-                    )}
-                  </div>
+                  {item.isCouponAfterPrice && item.couponBatchid && (<div className="status-content">
+                    <div className="discount-price-img"></div>
+                  </div>)}
                   <div className="price">
                     {item.integral && <span>{item.integral}积分+</span>}
                     <span className="middle-font">￥</span>
@@ -181,7 +297,7 @@ export default class ClassificationBox extends Component {
       </div>
     );
     return nowHtml;
-  };
+  }
   // 如果是样式二
   renderContentStyle2 = (tabsItem, clickTabBarIndex) => {
     this.setState(
@@ -189,10 +305,12 @@ export default class ClassificationBox extends Component {
         clickTabBarIndex,
       },
       () => {
-        let nowHtml = this.renderContent(tabsItem, clickTabBarIndex);
-        let tabsHtml = [];
-        tabsHtml.push(nowHtml);
-        this.setState({ tabsHtml });
+        let nowHtml = this.getContentStyle2Dom(tabsItem, clickTabBarIndex);
+        let tabsStyle2Html = [];
+        tabsStyle2Html.push(nowHtml);
+        this.setState({ tabsStyle2Html }, () => {
+          this.waterFlow();
+        });
       }
     );
   };
@@ -218,11 +336,11 @@ export default class ClassificationBox extends Component {
       // };
       // 由于pc端和移动端组件不同，所以代码实现方式有调整，没有直接改classification-box，而是加载页面的时候调整样式
       const { displayStyle } = item.modelStyle.classStyleModel;
-      const { tabsHtml } = this.state;
+      const { tabsStyle2Html } = this.state;
       return (
         <div class="classification-box clearfix">
           {displayStyle === "style2" && (
-            <Fragment>
+            <div className="class-content2">
               <div className="tab-bar-header" style={{ ...style1 }}>
                 <div
                   className="tab-bar-header-content clearfix"
@@ -231,10 +349,11 @@ export default class ClassificationBox extends Component {
                   {this.getTabsHeader()}
                 </div>
               </div>
-              {tabsHtml}
-            </Fragment>
+              {tabsStyle2Html}
+            </div>
           )}
           {(!displayStyle || displayStyle === "style1") && (
+
             <Tabs
               swipeable={false}
               tabs={this.getTabs()}
@@ -242,7 +361,9 @@ export default class ClassificationBox extends Component {
                 <Tabs.DefaultTabBar {...props} page={4} />
               )}
             >
-              {this.renderContent}
+              {/* <div className="content-style1"> */}
+              {this.renderContentStyle1}
+              {/* </div> */}
             </Tabs>
           )}
         </div>
