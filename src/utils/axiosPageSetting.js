@@ -62,64 +62,7 @@ axios.interceptors.request.use(config => {
 });
 
 
-function isLoginOrAuth() {
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : ''
-  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : ''
-  // 游客模式、联登模式 并且没有登陆
-  if (!(userInfo && userInfo.fuluToken) && shopInfo.merInfoTemplates.visitType != 3) {
-    let payType = mathManage.isAlipayOrWechat();
-    var backUrl = window.location.pathname + window.location.search;
-    if (payType === 0 || payType === 1) {
-      // 微信/支付宝授权
-      window.location.href = configs.commonUrl + '?codeKey=' + shopInfo.codeKey + '&backUrl=' + encodeURIComponent(backUrl);
-      return false;
-    } else {
-      // 浏览器环境 游客模式
-      if (shopInfo.merInfoTemplates.visitType === 2) {
-        //window.location.href = `/login?uri=${encodeURI(window.location.href)}`
-        return false;
-      } else {
-        // 第三方登录
-        let userid = localStorage.getItem('userid')
-        let accesstoken = localStorage.getItem('accesstoken')
-        let uur = `${configs.commonUrl}?codeKey=${shopInfo.codeKey}&backUrl=${encodeURIComponent(backUrl)}`;
-        if (userid) {
-          uur = uur + `&userid=${userid}`;
-        }
-        if (accesstoken) {
-          uur = uur + `&accesstoken=${accesstoken}`;
-        }
-        window.location.href = uur;
-        return false;
-      }
-    }
-  } else {
-    return true;
-  }
-}
-
 axios.interceptors.response.use(response => {
-  // console.log('【response】', response);
-  // 2xx 进入
-  // const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : '';
-
-  // if (response.data && response.data.code === '-2') {
-  //   window.location.href = '/nothing';
-  // } else if (response.data.code === '-3' || response.data.code === '1013' || response.data.code === '1014' || response.data.code === '1015') {
-  //   //详情页、订单页接口单独做处理 弹窗需要添加
-  //   const detailApiUrl = ['/api/Order/SendOrder', '/api/Order/SendCardOrder', '/api/Product/GetPassCode',
-  //     '/api/Product/GetPassCodeStatus', '/api/Order/GetOrderList', '/api/Order/GetOrderDetail'];
-  //   let detailFlag = detailApiUrl.some((item) => {
-  //     return response.config.url.indexOf(item) !== -1;
-  //   });
-  //   // 如果不是详情页
-  //   if (!detailFlag) {
-  //     let userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
-  //     userInfo.fuluToken = '';
-  //     localStorage.setItem("userInfo", JSON.stringify(userInfo));
-  //     isLoginOrAuth()
-  //   }
-  // }
   return response;
 }, error => {
   // console.log('【response error】', error);

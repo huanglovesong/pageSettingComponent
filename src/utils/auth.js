@@ -7,6 +7,8 @@ function authorizationFailure(that) {
   const { userInfo } = that.state;
   userInfo.fuluToken = '';
   localStorage.setItem("userInfo", JSON.stringify(userInfo));
+  sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+  localStorage.setItem("fuluToken", '');
   that.setState({
     userInfo
   }, () => {
@@ -15,7 +17,8 @@ function authorizationFailure(that) {
 }
 // 详情页针对授权失效单独处理
 function isLoginOrAuth(that) {
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : ''
+  let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
+  const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {};
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : ''
   // 游客模式、联登模式 并且没有登陆
   if (!(userInfo && userInfo.fuluToken) && shopInfo.merInfoTemplates.visitType != 3) {
@@ -71,9 +74,6 @@ function isLoginOrAuth(that) {
 }
 // 授权失效 authKey用于标识唯一组件
 function authorizationFailurePageSetting(that) {
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}
-  userInfo.fuluToken = '';
-  localStorage.setItem("fuluToken", '');
   isLoginOrAuthPageSetting(that);
 }
 
@@ -105,6 +105,8 @@ function isLoginOrAuthPageSetting(that) {
   let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
   const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
+  userInfo.fuluToken = '';
+  localStorage.setItem("fuluToken", '');
   // 游客模式、联登模式 并且没有登陆
   if (!(userInfo && userInfo.fuluToken) && shopInfo.merInfoTemplates.visitType != 3) {
     let payType = mathManage.isAlipayOrWechat();
@@ -226,7 +228,8 @@ function isLoginOrAuthPageSetting(that) {
         else if (shopInfo.codeKey.toLowerCase() === (configs.CGBank ? configs.CGBank.toLowerCase() : '')
           || shopInfo.codeKey.toLowerCase() === (configs.PhoneCGBank ? configs.PhoneCGBank.toLowerCase() : '')
           || shopInfo.codeKey.toLowerCase() === (configs.FlowCGBank ? configs.FlowCGBank.toLowerCase() : '')) {
-          let cgBankInfo = localStorage.getItem('cgBankInfo') ? JSON.parse(localStorage.getItem('cgBankInfo')) : ''
+          let cgBankInfo = localStorage.getItem('cgBankInfo') ? JSON.parse(localStorage.getItem('cgBankInfo')) : '';
+
           //alert(localStorage.getItem('cgBankInfo') + 'cgBankInfomall');
           let codeKey = shopInfo.codeKey.toLowerCase();
           // 如果已经拿到shoppingID则去换用户信息

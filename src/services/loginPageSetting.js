@@ -2,14 +2,14 @@ import axios from '../utils/axiosPageSetting';
 import Api from '../configs/api';
 
 export function decryptInfo(params) {
-    return axios.get(configs.openAPI + Api.decryptInfo, { params });
+    return axios.post(configs.openAPI + Api.decryptInfo, params);
 }
 export function phoneDecrypt(params) {
-    return axios.get(configs.openAPI + Api.phoneDecrypt, { params });
+    return axios.post(configs.openAPI + Api.phoneDecrypt, params);
 }
 
 export function flowDecrypt(params) {
-    return axios.get(configs.openAPI + Api.flowDecrypt, { params });
+    return axios.post(configs.openAPI + Api.flowDecrypt, params);
 }
 
 export function getCode(params) {

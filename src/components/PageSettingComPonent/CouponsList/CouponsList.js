@@ -37,7 +37,6 @@ class CouponsList extends Component {
                         merCouponActivityId: item.merCouponId
                     }
                 }).then(res => {
-                    debugger
                     const { code, data, message } = res;
                     if (code === '1000') {
                         this.setState({
@@ -216,8 +215,7 @@ class CouponsList extends Component {
                 <Tabs
                     swipeable={false}
                     tabs={this.getTabs()}
-                    tabBarStyle={{ paddingLeft: 0, paddingRight: 0 }}
-                    tabBarUnderlineStyle={{ border: '.04rem solid red' }}
+                    tabBarUnderlineStyle={{ border: `1px solid ${couponFontColor}` }}
                     tabBarBackgroundColor={navigationColor}
                     tabBarActiveTextColor={couponFontColor}
                     tabBarInactiveTextColor={'#999999'}

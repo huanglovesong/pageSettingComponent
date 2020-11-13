@@ -145,18 +145,18 @@ function isLoginOrAuth() {
         return false;
       } else {
         // 第三方登录
-        let userid = localStorage.getItem("userid");
-        let accesstoken = localStorage.getItem("accesstoken");
-        let uur = `${configs.commonUrl}?codeKey=${
-          shopInfo.codeKey
-        }&backUrl=${encodeURIComponent(backUrl)}`;
-        if (userid) {
-          uur = uur + `&userid=${userid}`;
-        }
-        if (accesstoken) {
-          uur = uur + `&accesstoken=${accesstoken}`;
-        }
-        window.location.href = uur;
+        // let userid = localStorage.getItem("userid");
+        // let accesstoken = localStorage.getItem("accesstoken");
+        // let uur = `${configs.commonUrl}?codeKey=${
+        //   shopInfo.codeKey
+        // }&backUrl=${encodeURIComponent(backUrl)}`;
+        // if (userid) {
+        //   uur = uur + `&userid=${userid}`;
+        // }
+        // if (accesstoken) {
+        //   uur = uur + `&accesstoken=${accesstoken}`;
+        // }
+        // window.location.href = uur;
         return false;
       }
     }
@@ -200,7 +200,6 @@ axios.interceptors.response.use(
           : {};
         userInfo.fuluToken = "";
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        isLoginOrAuth();
       }
     }
     return response.data;
