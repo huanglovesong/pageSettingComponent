@@ -22,11 +22,14 @@ export function touristlogin(params) {
 export function fuluusertoken(params) {
     return axios.post(configs.openAPI + Api.fuluusertoken, params);
 }
-
+// 银联
 export function getUnionOpenId(params) {
-    return axios.post(configs.openAPI + Api.getUnionOpenId, params);
+    return axios.get(configs.openAPI + Api.getUnionOpenId, { params });
 }
-
+export function getUnionConfig(params) {
+    return axios.post(configs.openAPI + Api.getUnionConfig, params);
+}
+// 平安
 export function pinanLogin(params) {
     return axios.get(configs.openAPI + Api.pinanLogin, { params });
 }

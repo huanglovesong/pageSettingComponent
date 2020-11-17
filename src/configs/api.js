@@ -13,8 +13,9 @@ export default {
 
     getCode: '/api/Other/Verificationcode', // 发送验证码
     touristlogin: '/api/Other/Touristlogincode', // 验证验证码
+    //云闪付openId
     getUnionOpenId: '/api/UnPay/GetUnPayOpenId',
-
+    getUnionConfig: '/api/UnPay/GetUpsdkConfig',//初始化参数
 
     //平安银行授权
     pinanLogin: '/api/Pingan/PinganLogin',

@@ -74,6 +74,17 @@ export default {
           getUnionOpenIdRes: result,
         },
       });
+      return result
+    },
+    *getUnionConfig({ payload }, { call, put }) {
+      const result = yield call(loginPageSetting.getUnionConfig, payload);
+      yield put({
+        type: 'success',
+        payload: {
+          getUnionConfig: result,
+        },
+      });
+      return result
     },
     *fuluusertoken({ payload }, { call, put }) {
       const result = yield call(loginPageSetting.fuluusertoken, payload);
@@ -83,6 +94,7 @@ export default {
           fuluusertoken: result,
         },
       });
+      return result
     },
     *getCode({ payload }, { call, put }) {
       const result = yield call(loginPageSetting.getCode, payload);
@@ -92,6 +104,7 @@ export default {
           getCode: result,
         },
       });
+      return result
     },
     *touristlogin({ payload }, { call, put }) {
       const result = yield call(loginPageSetting.touristlogin, payload);
@@ -101,6 +114,7 @@ export default {
           touristlogin: result,
         },
       });
+      return result
     },
   },
   reducers: {

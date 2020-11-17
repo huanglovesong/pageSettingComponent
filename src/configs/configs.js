@@ -26,5 +26,7 @@ var configs = {
   CGBank: 'jADEoWQG',   // 广发银行
   PhoneCGBank: 'qh8n102x',//广发话费
   FlowCGBank: 'G4w66p53',//广发流量
+  UnionPay: 'aL5Mr3D5',//云闪付
+  UnionPayAppId: 'cdfc42b6a3364150a636f7a0a510827a'//云闪付APPID
   // codeIdFuluIdAndToken: ['jADEoWQG'], // 广告跳转需要添加fuluid和token的商户
 };

@@ -40,8 +40,16 @@ class PageSettingComPonent extends React.Component {
                 // 授权的组件索引
                 componentIndex: '',
             },
-            pageId: mathManage.getParam('pageId')
+            pageId: this.getPageId('pageId')
         }
+    }
+    getPageId = (pageId) => {
+        const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
+        // 如果是云闪付
+        if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+            return mathManage.geturl(window.location.href.split('?')[1], pageId);
+        }
+        return mathManage.getParam(pageId)
     }
     // componentWillMount() {
 
@@ -62,7 +70,7 @@ class PageSettingComPonent extends React.Component {
     componentWillReceiveProps(nextProps) {
         const { props } = this;
         const { pageSetting: { getPageResult } } = nextProps;
-        let pageId = mathManage.getParam('pageId');
+        let pageId = this.getPageId('pageId');
         console.log(props, 8888)
         // 如果路由的pageId发生变化则重新请求页面信息,并且是频道页才会做查询
         if (pageId !== this.state.pageId && props.history.location.pathname === '/channel') {

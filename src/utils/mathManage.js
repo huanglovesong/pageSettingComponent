@@ -246,5 +246,24 @@ export default {
       }
     }
     return ([day, hour, min, second]);
+  },
+  geturl(url, key) {
+    //兼容从云闪付回来拿参数
+    var thisurl = url.split('&')[0];
+    var urlArr = thisurl.split('|');
+    var str = '';
+    for (var i = 0; i < urlArr.length; i++) {
+      if (urlArr[i].split('*')[0] == key) {
+        str = urlArr[i].split('*')[1];
+        break;
+      } else if (urlArr[i].split('=')[0] == key) {
+        str = urlArr[i].split('=')[1];
+        break;
+      }
+    }
+    if (!str) {
+      return this.getParam(key);
+    }
+    return str;
   }
 }

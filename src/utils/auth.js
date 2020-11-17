@@ -102,9 +102,13 @@ var loginType = {
 // 详情页针对授权失效单独处理,authKey用于标识唯一组件
 function isLoginOrAuthPageSetting(that) {
   // 获取localStorage和sessionStorage，因为有的项目用的localStorage，有的项目用的sessionStorage
-  let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
-  const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
+  let userInfoStr = localStorage.getItem('userInfo');
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
+  // 云闪付使用的sessionStorage
+  if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+    userInfoStr = sessionStorage.getItem('userInfo');
+  }
+  const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
   userInfo.fuluToken = '';
   localStorage.setItem("fuluToken", '');
   // 游客模式、联登模式 并且没有登陆
@@ -133,8 +137,68 @@ function isLoginOrAuthPageSetting(that) {
       }
       // 第三方登录
       else {
+        //('云闪付需要通过UnionPayCode获取用户信息所以代码提前')
+        if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+          //是否存在UnionPayCode如果存在说明是登录跳转过来的
+          if (sessionStorage.getItem('UnionPayCode') !== 'null' && sessionStorage.getItem('UnionPayCode')) {
+            //alert(sessionStorage.getItem('UnionPayCode'))
+            that.props.dispatch({
+              type: 'loginPageSetting/getUnionOpenId', payload: {
+                par: sessionStorage.getItem('UnionPayCode').replace(/\+/g, "%2B")
+              }
+            }).then((resOpenId) => {
+              const { code, data, message } = resOpenId;
+              if (code === '1000') {
+                sessionStorage.setItem('userInfo', JSON.stringify(data));
+                sessionStorage.setItem('UnionPayCode', '');
+                //window.history.back();
+                that.props.dispatch({
+                  type: 'loginPageSetting/getUnionConfig', payload: {
+                    debug: false,
+                    url: window.location.href
+                  }
+                }).then((res) => {
+                  const { code, data, message } = res;
+                  if (code === '1000') {
+                    // 成功调用成功操作
+                    that.loginSuccess(resOpenId.data);
+                    //初始化支付config
+                    upsdk.config({
+                      appId: data.appId,
+                      nonceStr: data.nonceStr,
+                      signature: data.signature,
+                      timestamp: data.timestamp,//必填，生成签名的摘要，参见附录一、附录二
+                      debug: true   //开发阶段可打开此标记，云闪付APP会将调试信息toast出来
+                    });
+                    upsdk.ready(function () {
+                      //设置标题
+                      upsdk.setNavigationBarTitle({
+                        title: shopInfo.merInfoTemplates.infoTitle
+                      });
+                    });
+                    upsdk.error(function (err) {
+                      //config信息验证失败会执行error方法
+                      Toast.fail(err)
+                    });
+                  } else {
+                    Toast.fail(message);
+                  }
+                })
+              } else {
+                Toast.fail(message);
+              }
+            })
+          }
+          // 否则进行联登
+          else {
+            //联登方法
+            var REDIRECTURI = `${window.location.href.split('?')[0]}?codeid*${shopInfo.codeKey}|${window.location.href.split('?')[1] && window.location.href.split('?')[1].replace(/\&/g, '|').replace(/\=/g, '*')}`;
+            const phonetype = mathManage.getPhoneType();
+            window.location.href = `https://open.95516.com/s/open/html/oauth.html?appId=${configs.UnionPayAppId}&redirectUri=${phonetype === '1' ? REDIRECTURI : encodeURI(REDIRECTURI)}&responseType=code&scope=upapi_base`
+          }
+        }
         // 用户已经登录但是授权失效统一走我们用户授权，否则走对应的第三方登录逻辑
-        if (userInfo.fuluId && !userInfo.fuluToken) {
+        else if (userInfo.fuluId && !userInfo.fuluToken) {
           fuluusertoken(that, userInfo);
         }
         // 平安银行
@@ -198,32 +262,7 @@ function isLoginOrAuthPageSetting(that) {
             window.top.location.href = urlStr;
           }
         }
-        //('云闪付')
-        else if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
-          //是否存在UnionPayCode如果存在说明是登录跳转过来的
-          if (sessionStorage.getItem('UnionPayCode') !== 'null' && sessionStorage.getItem('UnionPayCode')) {
-            //alert(sessionStorage.getItem('UnionPayCode'))
-            that.props.dispatch({
-              type: 'loginPageSetting/getUnionOpenId', payload: {
-                par: sessionStorage.getItem('UnionPayCode')
-              }
-            }).then((res) => {
-              const { code, data } = res;
-              if (code === '1000') {
-                fuluusertoken(that, data);
-              } else {
-                Toast.fail(message);
-              }
-            })
-          }
-          // 否则进行联登
-          else {
-            //联登方法
-            var REDIRECTURI = `${window.location.href.split('?')[0]}?codeid=${shopInfo.codeKey}|${window.location.href.split('?')[1].replace('&', '|')}`;
-            const phonetype = mathManage.getPhoneType();
-            window.location.href = `https://open.95516.com/s/open/auth/outApp/html/outLogin.html?appId=4834a619bebc4912a63ee4145deeed4a&redirectUri=${phonetype === 1 ? REDIRECTURI : encodeURI(REDIRECTURI)}&responseType=code&scope=upapi_base`
-          }
-        }
+
         // 广发银行、话费、流量
         else if (shopInfo.codeKey.toLowerCase() === (configs.CGBank ? configs.CGBank.toLowerCase() : '')
           || shopInfo.codeKey.toLowerCase() === (configs.PhoneCGBank ? configs.PhoneCGBank.toLowerCase() : '')

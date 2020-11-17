@@ -12,8 +12,15 @@ let fromPlatform = mathManage.getDeviceType();
 
 function getUrl(config) {
   config.headers.fromPlatform = mathManage.getDeviceType();
-  const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
-  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
+
+  const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
+  // 获取localStorage和sessionStorage，因为有的项目用的localStorage，有的项目用的sessionStorage
+  let userInfoStr = localStorage.getItem('userInfo');
+  // 云闪付使用的sessionStorage
+  if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+    userInfoStr = sessionStorage.getItem('userInfo');
+  }
+  const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
   const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
   // 获取数组是否在url里有
   const openUrl = findIndex(openApiUrl, function (item) {
