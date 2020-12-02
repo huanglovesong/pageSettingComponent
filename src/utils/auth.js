@@ -104,8 +104,11 @@ function isLoginOrAuthPageSetting(that) {
   // 获取localStorage和sessionStorage，因为有的项目用的localStorage，有的项目用的sessionStorage
   let userInfoStr = localStorage.getItem('userInfo');
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
-  // 云闪付使用的sessionStorage
-  if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+  // 云闪付、平安app、农行使用的sessionStorage
+  if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '') ||
+    shopInfo.codeKey.toLowerCase() === (configs.pingAn ? configs.pingAn.toLowerCase() : '') ||
+    shopInfo.codeKey.toLowerCase() === (configs.CloudPan ? configs.CloudPan.toLowerCase() : '') ||
+    shopInfo.codeKey.toLowerCase() === (configs.aqiy ? configs.aqiy.toLowerCase() : '')) {
     userInfoStr = sessionStorage.getItem('userInfo');
   }
   const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
@@ -168,7 +171,7 @@ function isLoginOrAuthPageSetting(that) {
                       nonceStr: data.nonceStr,
                       signature: data.signature,
                       timestamp: data.timestamp,//必填，生成签名的摘要，参见附录一、附录二
-                      debug: true   //开发阶段可打开此标记，云闪付APP会将调试信息toast出来
+                      debug: false   //开发阶段可打开此标记，云闪付APP会将调试信息toast出来
                     });
                     upsdk.ready(function () {
                       //设置标题
@@ -204,21 +207,54 @@ function isLoginOrAuthPageSetting(that) {
         // 平安银行
         else if (configs.pingAn && shopInfo.codeKey.toLowerCase() === configs.pingAn.toLowerCase()) {
           //alert('平安银行联登');
-          var state = mathManage.randomString(32);
-          //进行第三方授权
-          pabank.login({
-            bizContent: {
-              state: state
-            }, success: function (res) {
-              //alert(JSON.stringify(res))
+          // 如果当前页面不是自己授权，则走我的授权逻辑
+          const { isSelfAuth } = that.props;
+          if (!isSelfAuth) {
+            var state = mathManage.randomString(32);
+            //进行第三方授权
+            pabank.login({
+              bizContent: {
+                state: state
+              }, success: function (res) {
+                //alert(JSON.stringify(res))
+                that.props.dispatch({
+                  type: 'loginPageSetting/pinanLogin',
+                  payload: {
+                    authCode: res.authCode,
+                    state: state
+                  }
+                }).then((res) => {
+                  const { code, data, message } = res;
+                  if (code === '1000') {
+                    // 使用登录成功后续动作
+                    that.loginSuccess(data);
+                  } else {
+                    Toast.fail(message);
+                  }
+                })
+              }
+            })
+          }
+        }
+        //农业银行
+        else if (configs.CloudPan && shopInfo.codeKey.toLowerCase() === configs.CloudPan.toLowerCase() ||
+          configs.aqiy && codeid.toLowerCase() === configs.aqiy.toLowerCase()) {
+          // 是否是自己授权
+          const { isSelfAuth } = that.props;
+          // 如果当前页面不是自己授权，则走我的授权逻辑
+          if (!isSelfAuth) {
+            let panCode = GetQueryString('code');
+            // 如果有code值，说明是农业银行登录链接跳转过来返回的code，直接去换fuluId和fuluToken
+            if (panCode) {
+              // 区分爱奇艺和网盘调用对应的授权接口
+              let type = shopInfo.codeKey.toLowerCase() === configs.aqiy.toLowerCase() ? 'loginPageSetting/ablogin' : 'loginPageSetting/panlogin';
               that.props.dispatch({
-                type: 'loginPageSetting/pinanLogin',
-                payload: {
-                  authCode: res.authCode,
-                  state: state
+                type: type, payload: {
+                  Aabccode: panCode,
+                  redirectUri: shopInfo.merInfoTemplates.urlAddress
                 }
               }).then((res) => {
-                const { code, data, message } = res;
+                const { code, data } = res;
                 if (code === '1000') {
                   // 使用登录成功后续动作
                   that.loginSuccess(data);
@@ -227,39 +263,14 @@ function isLoginOrAuthPageSetting(that) {
                 }
               })
             }
-          })
-        }
-        //农业银行
-        else if (configs.CloudPan && shopInfo.codeKey.toLowerCase() === configs.CloudPan.toLowerCase() ||
-          configs.aqiy && codeid.toLowerCase() === configs.aqiy.toLowerCase()) {
-          let panCode = GetQueryString('code');
-          // 如果有code值，说明是农业银行登录链接跳转过来返回的code，直接去换fuluId和fuluToken
-          if (panCode) {
-            // 区分爱奇艺和网盘调用对应的授权接口
-            let type = shopInfo.codeKey.toLowerCase() === configs.aqiy.toLowerCase() ? 'loginPageSetting/ablogin' : 'loginPageSetting/panlogin';
-            that.props.dispatch({
-              type: type, payload: {
-                Aabccode: panCode,
-                redirectUri: shopInfo.merInfoTemplates.urlAddress
-              }
-            }).then((res) => {
-              const { code, data } = res;
-              if (code === '1000') {
-                // 使用登录成功后续动作
-                that.loginSuccess(data);
-              } else {
-                Toast.fail(message);
-              }
-            })
-          }
-          // 如果没有则去跳转农行登录授权
-          else {
-            //alert('农业银行联登')
-            let redirect_uri = shopInfo.merInfoTemplates.urlAddress;
-            let client_id = 'c21e204f-a3b8-4615-944d-00065d0dc2b1';
-            let state = mathManage.randomString(6);
-            let urlStr = `https://www.abchina.com/luascript/oauthLogin/{\"client_id\":\"${client_id}\",\"redirect_uri\":\"${redirect_uri}\",\"state\":\"${state}\",\"scope\":\"openid\",\"response_type\":\"code\"}`;
-            window.top.location.href = urlStr;
+            // 如果没有则去跳转农行登录授权
+            else {
+              let redirect_uri = shopInfo.merInfoTemplates.urlAddress;
+              let client_id = shopInfo.codeKey.toLowerCase() === configs.CloudPan.toLowerCase() ? '9a87cdd8-a376-4110-b2a5-be69b46bb6db' : 'c21e204f-a3b8-4615-944d-00065d0dc2b1';
+              let state = mathManage.randomString(6);
+              let urlStr = `https://www.abchina.com/luascript/oauthLogin/{\"client_id\":\"${client_id}\",\"redirect_uri\":\"${redirect_uri}\",\"state\":\"${state}\",\"scope\":\"openid\",\"response_type\":\"code\"}`;
+              window.top.location.href = urlStr;
+            }
           }
         }
 

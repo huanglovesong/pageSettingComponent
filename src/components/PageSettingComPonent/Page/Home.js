@@ -41,7 +41,8 @@ class PageSettingComPonent extends React.Component {
                 componentIndex: '',
             },
             pageId: this.getPageId('pageId')
-        }
+        };
+        this.timer = null;
     }
     getPageId = (pageId) => {
         const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
@@ -63,6 +64,8 @@ class PageSettingComPonent extends React.Component {
     //     }
     // }
     componentWillMount() {
+        // 将child传递给this.props.onRef()方法
+        this.props.onRef && this.props.onRef(this);
         this.getPage();
         // 页面加载埋点
         pageLoadPoin.pageLoad('首页');
@@ -72,6 +75,12 @@ class PageSettingComPonent extends React.Component {
         const { pageSetting: { getPageResult } } = nextProps;
         let pageId = this.getPageId('pageId');
         console.log(props, 8888)
+        // 自定义页面授权成功
+        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid &&
+            nextProps.pageSetting.componentIndex === 1000) {
+            // 如果是自定义页面授权成功（例如优惠券需要做用户联登）1000是标识，成功之后重新获取页面信息
+            this.getPage();
+        }
         // 如果路由的pageId发生变化则重新请求页面信息,并且是频道页才会做查询
         if (pageId !== this.state.pageId && props.history.location.pathname === '/channel') {
             this.setState({
@@ -81,12 +90,25 @@ class PageSettingComPonent extends React.Component {
             })
         }
         if (getPageResult !== props.pageSetting.getPageResult) {
+
             const { code, data, message } = getPageResult;
             if (code === '0') {
                 return this.setState({
                     allInfo: data
                 })
-            } else {
+            } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
+                // true是预览页面
+                const { disableClick } = this.props;
+                this.setState({
+                    allInfo: data
+                })
+                // 如果不是预览页面
+                if (!disableClick) {
+                    // 自定义页面接口授权失效重新授权
+                    return this.authorizationFailurePageSetting(1000);
+                }
+            }
+            else {
                 Toast.info(message);
             }
         }
@@ -167,7 +189,7 @@ class PageSettingComPonent extends React.Component {
             // 券列表
             else if (item.moduleType === 'couponsList') {
                 arr.push(<CouponsList item={item} history={this.props.history} componentIndex={index}
-                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} getPage={this.getPage} />)
             }
             // 券包
             else if (item.moduleType === 'couponsPackage') {

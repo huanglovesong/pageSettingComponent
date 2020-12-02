@@ -16,8 +16,12 @@ function getUrl(config) {
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
   // 获取localStorage和sessionStorage，因为有的项目用的localStorage，有的项目用的sessionStorage
   let userInfoStr = localStorage.getItem('userInfo');
-  // 云闪付使用的sessionStorage
-  if (shopInfo.codeKey.toLowerCase() === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '')) {
+  let codeKey = shopInfo.codeKey ? shopInfo.codeKey.toLowerCase() : '';
+  // 云闪付、平安app、农行使用的sessionStorage
+  if (codeKey === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '') ||
+    codeKey === (configs.pingAn ? configs.pingAn.toLowerCase() : '') ||
+    codeKey === (configs.CloudPan ? configs.CloudPan.toLowerCase() : '') ||
+    codeKey === (configs.aqiy ? configs.aqiy.toLowerCase() : '')) {
     userInfoStr = sessionStorage.getItem('userInfo');
   }
   const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}

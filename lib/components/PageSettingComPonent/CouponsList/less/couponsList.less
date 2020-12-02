@@ -12,12 +12,17 @@
     }
 
     .content-style1 {
-      margin-top: .24rem;
+      margin-top: .19rem;
     }
 
     .am-tabs-default-bar-content {
       // margin-left: .36rem;
       // margin-right: .36rem;
+    }
+
+    .am-tabs-default-bar-nextpage,
+    .am-tabs-default-bar-prevpage {
+      background: transparent !important;
     }
 
     .am-tabs-tab-bar-wrap {
@@ -41,10 +46,15 @@
       letter-spacing: .012rem;
       text-overflow: ellipsis;
       padding-left: .36rem;
+      border-bottom: none;
     }
 
     .am-tabs-default-bar-tab-active {
       font-weight: 600;
+    }
+
+    .am-tabs-default-bar-top .am-tabs-default-bar-tab:after {
+      display: none;
     }
 
     .am-tabs-default-bar-underline {
@@ -71,6 +81,17 @@
     .item {
 
       margin-bottom: .1rem;
+      position: relative;
+
+      .has-receive {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url('../imgs/hasReceive.png');
+        width: .92rem;
+        height: .86rem;
+        background-size: cover;
+      }
 
       &:last-child {
         margin-bottom: 0;

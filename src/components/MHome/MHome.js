@@ -16,7 +16,7 @@ class Home extends React.Component {
    }
    render() {
       return (
-         <MyHome history={this.props.history} pageType={1} />
+         <MyHome history={this.props.history} pageType={1} isSelfAuth onRef={(child) => this.child = child} />
       )
    }
 }

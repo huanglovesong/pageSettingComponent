@@ -17,6 +17,10 @@ import Exchange from './components/PageSettingComPonent/BusinessComponent/Exchan
 import TouristLogin from './components/PageSettingComPonent/BusinessComponent/TouristLogin';
 import RichText from './components/PageSettingComPonent/RichText';
 
+
+import CouponsList from './components/PageSettingComPonent/CouponsList';
+import CouponsPackage from './components/PageSettingComPonent/CouponsPackage';
+
 import pageSetting from './models/pageSetting';
 import loginPageSetting from './models/loginPageSetting';
 import exchangePageSetting from './models/exchange';
@@ -37,6 +41,8 @@ export {
   Exchange,
   TouristLogin,
   RichText,
+  CouponsPackage,
+  CouponsList,
   // models
   pageSetting,
   loginPageSetting,

@@ -14,18 +14,31 @@ class CouponsList extends Component {
         super(props);
         this.state = {
             merCouponId: '',
-            activeInfo: {}
+            activeInfo: {},
+            // 当前选中的选项卡
+            clickTabBarIndex: 0,
+            // 点击的优惠券索引
+            couponIndex: 0,
+            item: props.item,
         };
     }
     componentWillReceiveProps(nextProps) {
-
+        if (nextProps.item !== this.state.item) {
+            this.setState({
+                item: nextProps.item
+            })
+        }
         // 如果是登录成功，找到对应组件authKey进行接下来的步骤
-        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && this.props.componentIndex === nextProps.pageSetting.componentIndex) {
-            console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
-            this.getCouponFn();
+        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && (nextProps.pageSetting.componentIndex || nextProps.pageSetting.componentIndex === 0)) {
+            // 如果是点击立即领取
+            if (this.props.componentIndex === nextProps.pageSetting.componentIndex) {
+                console.log(this.props.componentIndex, nextProps.pageSetting.componentIndex)
+                this.getCouponFn();
+            }
         }
     }
-    cardActivityOvered = (item) => {
+
+    cardActivityOvered = (item, couponIndex) => {
         // 如果用户没有领取过
         if (item.isUserReceive) {
             this.setState({
@@ -40,7 +53,8 @@ class CouponsList extends Component {
                     const { code, data, message } = res;
                     if (code === '1000') {
                         this.setState({
-                            activeInfo: data
+                            activeInfo: data,
+                            couponIndex
                         }, () => {
                             this.getCouponFn();
                         });
@@ -70,7 +84,7 @@ class CouponsList extends Component {
         }
     }
     getCouponFn = () => {
-        const { merCouponId } = this.state;
+        let { merCouponId, item, clickTabBarIndex, couponIndex } = this.state;
         this.props.dispatch({
             type: 'pageSetting/ObtainCard',
             payload: {
@@ -79,15 +93,20 @@ class CouponsList extends Component {
         }).then((res) => {
             let { code, data, message } = res;
             if (code === '1000') {
+                console.log(item, 1111)
                 Toast.info('领取成功', 2);
-                const _this = this;
-                setTimeout(() => {
-                    _this.jumpTo(data)
-                }, 1500)
+                if (item.moduleDataList[clickTabBarIndex] && item.moduleDataList[clickTabBarIndex].couponDataList[couponIndex]) {
+                    item.moduleDataList[clickTabBarIndex].couponDataList[couponIndex].isReceive = true;
+                    item.moduleDataList[clickTabBarIndex].couponDataList[couponIndex].isUserReceive = false;
+                    this.setState({
+                        item
+                    })
+                }
             } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
                 const { componentIndex } = this.props;
                 this.props.authorizationFailurePageSetting(componentIndex);
-            } else {
+            }
+            else {
                 Toast.info(message);
             }
         });
@@ -122,7 +141,7 @@ class CouponsList extends Component {
         this.props.history.push(url);
     }
     getTabs = () => {
-        const { item } = this.props;
+        const { item } = this.state;
         const tabs = [];
         item.moduleDataList.map((item, index) => {
             tabs.push({
@@ -135,8 +154,7 @@ class CouponsList extends Component {
     };
     // 样式一
     renderContentStyle1 = (tabsItem) => {
-        console.log(tabsItem, 9999888);
-        const { item } = this.props;
+        const { item } = this.state;
         // 商品间距
         let productMargin = item.modelStyle.couponsListStyleModel.productMargin / 2;
         // 页面边距
@@ -155,7 +173,6 @@ class CouponsList extends Component {
             paddingRight: `${pageMargin / 50}rem`,
         };
         const { clickTabBarIndex } = this.state;
-        console.log(clickTabBarIndex, 99999);
         let nowHtml = (
             <div style={{ display: "flex" }} className="content-style1">
                 <div
@@ -165,6 +182,8 @@ class CouponsList extends Component {
                 >
                     {tabsItem.couponDataList.map((couponDataListItem, index) => (
                         <div className={`item  ${couponDataListItem.isReceive ? 'receieve-item' : 'disable-item'}`}>
+                            {/*去使用添加logo*/}
+                            {couponDataListItem.isReceive && !couponDataListItem.isUserReceive && <div className="has-receive"></div>}
                             <div className="float-left item-img-content">
                                 <div className="title">{couponDataListItem.name}</div>
                                 <div className="coupon-product">
@@ -186,7 +205,7 @@ class CouponsList extends Component {
                                 </div>
                                 {/*isReceive:true:还有库存 isUserReceive:true:用户未领取*/}
                                 {couponDataListItem.isReceive ?
-                                    couponDataListItem.isUserReceive ? <div className={"get-coupon"} style={{ background: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem)}>
+                                    couponDataListItem.isUserReceive ? <div className={"get-coupon"} style={{ background: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem, index)}>
                                         立即领取</div> :
                                         <div className={"use-coupon"} style={{ border: `2px solid ${couponFontColor}`, color: couponFontColor }} onClick={() => this.cardActivityOvered(couponDataListItem)}>
                                             去使用
@@ -202,8 +221,13 @@ class CouponsList extends Component {
         );
         return nowHtml;
     };
+    onTabClick = (tab, index) => {
+        this.setState({
+            clickTabBarIndex: index
+        })
+    }
     render() {
-        const { item } = this.props;
+        const { item } = this.state;
         let { couponFontColor, navigationColor } = item.modelStyle.couponsListStyleModel || {};
         let len = item.moduleDataList.length;
         // 如果没有moduleDataList则隐藏
@@ -219,7 +243,10 @@ class CouponsList extends Component {
                     tabBarBackgroundColor={navigationColor}
                     tabBarActiveTextColor={couponFontColor}
                     tabBarInactiveTextColor={'#999999'}
-
+                    renderTabBar={(props) => (
+                        <Tabs.DefaultTabBar {...props} page={4} />
+                    )}
+                    onTabClick={this.onTabClick}
                 >
                     {this.renderContentStyle1}
                 </Tabs>
