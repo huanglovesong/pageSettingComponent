@@ -236,7 +236,7 @@ class PageSettingComPonent extends React.Component {
         const { disableClick } = this.props;
         return (
             <div className={`main-bg ${disableClick && 'point-events-none'}`} id="mainBgId">
-                <div className="page-setting-content" style={{ background: allInfo.backgroud }}>
+                <div className="page-setting-content" style={{ background: allInfo.backgroud, minHeight: '100vh' }}>
                     {this.getCom()}
                 </div>
                 {allInfo.isPopup && <ActiveModal history={this.props.history} allInfo={allInfo} disableClick={disableClick} hideModal={this.hideModal} />}

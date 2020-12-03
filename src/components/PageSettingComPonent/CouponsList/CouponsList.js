@@ -190,7 +190,7 @@ class CouponsList extends Component {
                                     {couponDataListItem.couponProductInfoList && couponDataListItem.couponProductInfoList.map((item) => (
                                         <div className="img-content float-left">
                                             <img src={item.productImage} />
-                                            <div className="price">¥ {item.price}</div>
+                                            <div className="price">¥<span className="price-text">{item.price}</span></div>
                                         </div>
                                     ))}
                                 </div>
