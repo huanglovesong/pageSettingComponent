@@ -241,7 +241,7 @@ export default class ClassificationBox extends Component {
           arr[index] = arr[index] + items[i].offsetHeight + 9;
         }
       }
-    }, 800);
+    }, 350);
 
   }
   getContentStyle2Dom = (tabsItem, clickTabBarIndex) => {
