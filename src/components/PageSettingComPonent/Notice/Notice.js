@@ -5,7 +5,8 @@ class Notice extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      noticeArr: []
+      noticeArr: [],
+      showDeleteIcon: true,
     };
   }
   componentDidMount() {
@@ -55,27 +56,48 @@ class Notice extends React.Component {
     e.preventDefault();
     e.stopPropagation()
   }
+  deleteInfo = () => {
+    this.setState({
+      showDeleteIcon: false
+    })
+  }
+  toUrl = (linkurl) => {
+    linkurl && (window.location.href = linkurl);
+  }
   render() {
     const { item } = this.props;
     let pagePadding = item.modelStyle.noticeStyleModel.pageMargin;
-    let bgcolor = item.modelStyle.noticeStyleModel.background;
-    let textColor = item.modelStyle.noticeStyleModel.textColor;
-    let textDataLong = item.moduleDataList[0].textDataLong;
+    const { textColor, bottomMargin, topMargin, jumpStyle } = item.modelStyle.noticeStyleModel;
+    const { textDataLong, linkurl } = item.moduleDataList[0];
     const style1 = {
       paddingLeft: `${pagePadding / 50}rem`, paddingRight: `${pagePadding / 50}rem`,
-      color: textColor
+      color: textColor, // 兼容之前的和现在的数据。由于新增了topMargin和bottomMargin，所以进行兼容
+      paddingTop: `${(topMargin === null ? 5 : topMargin) / 50}rem`, paddingBottom: `${(bottomMargin === null ? 5 : bottomMargin) / 50}rem`
     };
+    const { showDeleteIcon } = this.state;
+    if (!showDeleteIcon) {
+      return '';
+    }
     return (
-      <div className="notice-box" style={{ ...style1 }}>
+      <div className="notice-box clearfix" style={{ ...style1 }}>
         <div className="marquee-content" ref="marqueeContentId" onClick={this.clickNotice}>
           <div className="notice-bar-icon">
-            {textDataLong ? <img src={textDataLong} /> : <Icon type="voice" />}
+            {textDataLong ? <img src={textDataLong} /> :
+              <img src={require('../imgs/tips.png')} />}
+            {/*右箭头*/}
+            {jumpStyle === 'rightIco' && <Icon type="right" className="tips-icon right-ico"
+              style={{ position: 'absolute', right: `18px` }} onClick={() => this.toUrl(linkurl)} />}
+            {/*右关闭*/}
+            {jumpStyle === 'closeIco' &&
+              <img src={require('../imgs/close.png')} style={{ position: 'absolute', right: `18px`, cursor: 'pointer' }}
+                onClick={this.deleteInfo} />
+            }
           </div>
-          <div ref="scroll_div" className="scroll_div" style={{ width: `${(750 - pagePadding * 4 - 50) / 100}rem` }}>
-            <div ref="scroll_begin"  className="scroll_begin">
+          <div ref="scroll_div" className="scroll_div" style={{ width: `6.5rem` }}>
+            <div ref="scroll_begin" className="scroll_begin">
               {this.setMarquee().map(item => <span class="pad_right">{item}</span>)}
             </div>
-            <div ref="scroll_end"  className="scroll_end"></div>
+            <div ref="scroll_end" className="scroll_end"></div>
           </div>
         </div>
         {/* <NoticeBar marqueeProps={{ loop: true, leading: 1000, trailing: 2000, style: { color: textColor, background: bgcolor } }} >

@@ -51,6 +51,11 @@ export default class ClassificationBox extends Component {
         ? item.couponAfterPrice
         : item.price;
     let priceArr = price ? price.toString().split(".") : [];
+    if (!priceArr.length)
+      return <Fragment>
+        <span className="big-font">0</span>
+        <span className="middle-font">.00</span>
+      </Fragment>
     return (
       <Fragment>
         <span className="big-font">{priceArr[0]}</span>
@@ -62,7 +67,7 @@ export default class ClassificationBox extends Component {
       </Fragment>
     );
   };
-  getDelPrice = (item) => {
+  getMarketPrice = (item) => {
     let price =
       item.isCouponAfterPrice && item.couponBatchid
         ? item.couponAfterPrice
@@ -72,8 +77,10 @@ export default class ClassificationBox extends Component {
     if (price > faceValue) {
       return "";
     }
-    return <s className="del-price">￥{item.faceValue}</s>;
-  };
+    return <div className="market-price">
+      <span className="market-price-text small-font">市场价 ￥{item.faceValue}</span>
+    </div>;
+  }
   getTabsHeader = () => {
     const { clickTabBarIndex } = this.state;
     const { item } = this.props;
@@ -116,6 +123,7 @@ export default class ClassificationBox extends Component {
     const { item } = this.props;
     // 商品间距
     let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
+    const isClass = imageSource && imageSource === "product" ? false : true;
     // 页面边距
     let pageMargin = item.modelStyle.classStyleModel.pageMargin;
     let { imageSource } = item.modelStyle.classStyleModel;
@@ -128,7 +136,7 @@ export default class ClassificationBox extends Component {
     const style = {
       margin: `${productMargin / 50}rem`,
       display: "inline-block",
-      // width: '100%'
+      width: '100%'
     };
     const style1 = {
       marginLeft: `-${productMargin / 50}rem`,
@@ -155,10 +163,8 @@ export default class ClassificationBox extends Component {
             >
               <span style={{ ...style }}>
                 <div class="img-bg">
-                  {item.cornerMark && (
-                    <div class="right-tips">{item.cornerMark}</div>
-                  )}
                   <img
+                    className={isClass ? 'class-img' : 'product-img'}
                     src={
                       imageSource && imageSource === "product"
                         ? item.productImage
@@ -166,18 +172,21 @@ export default class ClassificationBox extends Component {
                     }
                   />
                 </div>
-                <div class="name">{item.childCategoryName}</div>
-                <div className="status-content">
-                  {item.isCouponAfterPrice && item.couponBatchid && (
-                    <div className="discount-price-img"></div>
-                  )}
+                <div className="name">
+                  {item.cornerMark && <span className="corner-mark">{item.cornerMark}</span>}
+                  {item.childCategoryName}
                 </div>
                 <div className="price">
-                  {item.integral && <span>{item.integral}积分+</span>}
-                  <span className="middle-font">￥</span>
-                  {this.getPrice(item)}
-                  {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
-                  {this.getDelPrice(item)}
+                  <div className="sale-price">
+                    {/* {item.integral && <span>{item.integral}积分+</span>} */}
+                    <span className="small">￥</span>
+                    {/* {item.price} */}
+                    {this.getPrice(item)}
+                    {item.isCouponAfterPrice && item.couponBatchid && (
+                      <span className="discount-price-img"></span>
+                    )}
+                  </div>
+                  {this.getMarketPrice(item)}
                 </div>
               </span>
             </div>
@@ -191,19 +200,22 @@ export default class ClassificationBox extends Component {
     setTimeout(() => {
       const { item } = this.props;
       const { fontSize } = this.state;
+      // 1- 确定列数  = 页面的宽度 / 图片的宽度
+      var itemWidth = 163.5;
+      const nowProductMargin = 12;
       // 因为下面else计算高度的地方PageMargin 需要通过rem的转换得出真正的数值
-      let afterChangePageMargin = mathManage.accDiv(item.modelStyle.classStyleModel.pageMargin, mathManage.accDiv(100, fontSize));
+      let afterChangePageMargin = mathManage.accDiv(nowProductMargin * 2, mathManage.accDiv(100, fontSize));
       // 商品间距
       let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
       // 页面边距
       let pageMargin = item.modelStyle.classStyleModel.pageMargin / 2;
       console.log(productMargin, pageMargin, 222211);
+
       let id = `class-content`;
-      // 1- 确定列数  = 页面的宽度 / 图片的宽度
-      var itemWidth = 165;
-      var items = document.getElementById(id) ? document.getElementById(id).children : [];
-      if (!items.length) {
-        document.getElementById(id).style.height = "0rem";
+      let dom = document.getElementById(id);
+      var items = dom ? dom.children : [];
+      if (!items.length && dom) {
+        dom.style.height = "0rem";
       }
       var columns = 2;
       var arr = [];
@@ -212,9 +224,9 @@ export default class ClassificationBox extends Component {
         if (i < columns) {
           // 2- 确定第一行
           items[i].style.top = 0;
-          items[i].style.left = ((itemWidth + pageMargin) * i + pageMargin * 2) / 50 + "rem";
+          items[i].style.left = ((itemWidth + nowProductMargin) * i + pageMargin * 2) / 50 + "rem";
           arr.push(items[i].offsetHeight);
-          document.getElementById(id).style.height =
+          dom.style.height =
             (items[i].offsetHeight + pageMargin) / 50 + "rem";
         } else {
           // 其他行
@@ -233,12 +245,12 @@ export default class ClassificationBox extends Component {
           // left值就是最小列距离左边的距离
           items[i].style.left = items[index].style.left;
           if (i === items.length - 1) {
-            document.getElementById(id).style.height =
+            dom.style.height =
               (arr[index] + afterChangePageMargin) / fontSize + (items[i].offsetHeight + afterChangePageMargin) / fontSize + "rem";
           }
           // 5- 修改最小列的高度
           // 最小列的高度 = 当前自己的高度 + 拼接过来的高度 + 间隙的高度
-          arr[index] = arr[index] + items[i].offsetHeight + 9;
+          arr[index] = arr[index] + items[i].offsetHeight + nowProductMargin;
         }
       }
     }, 350);
@@ -248,6 +260,7 @@ export default class ClassificationBox extends Component {
     console.log(tabsItem, 9999888);
     const { item } = this.props;
     let { imageSource } = item.modelStyle.classStyleModel;
+    const isClass = imageSource && imageSource === "product" ? false : true;
     console.log(clickTabBarIndex, 99999);
     let nowHtml = (
       <div style={{ display: "flex" }} className="content-style2">
@@ -265,31 +278,32 @@ export default class ClassificationBox extends Component {
                   this.toDetail(item.childCategoryId, item.productId);
                 }}
               >
-                <span>
-                  <div class="img-bg">
-                    {item.cornerMark && (
-                      <div class="right-tips">{item.cornerMark}</div>
-                    )}
-                    <img
-                      src={
-                        imageSource && imageSource === "product"
-                          ? item.productImage
-                          : item.iconPath
-                      }
-                    />
-                  </div>
-                  <div class="name">{item.childCategoryName}</div>
-                  {item.isCouponAfterPrice && item.couponBatchid && (<div className="status-content">
-                    <div className="discount-price-img"></div>
-                  </div>)}
-                  <div className="price">
-                    {item.integral && <span>{item.integral}积分+</span>}
-                    <span className="middle-font">￥</span>
+                <div class="img-bg">
+                  <img
+                    className={isClass ? 'class-img' : 'product-img'}
+                    src={
+                      imageSource && imageSource === "product"
+                        ? item.productImage
+                        : item.iconPath
+                    }
+                  />
+                </div>
+                <div className="name">
+                  {item.cornerMark && <span className="corner-mark">{item.cornerMark}</span>}
+                  {item.childCategoryName}
+                </div>
+                <div className="price">
+                  <div className="sale-price">
+                    {/* {item.integral && <span>{item.integral}积分+</span>} */}
+                    <span className="small">￥</span>
+                    {/* {item.price} */}
                     {this.getPrice(item)}
-                    {/* {item.isCouponAfterPrice && item.couponBatchid ? item.couponAfterPrice : item.price} */}
-                    {this.getDelPrice(item)}
+                    {item.isCouponAfterPrice && item.couponBatchid && (
+                      <span className="discount-price-img"></span>
+                    )}
                   </div>
-                </span>
+                  {this.getMarketPrice(item)}
+                </div>
               </div>
             ))}
           </div>
@@ -323,11 +337,14 @@ export default class ClassificationBox extends Component {
       // 商品间距
       // let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
       // 页面边距
-      let pageMargin = item.modelStyle.classStyleModel.pageMargin;
+
+      const { pageMargin, topMargin, bottomMargin } = item.modelStyle.classStyleModel;
       const style1 = {
         paddingLeft: `${pageMargin / 50}rem`,
         paddingRight: `${pageMargin / 50}rem`,
       };
+      console.log(style1, 222)
+      const style = { paddingTop: `${(topMargin === null ? 15 : topMargin) / 50}rem`, paddingBottom: `${bottomMargin / 50}rem` }
       // const style1 = {
       //   marginLeft: `-${productMargin / 50}rem`,
       //   marginRight: `-${productMargin / 50}rem`,
@@ -338,7 +355,7 @@ export default class ClassificationBox extends Component {
       const { displayStyle } = item.modelStyle.classStyleModel;
       const { tabsStyle2Html } = this.state;
       return (
-        <div class="classification-box clearfix">
+        <div class="classification-box clearfix" style={style}>
           {displayStyle === "style2" && (
             <div className="class-content2">
               <div className="tab-bar-header" style={{ ...style1 }}>

@@ -8,10 +8,11 @@ export default class RichText extends Component {
   }
   getCom = () => {
     const { item } = this.props;
-    let pagePadding = item.modelStyle.richTextStyleModel.pageMargin;
     let content = item.moduleDataList[0].textDataLong;
+    const { pageMargin, topMargin, bottomMargin } = item.modelStyle.richTextStyleModel;
     const style1 = {
-      paddingLeft: `${pagePadding}px`, paddingRight: `${pagePadding}px`
+      paddingLeft: `${pageMargin}px`, paddingRight: `${pageMargin}px`,
+      paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`,
     };
     console.log(item, 12312)
     return <div className="rich-text-box clearfix" style={{ ...style1 }}>

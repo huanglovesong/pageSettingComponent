@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import mathManage from '../../../utils/mathManage';
 import './less/imageText.less';
 export default class ImageTextBox extends Component {
     static propTypes = {
@@ -22,17 +23,19 @@ export default class ImageTextBox extends Component {
         // 如果需要页面跳转添加fuluId和token
         let flag = configs.codeIdFuluIdAndToken ? configs.codeIdFuluIdAndToken.some(item => item.toLowerCase() === shopInfo.codeKey.toLowerCase()) : false;
         let { linkurl } = v;
-        if (flag) {
-            // 如果存在?符号
-            if (linkurl.indexOf('?') !== -1) {
-                linkurl = `${linkurl}${fuluId ? '&fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+        if (linkurl) {
+            if (flag) {
+                // 如果存在?符号
+                if (linkurl.indexOf('?') !== -1) {
+                    linkurl = `${linkurl}${fuluId ? '&fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+                }
+                // 如果不存在
+                else {
+                    linkurl = `${linkurl}${fuluId ? '?fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+                }
             }
-            // 如果不存在
-            else {
-                linkurl = `${linkurl}${fuluId ? '?fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
-            }
+            window.location.href = linkurl;
         }
-        window.open(linkurl, '_blank')
     }
     getCom = () => {
         const { item } = this.props;
@@ -45,11 +48,17 @@ export default class ImageTextBox extends Component {
             </div>
         }
         else {
-            const { background, textColor, rowNum, isSlide } = item.modelStyle.imageTextStyleModel;
-            let width = 100 / rowNum;
-            let nowWidth = 365 / rowNum;
-
-            return <div className="image-text-box clearfix" style={{ background: background, overflowX: isSlide ? 'scroll' : 'inherit' }}>
+            const { background, textColor, rowNum, isSlide, topMargin, bottomMargin } = item.modelStyle.imageTextStyleModel;
+            // 金刚区间距
+            let obj = { 3: 72, 4: 36, 5: 18 };
+            let allWidth = mathManage.Subtr(375, obj[rowNum] * 2);
+            let nowWidth = allWidth / rowNum;
+            const style = {
+                background: background, overflowX: isSlide ? 'scroll' : 'inherit',
+                padding: `0px ${(obj[rowNum]) / 50}rem`,
+                paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`,
+            };
+            return <div className="image-text-box clearfix" style={style}>
                 <div className="image-text-box-content clearfix" style={{ width: isSlide ? `${(nowWidth * len + 10) / 50}rem` : '7.3rem' }}>
                     {item.moduleDataList.map((item) =>
                         <div class="item" style={{ width: `${nowWidth / 50}rem` }} onClick={() => this.toBanner(item)}>

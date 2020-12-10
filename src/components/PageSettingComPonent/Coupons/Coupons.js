@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import { Toast } from 'antd-mobile';
@@ -108,10 +108,9 @@ class Coupons extends Component {
         // 判断是否选中的是当前组件
         if (len) {
             let customEle = [];
-            const template = item.modelStyle.couponStyleModel.template;
             let margin = item.modelStyle.couponStyleModel.imageClearance / 2;
-            let pagePadding = item.modelStyle.couponStyleModel.pageMargin || 0;
-            let nowStyle = item.modelStyle.couponStyleModel.displayStyle;
+
+            const { displayStyle, pageMargin, template, topMargin, bottomMargin, } = item.modelStyle.couponStyleModel;
             const style = {
                 margin: `${margin}px`,
                 display: 'inline-block',
@@ -119,13 +118,15 @@ class Coupons extends Component {
             const style1 = {
                 // marginLeft: `-${margin}px`,
                 // marginRight: `-${margin}px`,
+                paddingTop: `${topMargin / 50}rem`,
+                paddingBottom: `${bottomMargin / 50}rem`,
                 paddingLeft: `18px`,
                 paddingRight: `18px`,
 
             };
             if (template === 'one') {
                 customEle = item.moduleDataList.map((item) =>
-                    <div className={`coupons-box-img ${template}-module ${template}-module-${nowStyle} float-left`}
+                    <div className={`coupons-box-img ${template}-module ${template}-module-${displayStyle} float-left`}
                         onClick={() => this.cardActivityOvered(item.relationId)}>
                         <div className="price-content-one">
                             <span className="small-font">￥</span>
@@ -136,7 +137,7 @@ class Coupons extends Component {
             }
             else if (template === 'two') {
                 customEle = item.moduleDataList.map((item) =>
-                    <div className={`coupons-box-img ${template}-module ${template}-module-${nowStyle} float-left`}
+                    <div className={`coupons-box-img ${template}-module ${template}-module-${displayStyle} float-left`}
                         onClick={() => this.cardActivityOvered(item.relationId)}>
                         <div className="price-content">
                             <span className="small-font">￥</span>
@@ -147,14 +148,14 @@ class Coupons extends Component {
             }
             // 一行多个
             else if (template === 'three') {
-                let oneWidth = (375 - pagePadding + margin * 2) / 3;
+                let oneWidth = (375 - pageMargin + margin * 2) / 3;
                 console.log(oneWidth, 2222)
                 customEle =
                     <div style={{ overflowX: template === 'three' ? 'scroll' : 'inherit' }}>
                         <div className="coupons-box-content clearfix" style={{ width: `${115.5 * len - 8}px` }}>
                             {
                                 item.moduleDataList.map((item) =>
-                                    <div className={`coupons-box-img ${template}-module ${template}-module-${nowStyle} float-left`}
+                                    <div className={`coupons-box-img ${template}-module ${template}-module-${displayStyle} float-left`}
                                         style={{ width: `${107.5}px` }} onClick={() => this.cardActivityOvered(item.relationId)}>
                                         <div className="price-content">
                                             <span className="small-font">￥</span>

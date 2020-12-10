@@ -95,8 +95,10 @@ export default class ActiveModal extends Component {
             >
                 <div className="active-modal-content">
                     <img className="active-modal-content-img" src={allInfo.popupDetail.imagePath} />
-                    <div className="active-modal-close-top" onClick={this.props.hideModal}></div>
-                    <div className={`active-modal-close-bottom `} onClick={this.props.hideModal} onClick={this.toPage}></div>
+                    <div className="btn-get" onClick={this.toPage}></div>
+                    <div className="active-modal-close-bottom" onClick={this.props.hideModal}>
+                        <div className="popup-close"></div>
+                    </div>
                 </div>
             </Modal>
         )

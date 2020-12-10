@@ -24,17 +24,19 @@ export default class BannerShufflingBox extends Component {
     // 如果需要页面跳转添加fuluId和token
     let flag = configs.codeIdFuluIdAndToken ? configs.codeIdFuluIdAndToken.some(item => item.toLowerCase() === shopInfo.codeKey.toLowerCase()) : false;
     let { linkurl } = v;
-    if (flag) {
-      // 如果存在?符号
-      if (linkurl.indexOf('?') !== -1) {
-        linkurl = `${linkurl}${fuluId ? '&fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+    if (linkurl) {
+      if (flag) {
+        // 如果存在?符号
+        if (linkurl.indexOf('?') !== -1) {
+          linkurl = `${linkurl}${fuluId ? '&fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+        }
+        // 如果不存在
+        else {
+          linkurl = `${linkurl}${fuluId ? '?fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
+        }
       }
-      // 如果不存在
-      else {
-        linkurl = `${linkurl}${fuluId ? '?fuluId=' + fuluId : ''}${fuluToken ? '&fuluToken=' + fuluToken : ''}`;
-      }
+      window.location.href = linkurl;
     }
-    window.open(linkurl, '_blank')
   }
   getCom = () => {
     const { item } = this.props;
@@ -48,14 +50,15 @@ export default class BannerShufflingBox extends Component {
       </div>
     }
     else {
-      let { pageMargin = 0, isHideText } = item.modelStyle.bannerRollStyleModel;
+      let { pageMargin = 0, isHideText, topMargin = 0, bottomMargin = 0, imageChamfer, borderRadius } = item.modelStyle.bannerRollStyleModel;
       const style = {
 
         boxShadow: item.modelStyle.bannerRollStyleModel.imageStyle === 'Projection' ? 'rgba(47,54,70,0.1) 0px 0px .2rem' : '',
-        padding: `0px ${pageMargin / 50}rem`
+        padding: `0px ${pageMargin / 50}rem`,
+        paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`
       };
-      return <div className="banner-shuffling-box" style={{ ...style }}>
-        <Carousel autoplay infinite>
+      return <div className="banner-shuffling-box clearfix" style={{ ...style }}>
+        <Carousel autoplay infinite >
           {item.moduleDataList.map((nowItem) => {
             return <li style={{ width: '100%' }}>
               <a
@@ -69,7 +72,7 @@ export default class BannerShufflingBox extends Component {
                   className="banner-shuffling-box-img"
                   style={{
                     width: '100%', verticalAlign: 'top',
-                    borderRadius: item.modelStyle.bannerRollStyleModel.imageChamfer === 'fillet' ? '.16rem' : '0px',
+                    borderRadius: borderRadius === null ? '.16rem' : `${borderRadius / 50}rem`,
                   }}
 
                 />

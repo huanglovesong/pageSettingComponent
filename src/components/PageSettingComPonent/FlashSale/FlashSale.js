@@ -1,5 +1,5 @@
 import React from 'react';
-import Icons, { arrowRight } from '../Icon';
+import { Icon } from 'antd-mobile';
 import './less/flashSale.less';
 
 class FlashSale extends React.Component {
@@ -17,15 +17,16 @@ class FlashSale extends React.Component {
       return '';
     }
     else {
-      let { isCountDown, titleStyle, nameColor, priceColor, isSmallImage } = item.modelStyle.flashSaleStyleModel;
+      let { isCountDown, titleStyle, nameColor, priceColor, isSmallImage, topMargin, bottomMargin, borderRadius } = item.modelStyle.flashSaleStyleModel;
       const nameStyle = {
         color: nameColor
       };
       const priceStyle = {
         color: priceColor
       };
+      const style = { paddingTop: `${topMargin / 50}rem`, paddingBottom: `${(bottomMargin === null ? 5 : bottomMargin) / 50}rem` }
       const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
-      return <div className="flash-sale-box clearfix">
+      return <div className="flash-sale-box clearfix" style={style}>
         <div className="goods-bg">
           <div className="pro-list">
             <div className="title">
@@ -33,15 +34,17 @@ class FlashSale extends React.Component {
             </div>
             <span class="go-more">
               <span onClick={() => { this.toList('active') }}>{item.moduleDataList[0].textData}</span>
-              <Icons glyph={arrowRight} />
+              <Icon type="right" />
             </span>
           </div>
           <div className="page-section">
             {item.moduleDataList[0] && <div className="list list1"
               style={{ width: `${(item.moduleDataList[0].dataDetailCacheModels.length * 130) / 50}rem` }}>
               {item.moduleDataList[0].dataDetailCacheModels.map((item) =>
-                <div className="scroll-div-item_H item" onClick={() => { this.toDetail(item.childCategoryId, item.productId) }}>
-                  <img className="pro-img" src={item.produuctIconPath} />
+                <div className="scroll-div-item_H item" style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
+                  onClick={() => { this.toDetail(item.childCategoryId, item.productId) }}>
+                  <img className="pro-img" src={item.produuctIconPath}
+                    style={{ borderRadius: borderRadius === null ? `0.16rem 0.16rem 0 0` : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }} />
                   <div className="info">
                     {/* {isSmallImage && <img src={item.iconPath} />} */}
                     <div className="g-info">

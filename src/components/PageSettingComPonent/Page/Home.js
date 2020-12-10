@@ -7,6 +7,8 @@ import Classification from '../Classification';
 import FlashSale from '../FlashSale';
 import ImageText from '../ImageText';
 import Notice from '../Notice';
+import RichText from '../RichText';
+
 import Coupons from '../Coupons';
 import CouponsList from '../CouponsList';
 import CouponsPackage from '../CouponsPackage';
@@ -177,7 +179,11 @@ class PageSettingComPonent extends React.Component {
             else if (item.moduleType === 'imageText') {
                 arr.push(<ImageText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
-            // 图文导航
+            // 公告
+            else if (item.moduleType === 'richText') {
+                arr.push(<RichText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
+            }
+            // 公告
             else if (item.moduleType === 'notice') {
                 arr.push(<Notice item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }

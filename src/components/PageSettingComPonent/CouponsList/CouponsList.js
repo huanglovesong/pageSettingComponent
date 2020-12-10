@@ -228,14 +228,17 @@ class CouponsList extends Component {
     }
     render() {
         const { item } = this.state;
-        let { couponFontColor, navigationColor } = item.modelStyle.couponsListStyleModel || {};
+        let { couponFontColor, navigationColor, topMargin, bottomMargin, } = item.modelStyle.couponsListStyleModel || {};
         let len = item.moduleDataList.length;
+        const style = {
+            paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`,
+        };
         // 如果没有moduleDataList则隐藏
         if (!len) {
             return ''
         }
         return (
-            <div class="coupons-list-box clearfix">
+            <div class="coupons-list-box clearfix" style={style}>
                 <Tabs
                     swipeable={false}
                     tabs={this.getTabs()}

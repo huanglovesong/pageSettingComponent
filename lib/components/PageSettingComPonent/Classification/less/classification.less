@@ -6,7 +6,7 @@
     // display: flex;
     width: 7.5rem;
     flex-wrap: wrap;
-    margin-top: .3rem;
+    // margin-top: .3rem;
 
     .tab-bar-header {
       height: .72rem;
@@ -48,32 +48,18 @@
       }
     }
 
-    .tab-bar-header::-webkit-scrollbar //滚动条整体部分
-
-      {
-      height: .12rem;
-      background-color: #f7f8fa;
-      display: none;
-    }
-
-
-    .tab-bar-header::-webkit-scrollbar-thumb //scroll轨道背景
-
-      {
-      -webkit-box-shadow: inset 0 0 .12rem gray;
-      border-radius: .2rem;
-      background-color: gray;
-
-    }
 
     .content-style1 {
       .item {
         // width: 50%;
         float: left;
-        margin-right: .2rem;
-        margin-bottom: .2rem;
+        margin-right: .24rem;
+        margin-bottom: .24rem;
         border-radius: .16rem;
         background: #FFFFFF;
+        width: 3.27rem;
+        height: 3.84rem;
+        padding-bottom: .24rem;
       }
 
       .item:nth-child(even) {
@@ -97,91 +83,142 @@
     // }
     .item .img-bg {
       width: 100%;
+      height: 1.96rem;
+
       background: #FAF9F9;
       text-align: center;
       border-radius: .16rem;
       position: relative;
       font-size: 0rem;
-    }
 
-    .item .img-bg img {
-      width: 3.29rem;
-      height: 2.58rem;
-      border-radius: .16rem .16rem 0 0;
+      .class-img {
+        // width: 100%;
+        width: 1.4rem;
+        height: 1.4rem;
+        margin-top: .28rem;
+      }
+
+      .product-img {
+        // width: 100%;
+        width: 3.27rem;
+        height: 1.96rem;
+      }
     }
 
     .item .name {
       white-space: pre-wrap;
-      font-size: .28rem;
-      font-weight: 500;
       color: #333;
       text-align: left;
-      height: .64rem;
-      line-height: .32rem;
-      width: 2.96rem;
       text-overflow: ellipsis;
       display: -webkit-box;
       overflow: hidden;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
-      margin: .2rem 0rem 0rem .2rem;
-    }
 
-    .item .status-content {
-      height: .28rem;
-      margin-top: .1rem;
 
-      .discount-price-img {
-        margin-left: .2rem;
-        width: .84rem;
+      margin: .18rem .12rem .12rem;
+      width: 3.04rem;
+      height: .64rem;
+      font-size: .28rem;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #333333;
+      line-height: .32rem;
+
+      .corner-mark {
+        padding: 0px .08rem;
         height: .28rem;
-        background: url('../imgs/discount-price-img.png') no-repeat;
-        background-size: contain
+        line-height: .28rem;
+        background: #FF503F;
+        border-radius: .06rem;
+        display: inline-block;
+        font-size: .2rem;
+        text-align: center;
+        color: #fff;
+        margin-right: .06rem;
+        margin-top: .02rem;
+        vertical-align: top;
       }
     }
 
     .item .price {
-      font-size: .36rem;
       font-family: PingFangSC-Medium;
-      font-weight: 500;
-      height: .36rem;
-      line-height: .36rem;
       text-align: left;
-      color: #FF503F;
+      width: 3rem;
       overflow: hidden;
-      margin: .16rem 0px .2rem .2rem;
-      font-weight: 700;
-    }
+      margin: 0px .12rem;
 
-    .item .price .big-font {
-      font-size: .36rem;
-    }
+      .sale-price {
+        height: .4rem;
+        font-size: .4rem;
+        font-family: SFMono-Medium, SFMono;
+        font-weight: 500;
+        color: #FF503F;
+        line-height: .4rem;
+        margin-bottom: .06rem;
 
-    .item .price .middle-font {
-      font-size: .24rem;
-    }
+        .discount-price-img {
+          margin-left: .06rem;
+          width: .84rem;
+          height: .28rem;
+          display: inline-block;
+          background: url('../imgs/discount-price-img.png') no-repeat;
+          background-size: contain;
+        }
 
-    .item .price .small {
-      font-size: .2rem;
-    }
+        .big-font {
+          font-size: .4rem;
+        }
 
-    .item .del-price {
-      text-decoration: line-through;
-      text-align: left;
-      height: .2rem;
-      line-height: .2rem;
-      font-size: .2rem;
-      color: #B3B3B3;
-      margin-left: .08rem;
+        .middle-font {
+          font-size: .24rem;
+        }
+
+        .small {
+          font-size: .2rem;
+        }
+
+
+      }
+
+      .market-price {
+        height: .24rem;
+        font-size: .2rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #C7C7C7;
+        line-height: .24rem;
+
+        .market-price-text {
+          font-size: .2rem;
+        }
+      }
     }
 
     // .am-tabs {
     //   height: .68rem;
     // }
+    .tab-bar-header::-webkit-scrollbar //滚动条整体部分
+
+      {
+      height: .12rem;
+      background-color: #f7f8fa;
+      display: none;
+    }
+
+
+    .tab-bar-header::-webkit-scrollbar-thumb //scroll轨道背景
+
+      {
+      -webkit-box-shadow: inset 0 0 .12rem gray;
+      border-radius: .2rem;
+      background-color: gray;
+
+    }
 
     .am-tabs-default-bar {
       padding-right: .2rem;
-      height: .68rem;
+      height: .72rem;
       background: transparent !important;
     }
 
@@ -190,20 +227,25 @@
       // padding-bottom: 1rem;
     }
 
+    // .am-tabs-tab-bar-wrap {
+    //   padding-left: .36rem;
+    //   padding-right: .36rem;
+    // }
+
     .am-tabs-default-bar-tab {
-      height: .6rem;
-      line-height: .6rem;
+      height: .72rem;
+      line-height: .72rem;
       font-size: .28rem;
       justify-content: left;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: #666;
+      color: #999;
 
       &.am-tabs-default-bar-tab-active {
         color: #333;
         font-weight: 600;
-        font-size: .36rem;
+        font-size: .3rem;
       }
 
       &:after {
@@ -218,9 +260,9 @@
 
     .am-tabs-default-bar-underline {
       border: none;
-      height: .08rem;
-      background: #028FFF;
-      width: .48rem !important;
+      height: .04rem;
+      background: #333;
+      width: 1.22rem !important;
       border-radius: .04rem;
       margin-left: 0rem;
     }
@@ -253,7 +295,9 @@
       .item {
         position: absolute;
         background: #FFFFFF;
+        padding-bottom: .24rem;
         border-radius: .16rem;
+        width: 3.27rem;
 
         .name {
           height: auto;
