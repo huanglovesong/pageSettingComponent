@@ -11,7 +11,7 @@ export default class RichText extends Component {
     let content = item.moduleDataList[0].textDataLong;
     const { pageMargin, topMargin, bottomMargin } = item.modelStyle.richTextStyleModel;
     const style1 = {
-      paddingLeft: `${pageMargin}px`, paddingRight: `${pageMargin}px`,
+      paddingLeft: `${pageMargin / 50}rem`, paddingRight: `${pageMargin/ 50}rem`,
       paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`,
     };
     console.log(item, 12312)

@@ -48,7 +48,7 @@ export default class ImageTextBox extends Component {
             </div>
         }
         else {
-            const { background, textColor, rowNum, isSlide, topMargin, bottomMargin } = item.modelStyle.imageTextStyleModel;
+            const { background, textColor, rowNum, isSlide, topMargin, bottomMargin, iconRowNum } = item.modelStyle.imageTextStyleModel;
             // 金刚区间距
             let obj = { 3: 72, 4: 36, 5: 18 };
             let allWidth = mathManage.Subtr(375, obj[rowNum] * 2);
@@ -60,8 +60,8 @@ export default class ImageTextBox extends Component {
             };
             return <div className="image-text-box clearfix" style={style}>
                 <div className="image-text-box-content clearfix" style={{ width: isSlide ? `${(nowWidth * len + 10) / 50}rem` : '7.3rem' }}>
-                    {item.moduleDataList.map((item) =>
-                        <div class="item" style={{ width: `${nowWidth / 50}rem` }} onClick={() => this.toBanner(item)}>
+                    {item.moduleDataList.map((item, index) =>
+                        <div class="item" style={{ width: `${nowWidth / 50}rem`, marginBottom: `${index < rowNum && iconRowNum != 1 ? '.24rem' : '0px'}` }} onClick={() => this.toBanner(item)} >
                             <img src={item.bannerUrl} />
                             <div class="name font-clamp" style={{ color: textColor }}>{item.textData}</div>
                         </div>

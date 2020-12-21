@@ -50,7 +50,7 @@ export default class BannerAdvertisingBox extends Component {
             let customEle = [];
             let margin = item.modelStyle.bannerStyleModel.imageClearance / 2;
             let pagePadding = item.modelStyle.bannerStyleModel.pageMargin;
-            const { template, bottomMargin, topMargin } = item.modelStyle.bannerStyleModel;
+            const { template, bottomMargin, topMargin, borderRadius } = item.modelStyle.bannerStyleModel;
             const style = {
                 margin: `${margin / 50}rem`,
                 display: 'inline-block',
@@ -63,7 +63,7 @@ export default class BannerAdvertisingBox extends Component {
                 customEle = item.moduleDataList.map((item) =>
                     <div className={`banner-advertising-box-img ${template}-module float-left`} onClick={() => { this.toBanner(item) }}>
                         <a style={{ ...style }} >
-                            <img src={item.bannerUrl.replace('http://fulu-mall.oss-cn-hangzhou.aliyuncs.com', 'http://tu.mall.fulu.com')} />
+                            <img style={{ borderRadius: `${(borderRadius || 0) / 50}rem` }} src={item.bannerUrl.replace('http://fulu-mall.oss-cn-hangzhou.aliyuncs.com', 'http://tu.mall.fulu.com')} />
                         </a>
                     </div>
                 )
@@ -79,7 +79,7 @@ export default class BannerAdvertisingBox extends Component {
                         <div className="row">
                             <div className="top-item" onClick={() => { this.toBanner(item) }}>
                                 <a style={{ ...style }}>
-                                    <img className="common-img-css" src={item.moduleDataList[index * 3].bannerUrl} />
+                                    <img style={{ borderRadius: `${(borderRadius || 0) / 50}rem` }} className="common-img-css" src={item.moduleDataList[index * 3].bannerUrl} />
                                 </a>
                             </div>
                             <div className="top-item">

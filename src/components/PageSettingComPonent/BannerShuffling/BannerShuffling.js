@@ -54,8 +54,7 @@ export default class BannerShufflingBox extends Component {
       const style = {
 
         boxShadow: item.modelStyle.bannerRollStyleModel.imageStyle === 'Projection' ? 'rgba(47,54,70,0.1) 0px 0px .2rem' : '',
-        padding: `0px ${pageMargin / 50}rem`,
-        paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`
+        padding: `${topMargin / 50}rem ${pageMargin / 50}rem ${bottomMargin / 50}rem`,
       };
       return <div className="banner-shuffling-box clearfix" style={{ ...style }}>
         <Carousel autoplay infinite >

@@ -8,9 +8,9 @@ try {
 // 公用埋点，多个页面会用到的埋点
 var commonBuriedPoin = {
   // 友盟埋点，运营位点击
-  operationBitClick(um_key_page_type = '', um_key_bit_type = '') {
+  operationBitClick(um_key_page_type = '', um_key_bit_type = '', um_key_value = '') {
     // 友盟埋点 category action label
-    fl_cnzz.push(["_trackEvent", um_key_page_type, '运营位点击', um_key_bit_type]);
+    fl_cnzz.push(["_trackEvent", um_key_page_type, '运营位点击', um_key_bit_type, um_key_value]);
   },
   // 点击导航栏切换首页
   switchTab: function (um_key_buttonname = '') {
@@ -93,6 +93,11 @@ var pageLoadPoin = {
     let um_key_sourcepage = localStorage.getItem('commodity_detail_souce') || '';
     // 友盟埋点 category action label
     fl_cnzz.push(["_trackEvent", um_key_pagecategory, '页面浏览', um_key_sourcepage]);
+  },
+  // 页面加载二期
+  pageLoadSecond(um_key_pagecategory, um_key_label, um_key_value) {
+    // 友盟埋点 category action label
+    fl_cnzz.push(["_trackEvent", um_key_pagecategory, '页面加载', um_key_label, um_key_value]);
   },
   pageLoadDetail(obj = {}) {
     const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Icon } from 'antd-mobile';
 import './less/flashSale.less';
 
@@ -10,6 +10,19 @@ class FlashSale extends React.Component {
     // 友盟埋点限时抢购点击
     this.props.clickUmBuired('限时活动位');
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ''}`);
+  }
+  getPrice = (item) => {
+    let priceArr = item.price ? item.price.toString().split(".") : [];
+    return (
+      <Fragment>
+        <span className="big-font">{priceArr[0]}</span>
+        {priceArr.length === 2 ? (
+          <span className="middle-font">.{priceArr[1]}</span>
+        ) : (
+            ""
+          )}
+      </Fragment>
+    );
   }
   getCom = () => {
     const { item } = this.props;
@@ -51,7 +64,7 @@ class FlashSale extends React.Component {
                       <div className="name" style={{ ...nameStyle }}>{item.productName}
                       </div>
                       <div className="price" style={{ ...priceStyle }}>
-                        <small>￥</small>{item.price}
+                        <small>￥</small>{this.getPrice(item)}
                         <s className="del-price">￥{item.faceValue}</s>
                       </div>
                     </div>

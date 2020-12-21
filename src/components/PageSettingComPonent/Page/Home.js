@@ -169,7 +169,7 @@ class PageSettingComPonent extends React.Component {
             }
             // 分类
             else if (item.moduleType === 'class') {
-                arr.push(<Classification item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
+                arr.push(<Classification item={item} index={index} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
             // 限时抢购
             else if (item.moduleType === 'flashSale') {

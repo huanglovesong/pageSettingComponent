@@ -50,22 +50,23 @@ export default class ClassificationBox extends Component {
       item.isCouponAfterPrice && item.couponBatchid
         ? item.couponAfterPrice
         : item.price;
-    let priceArr = price ? price.toString().split(".") : [];
-    if (!priceArr.length)
-      return <Fragment>
-        <span className="big-font">0</span>
-        <span className="middle-font">.00</span>
-      </Fragment>
-    return (
-      <Fragment>
-        <span className="big-font">{priceArr[0]}</span>
-        {priceArr.length === 2 ? (
-          <span className="middle-font">.{priceArr[1]}</span>
-        ) : (
-            ""
-          )}
-      </Fragment>
-    );
+    return <span className="big-font">{price}</span>
+    // let priceArr = price ? price.toString().split(".") : [];
+    // if (!priceArr.length)
+    //   return <Fragment>
+    //     <span className="big-font">0</span>
+    //     <span className="middle-font">.00</span>
+    //   </Fragment>
+    // return (
+    //   <Fragment>
+    //     <span className="big-font">{priceArr[0]}</span>
+    //     {priceArr.length === 2 ? (
+    //       <span className="middle-font">.{priceArr[1]}</span>
+    //     ) : (
+    //         ""
+    //       )}
+    //   </Fragment>
+    // );
   };
   getMarketPrice = (item) => {
     let price =
@@ -93,9 +94,7 @@ export default class ClassificationBox extends Component {
           onClick={() => this.renderContentStyle2(item, index)}
         >
           <img
-            src={
-              item.bannerUrl
-            }
+            src={require(`./imgs/${index % 2 === 0 ? 0 : 1}.png`)}
           />
           <span className="tab-bar-item-text">
             {mathManage.stringCutOut(item.textData, 4)}
@@ -123,10 +122,10 @@ export default class ClassificationBox extends Component {
     const { item } = this.props;
     // 商品间距
     let productMargin = item.modelStyle.classStyleModel.productMargin / 2;
-    const isClass = imageSource && imageSource === "product" ? false : true;
     // 页面边距
     let pageMargin = item.modelStyle.classStyleModel.pageMargin;
-    let { imageSource } = item.modelStyle.classStyleModel;
+    let { imageSource, borderRadius } = item.modelStyle.classStyleModel;
+    const isClass = imageSource && imageSource === "product" ? false : true;
     // 商品高度
     let len =
       tabsItem.dataDetailCacheModels.length % 2 === 0
@@ -157,18 +156,18 @@ export default class ClassificationBox extends Component {
             <div
               className="item"
               key={index}
+              style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
               onClick={() => {
                 this.toDetail(item.childCategoryId, item.productId);
               }}
             >
               <span style={{ ...style }}>
-                <div class="img-bg">
+                <div class="img-bg" style={{ borderRadius: borderRadius === null ? '.16rem .16rem 0 0' : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }}>
                   <img
                     className={isClass ? 'class-img' : 'product-img'}
+                    style={{ borderRadius: !isClass ? borderRadius === null ? '.16rem .16rem 0 0' : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` : '0px' }}
                     src={
-                      imageSource && imageSource === "product"
-                        ? item.productImage
-                        : item.iconPath
+                      isClass ? item.iconPath : item.productImage
                     }
                   />
                 </div>
@@ -198,11 +197,11 @@ export default class ClassificationBox extends Component {
   };
   waterFlow = (clickTabBarIndex = '') => {
     setTimeout(() => {
-      const { item } = this.props;
+      const { item, index: componentIndex } = this.props;
       const { fontSize } = this.state;
       // 1- 确定列数  = 页面的宽度 / 图片的宽度
-      var itemWidth = 163.5;
-      const nowProductMargin = 12;
+      var itemWidth = 164.5;
+      const nowProductMargin = 10;
       // 因为下面else计算高度的地方PageMargin 需要通过rem的转换得出真正的数值
       let afterChangePageMargin = mathManage.accDiv(nowProductMargin * 2, mathManage.accDiv(100, fontSize));
       // 商品间距
@@ -210,8 +209,7 @@ export default class ClassificationBox extends Component {
       // 页面边距
       let pageMargin = item.modelStyle.classStyleModel.pageMargin / 2;
       console.log(productMargin, pageMargin, 222211);
-
-      let id = `class-content`;
+      let id = `class-content${componentIndex}`;
       let dom = document.getElementById(id);
       var items = dom ? dom.children : [];
       if (!items.length && dom) {
@@ -258,8 +256,8 @@ export default class ClassificationBox extends Component {
   }
   getContentStyle2Dom = (tabsItem, clickTabBarIndex) => {
     console.log(tabsItem, 9999888);
-    const { item } = this.props;
-    let { imageSource } = item.modelStyle.classStyleModel;
+    const { item, index } = this.props;
+    let { imageSource, borderRadius } = item.modelStyle.classStyleModel;
     const isClass = imageSource && imageSource === "product" ? false : true;
     console.log(clickTabBarIndex, 99999);
     let nowHtml = (
@@ -267,24 +265,23 @@ export default class ClassificationBox extends Component {
         <QueueAnimFulu type="left">
           <div
             className="class-content clearfix"
-            id="class-content"
+            id={`class-content${index}`}
             key={clickTabBarIndex}
           >
             {tabsItem.dataDetailCacheModels.map((item, index) => (
               <div
                 className="item"
+                style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
                 key={index}
                 onClick={() => {
                   this.toDetail(item.childCategoryId, item.productId);
                 }}
               >
-                <div class="img-bg">
+                <div class="img-bg" style={{ borderRadius: borderRadius === null ? '.16rem .16rem 0 0' : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }}>
                   <img
-                    className={isClass ? 'class-img' : 'product-img'}
+                    style={{ borderRadius: borderRadius === null ? '.16rem .16rem 0 0' : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }}
                     src={
-                      imageSource && imageSource === "product"
-                        ? item.productImage
-                        : item.iconPath
+                      isClass ? item.iconPath : item.productImage
                     }
                   />
                 </div>

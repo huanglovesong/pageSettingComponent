@@ -66,11 +66,10 @@ class Notice extends React.Component {
   }
   render() {
     const { item } = this.props;
-    let pagePadding = item.modelStyle.noticeStyleModel.pageMargin;
-    const { textColor, bottomMargin, topMargin, jumpStyle } = item.modelStyle.noticeStyleModel;
+    const { textColor, bottomMargin, topMargin, jumpStyle, pageMargin } = item.modelStyle.noticeStyleModel;
     const { textDataLong, linkurl } = item.moduleDataList[0];
     const style1 = {
-      paddingLeft: `${pagePadding / 50}rem`, paddingRight: `${pagePadding / 50}rem`,
+      paddingLeft: `${pageMargin / 50}rem`, paddingRight: `${pageMargin / 50}rem`,
       color: textColor, // 兼容之前的和现在的数据。由于新增了topMargin和bottomMargin，所以进行兼容
       paddingTop: `${(topMargin === null ? 5 : topMargin) / 50}rem`, paddingBottom: `${(bottomMargin === null ? 5 : bottomMargin) / 50}rem`
     };
@@ -80,20 +79,25 @@ class Notice extends React.Component {
     }
     return (
       <div className="notice-box clearfix" style={{ ...style1 }}>
-        <div className="marquee-content" ref="marqueeContentId" onClick={this.clickNotice}>
+        <div className="marquee-content" ref="marqueeContentId" onClick={this.clickNotice}
+          style={{ paddingRight: (jumpStyle === 'rightIco' || jumpStyle === 'closeIco') ? '1rem' : '' }}>
           <div className="notice-bar-icon">
             {textDataLong ? <img src={textDataLong} /> :
               <img src={require('../imgs/tips.png')} />}
             {/*右箭头*/}
-            {jumpStyle === 'rightIco' && <Icon type="right" className="tips-icon right-ico"
-              style={{ position: 'absolute', right: `18px` }} onClick={() => this.toUrl(linkurl)} />}
+            {jumpStyle === 'rightIco' &&
+              <img src={require('../imgs/arrow.png')} style={{ position: 'absolute', right: `${(pageMargin + 10) / 50}rem`, cursor: 'pointer' }} />
+            }
             {/*右关闭*/}
             {jumpStyle === 'closeIco' &&
-              <img src={require('../imgs/close.png')} style={{ position: 'absolute', right: `18px`, cursor: 'pointer' }}
+              <img src={require('../imgs/close.png')} style={{ position: 'absolute', right: `${(pageMargin + 10) / 50}rem`, cursor: 'pointer' }}
                 onClick={this.deleteInfo} />
             }
           </div>
-          <div ref="scroll_div" className="scroll_div" style={{ width: `6.5rem` }}>
+          <div ref="scroll_div" className="scroll_div" style={{
+            width: `${(jumpStyle === 'rightIco' || jumpStyle === 'closeIco')
+              ? (275 - pageMargin * 2) / 50 : (325 - pageMargin * 2) / 50}rem`
+          }}>
             <div ref="scroll_begin" className="scroll_begin">
               {this.setMarquee().map(item => <span class="pad_right">{item}</span>)}
             </div>
