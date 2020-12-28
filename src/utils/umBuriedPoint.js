@@ -7,6 +7,10 @@ try {
 
 // 公用埋点，多个页面会用到的埋点
 var commonBuriedPoin = {
+  cnzzUpload(um_key_page_type = '', um_key_action = '', um_key_bit_type = '', um_key_value = '') {
+    // 友盟埋点 category action label
+    fl_cnzz.push(["_trackEvent", um_key_page_type, um_key_action, um_key_bit_type, um_key_value]);
+  },
   // 友盟埋点，运营位点击
   operationBitClick(um_key_page_type = '', um_key_bit_type = '', um_key_value = '') {
     // 友盟埋点 category action label

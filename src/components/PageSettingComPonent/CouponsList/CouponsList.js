@@ -39,6 +39,8 @@ class CouponsList extends Component {
     }
 
     cardActivityOvered = (item, couponIndex) => {
+        // 友盟埋点优惠券点击
+        this.props.clickUmBuired('组件-券列表');
         // 如果用户没有领取过
         if (item.isUserReceive) {
             this.setState({

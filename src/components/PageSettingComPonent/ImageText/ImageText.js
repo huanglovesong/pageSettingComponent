@@ -8,7 +8,7 @@ export default class ImageTextBox extends Component {
     }
     toBanner = (v) => {
         // 友盟埋点图文导航点击
-        this.props.clickUmBuired('icon位');
+        this.props.clickUmBuired('组件-图文导航切换');
         if (v.bannerType === 1) {
             this.toPageFuluIdAndToken(v);
             // window.open(v.linkurl, '_blank')

@@ -53,8 +53,10 @@ class Notice extends React.Component {
     return arr;
   }
   clickNotice = (e) => {
-    e.preventDefault();
-    e.stopPropagation()
+    // e.preventDefault();
+    // e.stopPropagation()
+    // 友盟埋点公告点击
+    this.props.clickUmBuired("组件-公告");
   }
   deleteInfo = () => {
     this.setState({
@@ -86,7 +88,8 @@ class Notice extends React.Component {
               <img src={require('../imgs/tips.png')} />}
             {/*右箭头*/}
             {jumpStyle === 'rightIco' &&
-              <img src={require('../imgs/arrow.png')} style={{ position: 'absolute', right: `${(pageMargin + 10) / 50}rem`, cursor: 'pointer' }} />
+              <img src={require('../imgs/arrow.png')} style={{ position: 'absolute', right: `${(pageMargin + 10) / 50}rem`, cursor: 'pointer' }}
+                onClick={() => this.toUrl(linkurl)} />
             }
             {/*右关闭*/}
             {jumpStyle === 'closeIco' &&

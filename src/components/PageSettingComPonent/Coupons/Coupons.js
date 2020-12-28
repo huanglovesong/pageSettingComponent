@@ -26,6 +26,8 @@ class Coupons extends Component {
         }
     }
     cardActivityOvered = (merCouponId) => {
+        // 友盟埋点优惠券点击
+        this.props.clickUmBuired('组件-优惠券');
         this.setState({
             merCouponId
         }, () => {

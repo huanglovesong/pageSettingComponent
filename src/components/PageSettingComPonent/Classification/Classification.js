@@ -36,13 +36,15 @@ export default class ClassificationBox extends Component {
     }
   }
 
-  toDetail = (gid, pid) => {
+  toDetail = (gid, pid, pname) => {
     // 友盟埋点二级分类点击
-    this.props.clickUmBuired("二级分类");
+    this.props.clickUmBuired("组件-分类商品", pname);
 
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ""}`);
   };
   changeTabs = (activeTab) => {
+    // 友盟埋点二级分类头部点击
+    this.props.clickUmBuired('组件-分类切换');
     this.setState({ activeTab });
   };
   getPrice = (item) => {
@@ -82,6 +84,11 @@ export default class ClassificationBox extends Component {
       <span className="market-price-text small-font">市场价 ￥{item.faceValue}</span>
     </div>;
   }
+  style2TabsClick = (item, index) => {
+    // 友盟埋点二级分类头部点击
+    this.props.clickUmBuired('首页-分类切换');
+    this.renderContentStyle2(item, index)
+  }
   getTabsHeader = () => {
     const { clickTabBarIndex } = this.state;
     const { item } = this.props;
@@ -91,7 +98,7 @@ export default class ClassificationBox extends Component {
         <div
           className={`tab-bar-item ${clickTabBarIndex === index ? "active-color" : ""
             }`}
-          onClick={() => this.renderContentStyle2(item, index)}
+          onClick={() => this.style2TabsClick(item, index)}
         >
           <img
             src={require(`./imgs/${index % 2 === 0 ? 0 : 1}.png`)}
@@ -158,7 +165,7 @@ export default class ClassificationBox extends Component {
               key={index}
               style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
               onClick={() => {
-                this.toDetail(item.childCategoryId, item.productId);
+                this.toDetail(item.childCategoryId, item.productId, item.childCategoryName);
               }}
             >
               <span style={{ ...style }}>
@@ -274,7 +281,7 @@ export default class ClassificationBox extends Component {
                 style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
                 key={index}
                 onClick={() => {
-                  this.toDetail(item.childCategoryId, item.productId);
+                  this.toDetail(item.childCategoryId, item.productId, item.childCategoryName);
                 }}
               >
                 <div class="img-bg" style={{ borderRadius: borderRadius === null ? '.16rem .16rem 0 0' : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }}>
@@ -371,6 +378,7 @@ export default class ClassificationBox extends Component {
             <Tabs
               swipeable={false}
               tabs={this.getTabs()}
+              onChange={this.changeTabs}
               renderTabBar={(props) => (
                 <Tabs.DefaultTabBar {...props} page={4} />
               )}

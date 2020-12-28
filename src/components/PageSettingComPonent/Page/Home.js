@@ -68,6 +68,7 @@ class PageSettingComPonent extends React.Component {
     componentWillMount() {
         // 将child传递给this.props.onRef()方法
         this.props.onRef && this.props.onRef(this);
+        const { pageId } = this.state;
         this.getPage();
         // 页面加载埋点
         pageLoadPoin.pageLoad('首页');
@@ -92,17 +93,20 @@ class PageSettingComPonent extends React.Component {
             })
         }
         if (getPageResult !== props.pageSetting.getPageResult) {
-
             const { code, data, message } = getPageResult;
             if (code === '0') {
+                this.pageLoadUmBuired(data, data.id);
                 return this.setState({
-                    allInfo: data
+                    allInfo: data,
+                    pageId: data.id
                 })
             } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
                 // true是预览页面
                 const { disableClick } = this.props;
+                this.pageLoadUmBuired(data, data.id);
                 this.setState({
-                    allInfo: data
+                    allInfo: data,
+                    pageId: data.id
                 })
                 // 如果不是预览页面
                 if (!disableClick) {
@@ -134,8 +138,71 @@ class PageSettingComPonent extends React.Component {
             localStorage.setItem('commodity_detail_souce', '首页');
         }
     }
+    pageLoadUmBuired = (data, pageId) => {
+        // 埋点公用方法
+        commonBuriedPoin.cnzzUpload('自定义页面', '页面加载', pageId);
+        data.pageModuleList.map((item, index) => {
+            // banner轮播
+            if (item.moduleType === 'bannerRoll') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-banner轮播${index}`, '曝光', pageId);
+            }
+            // banner广告
+            else if (item.moduleType === 'banner') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-banner广告${index}`, '曝光', pageId);
+            }
+            // 分类
+            else if (item.moduleType === 'class') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-分类${index}`, '曝光', pageId);
+            }
+            // 限时抢购
+            else if (item.moduleType === 'flashSale') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-限时抢购${index}`, '曝光', pageId);
+            }
+            // 图文导航
+            else if (item.moduleType === 'imageText') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-图文导航${index}`, '曝光', pageId);
+            }
+            // 富文本
+            else if (item.moduleType === 'richText') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-富文本${index}`, '曝光', pageId);
+            }
+            // 公告
+            else if (item.moduleType === 'notice') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-公告${index}`, '曝光', pageId);
+            }
+            // 优惠券
+            else if (item.moduleType === 'coupon') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-优惠券${index}`, '曝光', pageId);
+            }
+            // 券列表
+            else if (item.moduleType === 'couponsList') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-券列表${index}`, '曝光', pageId);
+            }
+            // 券包
+            else if (item.moduleType === 'couponsPackage') {
+                // 埋点公用方法
+                commonBuriedPoin.cnzzUpload(`组件-券包${index}`, '曝光', pageId);
+            }
+        });
+    }
     // 首页运营位埋点
-    clickUmBuired = (location) => {
+    clickUmBuired = (location, pname) => {
+        // 埋点公用方法
+        const { pageId } = this.state;
+        if (location === '组件-分类商品' || location === '组件-限时抢购') {
+            commonBuriedPoin.cnzzUpload(location, '点击', `${pageId},${pname}`);
+        } else {
+            commonBuriedPoin.cnzzUpload(location, '点击', pageId);
+        }
         const { pathname } = window.location;
         // 频道页
         if (pathname === '/channel') {
@@ -156,7 +223,7 @@ class PageSettingComPonent extends React.Component {
         });
     }
     getCom = () => {
-        const { allInfo } = this.state;
+        const { allInfo, pageId } = this.state;
         let arr = [];
         allInfo.pageModuleList.map((item, index) => {
             // banner轮播
@@ -179,7 +246,7 @@ class PageSettingComPonent extends React.Component {
             else if (item.moduleType === 'imageText') {
                 arr.push(<ImageText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
-            // 公告
+            // 富文本
             else if (item.moduleType === 'richText') {
                 arr.push(<RichText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
             }
@@ -190,11 +257,11 @@ class PageSettingComPonent extends React.Component {
             // 优惠券
             else if (item.moduleType === 'coupon') {
                 arr.push(<Coupons item={item} history={this.props.history} componentIndex={index}
-                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} clickUmBuired={this.clickUmBuired} />)
             }
             // 券列表
             else if (item.moduleType === 'couponsList') {
-                arr.push(<CouponsList item={item} history={this.props.history} componentIndex={index}
+                arr.push(<CouponsList item={item} history={this.props.history} componentIndex={index} clickUmBuired={this.clickUmBuired}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} getPage={this.getPage} />)
             }
             // 券包
@@ -202,7 +269,6 @@ class PageSettingComPonent extends React.Component {
                 arr.push(<CouponsPackage item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
-
         });
         return arr;
     }

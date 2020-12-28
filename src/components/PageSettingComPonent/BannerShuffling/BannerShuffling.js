@@ -9,7 +9,7 @@ export default class BannerShufflingBox extends Component {
   }
   toBanner = (v) => {
     // 友盟埋点banner位点击
-    this.props.clickUmBuired('banner位');
+    this.props.clickUmBuired('组件-banner轮播');
     if (v.bannerType === 1) {
       this.toPageFuluIdAndToken(v);
       // window.open(v.linkurl, '_blank')

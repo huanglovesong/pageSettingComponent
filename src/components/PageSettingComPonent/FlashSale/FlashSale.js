@@ -4,11 +4,13 @@ import './less/flashSale.less';
 
 class FlashSale extends React.Component {
   toList = (mid) => {
+    // 友盟埋点限时抢购点击
+    this.props.clickUmBuired('组件-限时抢购', '更多');
     this.props.history.push(`/list?mid=${mid}`);
   }
-  toDetail = (gid, pid) => {
+  toDetail = (gid, pid, pname) => {
     // 友盟埋点限时抢购点击
-    this.props.clickUmBuired('限时活动位');
+    this.props.clickUmBuired('组件-限时抢购', pname);
     this.props.history.push(`/detail?gid=${gid}${pid ? `&pid=${pid}` : ''}`);
   }
   getPrice = (item) => {
@@ -55,7 +57,7 @@ class FlashSale extends React.Component {
               style={{ width: `${(item.moduleDataList[0].dataDetailCacheModels.length * 130) / 50}rem` }}>
               {item.moduleDataList[0].dataDetailCacheModels.map((item) =>
                 <div className="scroll-div-item_H item" style={{ borderRadius: `${(borderRadius === null ? 8 : borderRadius) / 50}rem` }}
-                  onClick={() => { this.toDetail(item.childCategoryId, item.productId) }}>
+                  onClick={() => { this.toDetail(item.childCategoryId, item.productId, item.productName) }}>
                   <img className="pro-img" src={item.produuctIconPath}
                     style={{ borderRadius: borderRadius === null ? `0.16rem 0.16rem 0 0` : `${borderRadius / 50}rem ${borderRadius / 50}rem 0 0` }} />
                   <div className="info">
