@@ -148,15 +148,15 @@ const RouterWrapper = ({ history, app }) => {
   let HomeComponent = Home;
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {};
   // 如果需要替换为自定义首页
-  let flag = configs.pageSettingCodeId.some(item => item === shopInfo.codeKey);
-  if (flag) {
-    HomeComponent = MHome;
-  }
-  // 1:首页
-  // let showHome = shopInfo.merInfoTemplates.customPageType && shopInfo.merInfoTemplates.customPageType.some(item => item === '1');
-  // if (shopInfo.merInfoTemplates.isOpenCustomPage && showHome) {
+  // let flag = configs.pageSettingCodeId.some(item => item === shopInfo.codeKey);
+  // if (flag) {
   //   HomeComponent = MHome;
   // }
+  // 1:首页
+  let showHome = shopInfo.merInfoTemplates.customPageType && shopInfo.merInfoTemplates.customPageType.some(item => item === '1');
+  if (shopInfo.merInfoTemplates.isOpenCustomPage && showHome) {
+    HomeComponent = MHome;
+  }
   return (
     <ConnectedRouter history={history}>
       <Switch>
