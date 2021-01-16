@@ -376,7 +376,7 @@ export default class ClassificationBox extends Component {
           {(!displayStyle || displayStyle === "style1") && (
 
             <Tabs
-              swipeable={false}
+              swipeable={true}
               tabs={this.getTabs()}
               onChange={this.changeTabs}
               renderTabBar={(props) => (
