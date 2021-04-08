@@ -44,7 +44,7 @@ export default class ClassificationBox extends Component {
   };
   changeTabs = (activeTab) => {
     // 友盟埋点二级分类头部点击
-    this.props.clickUmBuired('组件-分类切换');
+    this.props.clickUmBuired('组件-分类切换', activeTab.title);
     this.setState({ activeTab });
   };
   getPrice = (item) => {

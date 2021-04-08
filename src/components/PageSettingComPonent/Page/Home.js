@@ -25,6 +25,8 @@ import { authorizationFailurePageSetting } from '../../../utils/auth';
 
 // 友盟埋点
 import { homeBuriedPoin, pageLoadPoin, commonBuriedPoin } from '../../../utils/umBuriedPoint';
+// 广发埋点
+import gfBuriedPoint from '../../../utils/gfBuriedPoint';
 
 import mathManage from '../../../utils/mathManage';
 
@@ -196,6 +198,20 @@ class PageSettingComPonent extends React.Component {
     }
     // 首页运营位埋点
     clickUmBuired = (location, pname) => {
+        if (location === '组件-图文导航切换') {
+            // 首页-点击金刚区
+            gfBuriedPoint.TDAPP('third_fulu_entertainment_07', pname);
+        } else if (location === '组件-banner轮播') {
+            // 首页-顶部轮播点击
+            gfBuriedPoint.TDAPP('third_fulu_entertainment_06', pname);
+        } else if (location === '组件-banner广告') {
+            // 首页-中间位置广告位
+            gfBuriedPoint.TDAPP('third_fulu_entertainment_11', pname);
+        }else if (location === '组件-分类切换') {
+            // 首页-tab点击
+            gfBuriedPoint.TDAPP('third_fulu_entertainment_12', pname);
+        }
+        
         // 埋点公用方法
         const { pageId } = this.state;
         if (location === '组件-分类商品' || location === '组件-限时抢购') {

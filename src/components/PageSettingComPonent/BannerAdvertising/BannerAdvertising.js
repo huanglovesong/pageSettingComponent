@@ -7,7 +7,7 @@ export default class BannerAdvertisingBox extends Component {
     }
     toBanner = (v) => {
         // 友盟埋点横通位点击
-        this.props.clickUmBuired('组件-banner广告');
+        this.props.clickUmBuired('组件-banner广告', v.textData);
         if (v.bannerType === 1) {
             this.toPageFuluIdAndToken(v);
             // 	window.location.href = v.linkurl
