@@ -35,6 +35,37 @@ export default {
             });
             return result;
         },
+        *addPrizeNum({ payload }, { call, put }) {
+            const result = yield call(pageSettingService.addPrizeNum, payload);
+            yield put({
+                type: 'success',
+                payload: {
+                    addPrizeNumRes: result,
+                },
+            });
+            return result;
+        },
+        *getPrizeNum({ payload }, { call, put }) {
+            const result = yield call(pageSettingService.getPrizeNum, payload);
+            yield put({
+                type: 'success',
+                payload: {
+                    getPrizeNumRes: result,
+                },
+            });
+            return result;
+        },
+        *handlePrize({ payload }, { call, put }) {
+            const result = yield call(pageSettingService.handlePrize, payload);
+            yield put({
+                type: 'success',
+                payload: {
+                    handlePrizeRes: result,
+                },
+            });
+            return result;
+        },
+
     },
     reducers: {
         success(state, { payload }) {
@@ -45,9 +76,9 @@ export default {
         },
         commonRequest(state, { payload }) {
             return {
-              ...state,
-              ...payload,
+                ...state,
+                ...payload,
             };
-          },
+        },
     }
 }

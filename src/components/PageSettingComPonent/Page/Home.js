@@ -15,6 +15,13 @@ import CouponsPackage from '../CouponsPackage';
 import ActiveModalCom from '../ActiveModalCom';
 import ActiveModal from '../ActiveModalCom/ActiveModal';
 
+// 抽奖
+
+// import SlyderAdventures from '../BusinessComponent/Draw/SlyderAdventures';
+import Draw from '../BusinessComponent/Draw';
+import DrawUserInfo from '../BusinessComponent/DrawUserInfo';
+import DrawWinRecord from '../BusinessComponent/DrawWinRecord';
+
 // 登录弹框
 import MallLoginModalPageSetting from '../../LoginModal/MallLoginModalPageSetting';
 
@@ -207,11 +214,11 @@ class PageSettingComPonent extends React.Component {
         } else if (location === '组件-banner广告') {
             // 首页-中间位置广告位
             gfBuriedPoint.TDAPP('third_fulu_entertainment_11', pname);
-        }else if (location === '组件-分类切换') {
+        } else if (location === '组件-分类切换') {
             // 首页-tab点击
             gfBuriedPoint.TDAPP('third_fulu_entertainment_12', pname);
         }
-        
+
         // 埋点公用方法
         const { pageId } = this.state;
         if (location === '组件-分类商品' || location === '组件-限时抢购') {
@@ -241,6 +248,9 @@ class PageSettingComPonent extends React.Component {
     getCom = () => {
         const { allInfo, pageId } = this.state;
         let arr = [];
+        // arr.push(<SlyderAdventures />);
+
+
         allInfo.pageModuleList.map((item, index) => {
             // banner轮播
             if (item.moduleType === 'bannerRoll') {
@@ -264,7 +274,7 @@ class PageSettingComPonent extends React.Component {
             }
             // 富文本
             else if (item.moduleType === 'richText') {
-                arr.push(<RichText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />)
+                arr.push(<RichText item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} componentIndex={index} />)
             }
             // 公告
             else if (item.moduleType === 'notice') {
@@ -285,6 +295,19 @@ class PageSettingComPonent extends React.Component {
                 arr.push(<CouponsPackage item={item} history={this.props.history} componentIndex={index}
                     authorizationFailurePageSetting={this.authorizationFailurePageSetting} />)
             }
+            // // 抽奖用户信息
+            else if (item.moduleType === 'drawUserInfo') {
+                arr.push(<DrawUserInfo item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />);
+            }
+            // 抽奖
+            else if (item.moduleType === 'draw') {
+                arr.push(<Draw item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />);
+            }
+            // 抽奖记录
+            else if (item.moduleType === 'drawWinRecord') {
+                arr.push(<DrawWinRecord item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />);
+            }
+
         });
         return arr;
     }
@@ -333,8 +356,10 @@ class PageSettingComPonent extends React.Component {
                     loginSuccess={this.loginSuccess} hideLoginModal={this.hideLoginModal} />}
 
                 {
+                    // 抽奖不能loading
                     !!this.props.loading.models.pageSetting &&
-                    <Loading />
+                    !this.props.loading.effects['pageSetting/getPrizeNum'] &&
+                    !this.props.loading.effects['pageSetting/handlePrize'] && < Loading />
                 }
             </div>
         )

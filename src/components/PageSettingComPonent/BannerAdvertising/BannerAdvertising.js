@@ -9,7 +9,9 @@ export default class BannerAdvertisingBox extends Component {
         // 友盟埋点横通位点击
         this.props.clickUmBuired('组件-banner广告', v.textData);
         if (v.bannerType === 1) {
-            this.toPageFuluIdAndToken(v);
+            if (v.linkurl) {
+                this.toPageFuluIdAndToken(v);
+            }
             // 	window.location.href = v.linkurl
         } else if (v.bannerType === 2 && v.ifSkip === 1) {
             this.props.history.push(`/detail?gid=${v.childCategoryId}&pid=${v.productId}`)

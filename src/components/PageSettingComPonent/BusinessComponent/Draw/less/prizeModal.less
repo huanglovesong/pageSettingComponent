@@ -1,0 +1,101 @@
+.draw-square-prize-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+  z-index: 1;
+
+  &-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5.5rem;
+    height: 6.72rem;
+    background: url(../images/prize.png) center no-repeat;
+    background-size: cover;
+
+    .title {
+      text-align: center;
+      height: .44rem;
+      font-size: .44rem;
+      font-weight: 500;
+      color: #A2351A;
+      line-height: .44rem;
+      position: absolute;
+      top: 34px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -.96rem;
+      right: .24rem;
+      width: .6rem;
+      height: .6rem;
+      background: url(../images/close.png) center no-repeat;
+      background-size: cover;
+    }
+
+    .prize-name {
+      position: absolute;
+      top: 3.18rem;
+      left: 0;
+      font-size: .4rem;
+      font-weight: normal;
+      color: #A2351A;
+      line-height: .48rem;
+      width: 100%;
+      text-align: center;
+
+      .error-text {
+        font-size: .4rem;
+        font-weight: normal;
+        color: #A2351A;
+      }
+    }
+
+    .prize-img {
+      text-align: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      position: absolute;
+      top: 1.42rem;
+    }
+
+    .prize-text {
+      position: absolute;
+      top: 3.84rem;
+      left: 0;
+      width: 100%;
+      padding: 0 1rem;
+      text-align: center;
+      font-size: .22rem;
+      font-weight: normal;
+      color: #A2351A;
+      line-height: .3rem;
+
+    }
+
+    .prize-btn {
+      position: absolute;
+      bottom: .36rem;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
+      display: block;
+      width: 4rem;
+      height: .8rem;
+      line-height: .8rem;
+      text-align: center;
+      font-size: .4rem;
+      font-weight: 500;
+      color: #D51F2E;
+    }
+  }
+}

@@ -7,14 +7,14 @@ export default class RichText extends Component {
     prop: PropTypes
   }
   getCom = () => {
-    const { item } = this.props;
+    const { item, componentIndex } = this.props;
+    console.log(componentIndex, 222)
     let content = item.moduleDataList[0].textDataLong;
     const { pageMargin, topMargin, bottomMargin } = item.modelStyle.richTextStyleModel;
     const style1 = {
-      paddingLeft: `${pageMargin / 50}rem`, paddingRight: `${pageMargin/ 50}rem`,
+      paddingLeft: `${pageMargin / 50}rem`, paddingRight: `${pageMargin / 50}rem`,
       paddingTop: `${topMargin / 50}rem`, paddingBottom: `${bottomMargin / 50}rem`,
     };
-    console.log(item, 12312)
     return <div className="rich-text-box clearfix" style={{ ...style1 }}>
       <div className="rich-text-con">
         {content ? <div dangerouslySetInnerHTML={{ __html: content }}></div> : '请选择富文本编辑'}
