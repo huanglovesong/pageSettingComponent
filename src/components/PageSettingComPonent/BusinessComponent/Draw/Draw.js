@@ -24,6 +24,27 @@ class DrawBox extends Component {
         };
     }
     componentWillMount() {
+        // 添加奖品
+        this.addPrize();
+    }
+    componentWillReceiveProps(nextProps) {
+        const { pageSetting: { getPageResult } } = nextProps;
+        // 如果是登录成功，找到对应组件authKey进行接下来的步骤
+        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && (nextProps.pageSetting.componentIndex || nextProps.pageSetting.componentIndex === 0)) {
+            // 如果是点击立即领取
+            if (this.props.componentIndex === nextProps.pageSetting.componentIndex) {
+                this.draw();
+            }
+        }
+        // 自定义页面授权成功,还需要添加获取奖品
+        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid &&
+            nextProps.pageSetting.componentIndex === 1000) {
+            // 如果是自定义页面授权成功（例如优惠券需要做用户联登）1000是标识，成功之后重新获取页面信息
+            // 添加奖品
+            this.addPrize();
+        }
+    }
+    addPrize = () => {
         const { drawInfo, userInfo } = this.state;
         //给用户添加抽奖次数
         return this.props.dispatch({
@@ -36,15 +57,6 @@ class DrawBox extends Component {
         }).then(() => {
             this.getPrizeNum();
         })
-    }
-    componentWillReceiveProps(nextProps) {
-        // 如果是登录成功，找到对应组件authKey进行接下来的步骤
-        if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && (nextProps.pageSetting.componentIndex || nextProps.pageSetting.componentIndex === 0)) {
-            // 如果是点击立即领取
-            if (this.props.componentIndex === nextProps.pageSetting.componentIndex) {
-                this.drawScratchableLatex();
-            }
-        }
     }
     getPrizeNum = () => {
         const { drawInfo, userInfo } = this.state;
@@ -62,7 +74,6 @@ class DrawBox extends Component {
                 drawInfo.consumeIntegral = data.integral;
                 return this.setState({ drawInfo })
             }
-            message.error(res.message);
         })
     }
     // 开始抽奖

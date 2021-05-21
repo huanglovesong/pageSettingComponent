@@ -15,7 +15,7 @@ function getUrl(config) {
 
   const shopInfo = localStorage.getItem('shopInfo') ? JSON.parse(localStorage.getItem('shopInfo')) : {}
   // 获取localStorage和sessionStorage，因为有的项目用的localStorage，有的项目用的sessionStorage
-  let userInfoStr = localStorage.getItem('userInfo');
+  let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
   let codeKey = shopInfo.codeKey ? shopInfo.codeKey.toLowerCase() : '';
   // 云闪付、平安app、农行使用的sessionStorage
   if (codeKey === (configs.UnionPay ? configs.UnionPay.toLowerCase() : '') ||
@@ -25,22 +25,19 @@ function getUrl(config) {
     userInfoStr = sessionStorage.getItem('userInfo');
   }
   const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
-  const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
-  // 获取数组是否在url里有
-  const openUrl = findIndex(openApiUrl, function (item) {
-    return config["url"].indexOf(item) !== -1;
-  });
-  if (openUrl !== -1) {
-    console.log(userInfo, 'userInfo')
-    if (userInfo.fuluId && userInfo.fuluToken) {
-      config.headers.fuluId = userInfo.fuluId;
-      config.headers.fuluToken = userInfo.fuluToken;
-    }
-    // if (shopInfo.merInfoTemplates.visitType !== 3) {
-    config.headers.codeKey = shopInfo.codeKey;
-    config.headers.merchantId = shopInfo.id;
-    // }
+  // const openApiUrl = ['/api/Page/GetPage', '/api/MerCouponActivity/CardActivityOvered', '/api/MerCouponActivity/ObtainCard',];
+  // // 获取数组是否在url里有
+  // const openUrl = findIndex(openApiUrl, function (item) {
+  //   return config["url"].indexOf(item) !== -1;
+  // });
+
+  if (userInfo.fuluId && userInfo.fuluToken) {
+    config.headers.fuluId = userInfo.fuluId;
+    config.headers.fuluToken = userInfo.fuluToken;
   }
+  // if (shopInfo.merInfoTemplates.visitType !== 3) {
+  config.headers.codeKey = shopInfo.codeKey;
+  config.headers.merchantId = shopInfo.id;
   // 兑换页专属逻辑
   const exchangeAuthArr = ['/api/Ctrip/GetProductList', '/api/Ctrip/SendCardOrder', '/api/Ctrip/SendOrder'];
   const exchangeAuthIndex = findIndex(exchangeAuthArr, function (item) {

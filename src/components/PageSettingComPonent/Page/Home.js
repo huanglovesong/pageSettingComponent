@@ -124,6 +124,7 @@ class PageSettingComPonent extends React.Component {
                 }
             }
             else {
+                debugger
                 Toast.info(message);
             }
         }
@@ -301,7 +302,8 @@ class PageSettingComPonent extends React.Component {
             }
             // 抽奖
             else if (item.moduleType === 'draw') {
-                arr.push(<Draw item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} />);
+                arr.push(<Draw item={item} history={this.props.history} clickUmBuired={this.clickUmBuired} componentIndex={index}
+                    authorizationFailurePageSetting={this.authorizationFailurePageSetting} />);
             }
             // 抽奖记录
             else if (item.moduleType === 'drawWinRecord') {

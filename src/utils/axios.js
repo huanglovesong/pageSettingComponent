@@ -13,70 +13,19 @@ let fromPlatform = mathManage.getDeviceType();
 
 function getUrl(config) {
   config.headers.fromPlatform = mathManage.getDeviceType();
-  const userInfo = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
-    : {};
+  let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
   const shopInfo = localStorage.getItem("shopInfo")
     ? JSON.parse(localStorage.getItem("shopInfo"))
     : {};
   const commonApiUrl = [];
-  const openApiUrl = [
-    "/api/Advertisement/GetBanner",
-    "/api/Category/GetCategory",
-    "/api/Category/GetChildCategory",
-    "/api/Product/GetProductList",
-    "/api/Product/GetProductTemp",
-    "/api/Other/Verificationcode",
-    "/api/Other/Touristlogincode",
-    "/api/Product/GetProductTemp",
-    "/api/Product/GetProductActivity",
-    "/api/Order/SendOrder",
-    "/api/Order/SendCardOrder",
-    "/api/Order/GetOrderList",
-    "/api/Order/GetOrderDetail",
-    "/api/Order/ExtractCard",
-    "/api/Product/GetPassCode",
-    "/api/Product/GetPassCodeStatus",
-    "/api/Category/RecommendCategory",
-    "/api/Product/GetProductInfo",
-    "/api/Category/GetHotCategory",
-    "/api/Mi/GetLuckDrawOrder",
-    "/api/Mi/PrizeNum",
-    "/api/Mi/PostLuckDrawOrder",
-    "/api/Mi/GetPrizeList",
-    "/api/Mi/MerDrawnList",
-    "/api/Mi/DrawnList",
-    "/api/Mi/GetEventList",
-    "/api/Mi/PostDraw",
-    "/api/Mi/DrawnList",
-    "/api/Mi/PostDrawnWinning",
-    "/api/Mi/QueryDrawnWinning",
-    "/api/Mi/AddDrawCout",
-    "/api/Category/GetHotCategory",
-    "/api/Page/GetPage",
-    "/api/MerCouponActivity/CardActivityOvered",
-    "/api/MerCouponActivity/ObtainCard",
-    "/api/MerCouponActivity/GetProInfoDetailCouponList",
-    "/api/MerCouponActivity/GetUserCouponList",
-    "/api/MerCouponActivity/GetOrderDetailsCouponList",
-    "/api/MerCouponActivity/GetCouponProductList",
-    "/api/authorize/fuluusertoken",
-    "/api/Other/Verificationcode",
-  ];
-  // 获取数组是否在url里有
-  const openUrl = findIndex(openApiUrl, function (item) {
-    return config["url"].indexOf(item) !== -1;
-  });
-  if (openUrl !== -1) {
-    console.log(userInfo, "userInfo");
-    if (userInfo.fuluId && userInfo.fuluToken) {
-      config.headers.fuluId = userInfo.fuluId;
-      config.headers.fuluToken = userInfo.fuluToken;
-    }
-    if (shopInfo.merInfoTemplates.visitType !== 3) {
-      config.headers.codeKey = shopInfo.codeKey;
-      config.headers.merchantId = shopInfo.id;
-    }
+  const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {}
+  if (userInfo.fuluId && userInfo.fuluToken) {
+    config.headers.fuluId = userInfo.fuluId;
+    config.headers.fuluToken = userInfo.fuluToken;
+  }
+  if (shopInfo.merInfoTemplates.visitType !== 3) {
+    config.headers.codeKey = shopInfo.codeKey;
+    config.headers.merchantId = shopInfo.id;
   }
   const commonUrl = findIndex(commonApiUrl, function (item) {
     return config["url"].indexOf(item) !== -1;
@@ -175,32 +124,6 @@ axios.interceptors.response.use(
 
     if (response.data && response.data.code === "-2") {
       window.location.href = "/nothing";
-    } else if (
-      response.data.code === "-3" ||
-      response.data.code === "1013" ||
-      response.data.code === "1014" ||
-      response.data.code === "1015"
-    ) {
-      //详情页、订单页接口单独做处理 弹窗需要添加
-      const detailApiUrl = [
-        "/api/Order/SendOrder",
-        "/api/Order/SendCardOrder",
-        "/api/Product/GetPassCode",
-        "/api/Product/GetPassCodeStatus",
-        "/api/Order/GetOrderList",
-        "/api/Order/GetOrderDetail",
-      ];
-      let detailFlag = detailApiUrl.some((item) => {
-        return response.config.url.indexOf(item) !== -1;
-      });
-      // 如果不是详情页
-      if (!detailFlag) {
-        let userInfo = localStorage.getItem("userInfo")
-          ? JSON.parse(localStorage.getItem("userInfo"))
-          : {};
-        userInfo.fuluToken = "";
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      }
     }
     return response.data;
   },
@@ -224,9 +147,9 @@ axios.interceptors.response.use(
           // 400（Bad Request）：请求参数格式错误；提示错误消息
           return Toast.fail(
             "请求参数（data）格式错误（" +
-              error.config.method +
-              error.config.url +
-              "）"
+            error.config.method +
+            error.config.url +
+            "）"
           );
           break;
         case 401:

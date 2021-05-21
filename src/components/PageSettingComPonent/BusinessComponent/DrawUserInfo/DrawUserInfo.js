@@ -30,7 +30,6 @@ class DrawUserInfo extends Component {
                     drawInfo
                 })
             }
-            return Toast.info(res.message);
         }
     }
 

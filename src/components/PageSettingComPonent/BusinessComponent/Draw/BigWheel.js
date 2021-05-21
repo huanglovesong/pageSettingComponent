@@ -1,3 +1,4 @@
+import { Toast } from 'antd-mobile';
 import React from 'react'
 import './less/BigWheel.less'
 class BigWheel extends React.Component {
@@ -31,6 +32,7 @@ class BigWheel extends React.Component {
         for (let index = 0; index < nowItem.lotteryPrizeList.length; index++) {
             const element = nowItem.lotteryPrizeList[index];
             var img = new Image();
+            img.src = element.prizeImageUrl;
             img.src = element.prizeImageUrl;
             this.imgArr.push(img);
         }
@@ -157,7 +159,7 @@ class BigWheel extends React.Component {
         // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
         if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
             (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
-            return false;
+            return Toast.info('无抽奖机会');
         }
         // 每次点击抽奖，都将初始化角度重置
         this.state.startRadian = 0;
@@ -167,25 +169,35 @@ class BigWheel extends React.Component {
         }, () => {
             this.rotatePanel();//调用处理旋转的方法
             this.props.draw();// 获取抽奖返回数据
-
         });
     }
     getBigWheelInfo = (index) => {
         setTimeout(() => {
-            const distance = this.distanceToStop(index);
-            // 刷新抽奖次数
-            this.props.getPrizeNum();
-            // 打开抽奖弹窗
-            this.props.showPrizeModal();
+            // 每次点击抽奖，都将初始化角度重置
+            window.cancelAnimationFrame(this.timer);
+            this.state.startRadian = 0;
+            // 一共要走的距离
+            let nowDistance = this.distanceToStop(index) ;
+            // 一共要走的距离
+            let distance = nowDistance;
             this.setState({
                 distance,
+            }, () => {
+                this.rotatePanel();//调用处理旋转的方法
             });
+            // // 刷新抽奖次数
+            // this.props.getPrizeNum();
+            // // 打开抽奖弹窗
+            // this.props.showPrizeModal();
+
         }, 1000);
 
     }
     // 处理旋转的关键方法
     rotatePanel() {
-        let { distance } = this.state;
+        let { distance, startRadian } = this.state;
+        console.log(startRadian, 887766)
+        console.log(this.state.startRadian, 555555)
         // 这里用一个很简单的缓动函数来计算每次绘制需要改变的角度，这样可以达到一个转盘从块到慢的渐变的过程
         let changeRadian = (distance - this.state.startRadian) / 20;
         this.state.startRadian += changeRadian;
@@ -199,7 +211,7 @@ class BigWheel extends React.Component {
         // 初始角度改变后，需要重新绘制
         this.onLoadPage(this.state.lotteryPrizeList, item);
         // 循环调用rotatePanel函数，使得转盘的绘制连续，造成旋转的视觉效果
-        window.requestAnimationFrame(this.rotatePanel.bind(this));
+        this.timer = window.requestAnimationFrame(this.rotatePanel.bind(this));
     }
 
     distanceToStop(currentPrizeIndex = 0) {
@@ -219,7 +231,7 @@ class BigWheel extends React.Component {
         distance = Math.PI * 3 / 2 - middleDegrees;
         distance = distance > 0 ? distance : Math.PI * 2 + distance;
         // 这里额外加上后面的值，是为了让转盘多转动几圈，看上去更像是在抽奖
-        return distance + Math.PI * 10;
+        return distance + Math.PI * 500;
     }
 
     render() {
