@@ -91,15 +91,20 @@ class DrawBox extends Component {
             if (code === '1000') {
                 // 查询抽中的奖品索引
                 let index = drawInfo.lotteryPrizeList.findIndex(item => item.id === data.producId);
-                console.log(index, 88779900)
-                this.setState({
-                    prizeData: data
-                });
-                if (drawInfo.eventTemplate === 1) {
-                    return this.scratchableLatexRef.getScratchableLatexInfo(index);
+                if (index !== -1) {
+                    console.log('抽中奖品' + index, 88779900)
+                    this.setState({
+                        prizeData: data
+                    });
+                    if (drawInfo.eventTemplate === 1) {
+                        return this.scratchableLatexRef.getScratchableLatexInfo(index);
+                    } else {
+                        return this.bigWheelRef.getBigWheelInfo(index);
+                    }
                 } else {
-                    return this.bigWheelRef.getBigWheelInfo(index);
+                    this.setError();
                 }
+
             } else if (code === '1020') {
                 Toast.fail('抽奖已达上限');
             } else if (code === '1021') {
@@ -108,19 +113,22 @@ class DrawBox extends Component {
                 const { componentIndex } = this.props;
                 this.props.authorizationFailurePageSetting(componentIndex);
             } else {
-                // 系统异常
-                this.setState({ prizeData: { prizeType: '-1' } })
-                // 九宫格
-                if (drawInfo.eventTemplate === 1) {
-                    return this.scratchableLatexRef.getScratchableLatexInfo(0);
-                }
-                // 大转盘
-                else if (drawInfo.eventTemplate === 2) {
-                    return this.bigWheelRef.getBigWheelInfo(0);
-                }
-
+                this.setError();
             }
         })
+    }
+    setError = () => {
+        const { drawInfo } = this.state;
+        // 系统异常
+        this.setState({ prizeData: { prizeType: '-1' } })
+        // 九宫格
+        if (drawInfo.eventTemplate === 1) {
+            return this.scratchableLatexRef.getScratchableLatexInfo(0);
+        }
+        // 大转盘
+        else if (drawInfo.eventTemplate === 2) {
+            return this.bigWheelRef.getBigWheelInfo(0);
+        }
     }
     showPrizeModal = () => {
         this.setState({ prizeModal: true, isDisabled: false });

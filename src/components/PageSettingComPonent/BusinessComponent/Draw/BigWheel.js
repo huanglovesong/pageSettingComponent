@@ -177,7 +177,7 @@ class BigWheel extends React.Component {
             window.cancelAnimationFrame(this.timer);
             this.state.startRadian = 0;
             // 一共要走的距离
-            let nowDistance = this.distanceToStop(index) ;
+            let nowDistance = this.distanceToStop(index, 'getPrizeResult');
             // 一共要走的距离
             let distance = nowDistance;
             this.setState({
@@ -185,10 +185,6 @@ class BigWheel extends React.Component {
             }, () => {
                 this.rotatePanel();//调用处理旋转的方法
             });
-            // // 刷新抽奖次数
-            // this.props.getPrizeNum();
-            // // 打开抽奖弹窗
-            // this.props.showPrizeModal();
 
         }, 1000);
 
@@ -196,14 +192,16 @@ class BigWheel extends React.Component {
     // 处理旋转的关键方法
     rotatePanel() {
         let { distance, startRadian } = this.state;
-        console.log(startRadian, 887766)
-        console.log(this.state.startRadian, 555555)
         // 这里用一个很简单的缓动函数来计算每次绘制需要改变的角度，这样可以达到一个转盘从块到慢的渐变的过程
-        let changeRadian = (distance - this.state.startRadian) / 20;
+        let changeRadian = (distance - this.state.startRadian) / 50;
         this.state.startRadian += changeRadian;
         // 当最后的目标距离与startRadian之间的差距低于0.0001时，就默认奖品抽完了，可以继续抽下一个了。
         if (distance - this.state.startRadian <= 0.001) {
             this.state.canBeClick = true;
+            // 刷新抽奖次数
+            this.props.getPrizeNum();
+            // 打开抽奖弹窗
+            this.props.showPrizeModal();
             return
         }
 
@@ -214,7 +212,7 @@ class BigWheel extends React.Component {
         this.timer = window.requestAnimationFrame(this.rotatePanel.bind(this));
     }
 
-    distanceToStop(currentPrizeIndex = 0) {
+    distanceToStop(currentPrizeIndex = 0, prizeResult) {
         // middleDegrees为奖品块的中间角度（最终停留都是以中间角度进行计算的）距离初始的startRadian的距离，distance就是当前奖品跑到指针位置要转动的距离。
         let middleDegrees = 0, distance = 0;
         // 映射出每个奖品的middleDegrees
@@ -231,7 +229,7 @@ class BigWheel extends React.Component {
         distance = Math.PI * 3 / 2 - middleDegrees;
         distance = distance > 0 ? distance : Math.PI * 2 + distance;
         // 这里额外加上后面的值，是为了让转盘多转动几圈，看上去更像是在抽奖
-        return distance + Math.PI * 500;
+        return distance + Math.PI * (prizeResult ? 20 : 10000);
     }
 
     render() {
