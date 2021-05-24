@@ -1,4 +1,4 @@
-if(module && module.hot) {
+if (module && module.hot) {
   module.hot.accept()
 }
 
@@ -20,6 +20,9 @@ import RichText from './components/PageSettingComPonent/RichText';
 
 import CouponsList from './components/PageSettingComPonent/CouponsList';
 import CouponsPackage from './components/PageSettingComPonent/CouponsPackage';
+import Draw from './components/PageSettingComPonent/BusinessComponent/Draw';
+import DrawUserInfo from './components/PageSettingComPonent/BusinessComponent/DrawUserInfo';
+import DrawWinRecord from './components/PageSettingComPonent/BusinessComponent/DrawWinRecord';
 
 import pageSetting from './models/pageSetting';
 import loginPageSetting from './models/loginPageSetting';
@@ -43,6 +46,9 @@ export {
   RichText,
   CouponsPackage,
   CouponsList,
+  Draw,
+  DrawUserInfo,
+  DrawWinRecord,
   // models
   pageSetting,
   loginPageSetting,

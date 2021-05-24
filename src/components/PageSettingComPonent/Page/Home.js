@@ -124,7 +124,6 @@ class PageSettingComPonent extends React.Component {
                 }
             }
             else {
-                debugger
                 Toast.info(message);
             }
         }

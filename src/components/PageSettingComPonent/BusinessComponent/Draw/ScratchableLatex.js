@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import './less/scratchableLatex.less';
@@ -23,7 +24,6 @@ class ScratchableLatex extends React.Component {
       boxId: props.boxId,
       total: 10,
       balance: '',
-      drawInfo: props.drawInfo || {},
       prizeData: props.prizeData || {}
     }
   }
@@ -33,7 +33,7 @@ class ScratchableLatex extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this);
     const { item } = this.props;
-    const { drawInfo } = this.state;
+    const { drawInfo } = this.props;
     drawInfo.lotteryPrizeList.map(item => item.isActive = false);
     this.setState({
       lotteryPrizeList: drawInfo.lotteryPrizeList
@@ -54,18 +54,16 @@ class ScratchableLatex extends React.Component {
     this.start(activeIndex, (8 - activeIndex) + resultIndex, 400);
   }
   handleClick = () => {
-    const { total, drawInfo } = this.state;
+    const { total, drawInfo } = this.props;
+    // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
+    if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
+      (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
+      return Toast.info('无可用次数');
+    }
     if (!this.isDisabled) {
       this.isDisabled = true;
-      // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
-      if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
-        (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
-        return false;
-      } else {
-        const { drawInfo } = this.state;
-        this.start(0, 999999, 50);
-        this.props.draw();// 获取抽奖返回数据
-      }
+      this.start(0, 999999, 50);
+      this.props.draw();// 获取抽奖返回数据
     }
   }
 
@@ -106,8 +104,8 @@ class ScratchableLatex extends React.Component {
   }
 
   render() {
-    const { lotteryPrizeList, drawInfo } = this.state;
-    console.log(drawInfo, 88888)
+    const { lotteryPrizeList } = this.state;
+    const { drawInfo } = this.props;
     const { item, index } = this.props;
     const body = document.body;
     const { backImage, selectImage, prizeBackImage, borderRadius, integralTextColor, buttonImage, prizeTextColor, prizeData } = item.modelStyle.drawStyleModel;
@@ -116,7 +114,6 @@ class ScratchableLatex extends React.Component {
       backgroundImage: `url(${backImage})`,
       backgroundSize: 'cover'
     };
-    console.log(style, 223311)
     return (
       <div className="draw-square" style={style}>
         <div className="draw-section">
@@ -141,8 +138,8 @@ class ScratchableLatex extends React.Component {
             backgroundSize: 'cover'
           }}>
             <div className="draw-times" style={{ color: integralTextColor }}>
-              {/*如果是无门槛抽奖或者是积分抽奖并且，无门槛有数据展示免费抽奖次数*/}
-              {(drawInfo.lotteryType === 0 || (drawInfo.lotteryType === 1 && item.prizeNum !== 0)) ?
+              {/*如果是无门槛抽奖,或者是积分抽奖并且有免费次数展示免费抽奖次数*/}
+              {(drawInfo.lotteryType === 0 || (drawInfo.lotteryType === 1 && drawInfo.prizeNum !== 0)) ?
                 `抽奖次数*${drawInfo.prizeNum || 0}` : `${drawInfo.consumeIntegral}积分/次`}</div>
           </div>
         </div>

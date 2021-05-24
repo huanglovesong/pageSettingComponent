@@ -15,7 +15,6 @@ class BigWheel extends React.Component {
             canBeClick: true,//判断抽奖有没有结束
             canvas: '',
             content: '',
-            drawInfo: item.moduleDataList[0] || {},
         }
         this.imgArr = [];
     }
@@ -38,7 +37,7 @@ class BigWheel extends React.Component {
         }
         setTimeout(() => {
             this.onLoadPage(nowItem.lotteryPrizeList, item);
-        }, 300);
+        }, 500);
 
     }
 
@@ -100,7 +99,7 @@ class BigWheel extends React.Component {
             // 这里就是根据获取的各行的文字进行绘制,maxLineWidth取70,相当与一行最多展示5个文字
             this.getLineTextList(context, lotteryPrizeList[i].prizeName, 70).forEach((line, index) => {
                 // 绘制文字的方法,三个参数分别带:要绘制的文字,开始绘制的x坐标,开始绘制的y坐标
-                context.fillText(line, -context.measureText(line).width / 2, ++index * 25)
+                context.fillText(line, -context.measureText(line).width / 2, ++index * 30)
             });
             context.drawImage(this.imgArr[i], -23, 60, 46, 46);
 
@@ -152,15 +151,15 @@ class BigWheel extends React.Component {
 
     //点击抽奖让转盘转起来
     draw(e) {
-        const { drawInfo } = this.state;
-        // 只要抽奖没有结束，就不让再次抽奖
-        if (!this.state.canBeClick) return;
-        this.state.canBeClick = false;
+        const { drawInfo } = this.props;
         // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
         if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
             (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
-            return Toast.info('无抽奖机会');
+            return Toast.info('无可用次数');
         }
+        // 只要抽奖没有结束，就不让再次抽奖
+        if (!this.state.canBeClick) return;
+        this.state.canBeClick = false;
         // 每次点击抽奖，都将初始化角度重置
         this.state.startRadian = 0;
         const distance = this.distanceToStop();
@@ -185,7 +184,6 @@ class BigWheel extends React.Component {
             }, () => {
                 this.rotatePanel();//调用处理旋转的方法
             });
-
         }, 1000);
 
     }
@@ -195,8 +193,8 @@ class BigWheel extends React.Component {
         // 这里用一个很简单的缓动函数来计算每次绘制需要改变的角度，这样可以达到一个转盘从块到慢的渐变的过程
         let changeRadian = (distance - this.state.startRadian) / 50;
         this.state.startRadian += changeRadian;
-        // 当最后的目标距离与startRadian之间的差距低于0.0001时，就默认奖品抽完了，可以继续抽下一个了。
-        if (distance - this.state.startRadian <= 0.001) {
+        // 当最后的目标距离与startRadian之间的差距低于0.01时，就默认奖品抽完了，可以继续抽下一个了。
+        if (distance - this.state.startRadian <= 0.01) {
             this.state.canBeClick = true;
             // 刷新抽奖次数
             this.props.getPrizeNum();
@@ -229,17 +227,17 @@ class BigWheel extends React.Component {
         distance = Math.PI * 3 / 2 - middleDegrees;
         distance = distance > 0 ? distance : Math.PI * 2 + distance;
         // 这里额外加上后面的值，是为了让转盘多转动几圈，看上去更像是在抽奖
-        return distance + Math.PI * (prizeResult ? 20 : 10000);
+        return distance + Math.PI * (prizeResult ? 10 : 10000);
     }
 
     render() {
-        const { item, index } = this.props;
+        const { item, index, drawInfo } = this.props;
         const { backImage, buttonImage, ylImage, integralTextColor } = item.modelStyle.drawStyleModel;
+        console.log(drawInfo, 8888999)
         let style = {
             backgroundImage: `url(${backImage})`,
             backgroundSize: 'cover'
         };
-        const nowItem = item.moduleDataList[0] || {};
         return <div className="wheel-container">
             <div className="wheel-main" style={style}>
                 <div className="wheel">
@@ -250,9 +248,9 @@ class BigWheel extends React.Component {
                         backgroundSize: 'cover'
                     }}>
                         <div className="draw-times" style={{ color: integralTextColor }}>
-                            {/*如果是无门槛抽奖或者是积分抽奖并且，无门槛有数据则展示免费抽奖次数*/}
-                            {(nowItem.lotteryType === 0 || (nowItem.lotteryType === 1 && nowItem.prizeNum !== 0)) ?
-                                `抽奖次数*${nowItem.prizeNum || 0}` : `${nowItem.consumeIntegral}积分/次`}</div>
+                            {/*如果是无门槛抽奖,或者是积分抽奖并且有免费次数展示免费抽奖次数*/}
+                            {(drawInfo.lotteryType === 0 || (drawInfo.lotteryType === 1 && drawInfo.prizeNum !== 0)) ?
+                                `抽奖次数*${drawInfo.prizeNum || 0}` : `${drawInfo.consumeIntegral}积分/次`}</div>
                     </div>
                 </div>
             </div>

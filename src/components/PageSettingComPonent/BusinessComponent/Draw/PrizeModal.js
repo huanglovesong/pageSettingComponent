@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router';
 import erricon from './images/err-icon.png';
 import filedicon from './images/filed-icon.png';
 import Clipboard from 'clipboard';
 import './less/prizeModal.less'
 import { Fragment } from 'react';
+@withRouter
 export default class PrizeModal extends Component {
     static propTypes = {
         prop: PropTypes
@@ -106,10 +108,10 @@ export default class PrizeModal extends Component {
                     {/*系统异常*/}
                     {prizeData.prizeType === '-1' && <div className="prize-btn" onClick={this.drawAgain}>重新抽奖</div>}
 
-                    {/*很遗憾*/}
-                    {prizeData.prizeType === '4' && <div className="prize-btn" onClick={this.props.hidePrizeModal}>我知道了</div>}
+                    {/*很遗憾 积分*/}
+                    {(prizeData.prizeType === '4' || prizeData.prizeType === '7') && <div className="prize-btn" onClick={this.props.hidePrizeModal}>我知道了</div>}
                     {/*5 实物商品   else 其他商品*/}
-                    {prizeData.prizeType !== '-1' && prizeData.prizeType !== '4' &&
+                    {prizeData.prizeType !== '-1' && prizeData.prizeType !== '4' && prizeData.prizeType !== '7' &&
                         <div className="prize-btn gotoexchange" data-clipboard-text={prizeData.cards}
                             onClick={this.exchange}>立即兑换</div>}
 

@@ -24,16 +24,20 @@ class DrawBox extends Component {
         };
     }
     componentWillMount() {
-        // 添加奖品
-        this.addPrize();
+        const { userInfo } = this.state;
+        if (userInfo && userInfo.fuluToken) {
+            // 添加奖品
+            this.addPrize();
+        }
     }
     componentWillReceiveProps(nextProps) {
-        const { pageSetting: { getPageResult } } = nextProps;
+        const { pageSetting: { getPageResult, getPrizeNumRes } } = nextProps;
         // 如果是登录成功，找到对应组件authKey进行接下来的步骤
         if (nextProps.pageSetting.guid !== this.props.pageSetting.guid && (nextProps.pageSetting.componentIndex || nextProps.pageSetting.componentIndex === 0)) {
             // 如果是点击立即领取
             if (this.props.componentIndex === nextProps.pageSetting.componentIndex) {
-                this.draw();
+                // 添加奖品
+                this.setComUserInfo(this.draw);
             }
         }
         // 自定义页面授权成功,还需要添加获取奖品
@@ -41,8 +45,30 @@ class DrawBox extends Component {
             nextProps.pageSetting.componentIndex === 1000) {
             // 如果是自定义页面授权成功（例如优惠券需要做用户联登）1000是标识，成功之后重新获取页面信息
             // 添加奖品
-            this.addPrize();
+            this.setComUserInfo(this.addPrize);
         }
+        if (getPrizeNumRes !== this.props.pageSetting.getPrizeNumRes) {
+            const { code, data } = getPrizeNumRes;
+            const { drawInfo } = this.state;
+            // 同一个抽奖活动
+            if (getPrizeNumRes.code === '1000' && drawInfo.relationId === data.lotteryId) {
+                drawInfo.userIntegral = data.integral;
+                drawInfo.prizeNum = data.prizeNum;
+                return this.setState({
+                    drawInfo
+                })
+            }
+        }
+    }
+    // 重置页面授权
+    setComUserInfo = (callback) => {
+        let userInfoStr = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
+        const userInfo = userInfoStr ? JSON.parse(userInfoStr) : {};
+        this.setState({
+            userInfo
+        }, () => {
+            callback();
+        })
     }
     addPrize = () => {
         const { drawInfo, userInfo } = this.state;
@@ -71,7 +97,7 @@ class DrawBox extends Component {
             if (code === '1000') {
                 const { drawInfo } = this.state;
                 drawInfo.prizeNum = data.prizeNum;
-                drawInfo.consumeIntegral = data.integral;
+                // drawInfo.consumeIntegral = data.integral;
                 return this.setState({ drawInfo })
             }
         })
@@ -107,8 +133,10 @@ class DrawBox extends Component {
 
             } else if (code === '1020') {
                 Toast.fail('抽奖已达上限');
+                this.setError();
             } else if (code === '1021') {
                 Toast.fail('今日抽奖已达上限');
+                this.setError();
             } else if (code === '-3' || code === '1013' || code === '1014' || code === '1015') {
                 const { componentIndex } = this.props;
                 this.props.authorizationFailurePageSetting(componentIndex);
@@ -133,6 +161,9 @@ class DrawBox extends Component {
     showPrizeModal = () => {
         this.setState({ prizeModal: true, isDisabled: false });
     }
+    hidePrizeModal = () => {
+        this.setState({ prizeModal: false })
+    }
     render() {
         const { item, index } = this.props;
         const { drawInfo, prizeData, prizeModal } = this.state;
@@ -145,7 +176,7 @@ class DrawBox extends Component {
                     onRef={(ref) => { this.bigWheelRef = ref }} draw={this.draw} getPrizeNum={this.getPrizeNum}
                     showPrizeModal={this.showPrizeModal} />}
                 {prizeModal &&
-                    <PrizeModal hidePrizeModal={() => { this.setState({ prizeModal: false }) }} prizeData={prizeData} drawInfo={drawInfo}
+                    <PrizeModal hidePrizeModal={this.hidePrizeModal} prizeData={prizeData} drawInfo={drawInfo}
                         draw={this.draw} draw={this.draw} showPrizeModal={this.showPrizeModal} />
                 }
             </div>

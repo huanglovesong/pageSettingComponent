@@ -19,7 +19,7 @@ class DrawUserInfo extends Component {
     }
     componentWillReceiveProps(nextProps) {
         const { pageSetting: { getPrizeNumRes } } = nextProps;
-        if (getPrizeNumRes !== this.props.prize.getPrizeNumRes) {
+        if (getPrizeNumRes !== this.props.pageSetting.getPrizeNumRes) {
             const { code, data } = getPrizeNumRes;
             const { drawInfo } = this.state;
             // 同一个抽奖活动
@@ -55,7 +55,7 @@ class DrawUserInfo extends Component {
                     <span className="title">我的积分</span>
                     <span className="point">{drawInfo.userIntegral || 0}</span>
                 </div>
-                <div className="remain-num">今天可抽 {drawInfo.prizeNum || 0} 次</div>
+                <div className="remain-num">今天免费可抽 {drawInfo.prizeNum || 0} 次</div>
             </div>
             return <div className="draw-user-info-box clearfix" style={{ ...style1 }}>
                 {customEle}

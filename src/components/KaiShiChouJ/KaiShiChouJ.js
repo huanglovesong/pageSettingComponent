@@ -216,10 +216,10 @@ class KaiShiChouJ extends React.Component {
         userInfo.fuluToken = '';
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         isLoginOrAuth(this)
-      }else if(handlePrizeRes.code === '1020'){
+      } else if (handlePrizeRes.code === '1020') {
         Toast.fail('抽奖已达上限');
         clearInterval(this.timer)
-      }else if(handlePrizeRes.code === '1021'){
+      } else if (handlePrizeRes.code === '1021') {
         Toast.fail('今日抽奖已达上限');
         clearInterval(this.timer)
       } else {
@@ -366,7 +366,7 @@ class KaiShiChouJ extends React.Component {
       this.props.history.push('./mycoupons');
     } else {
       //将card复制到剪切板
-      Toast.success('券码复制成功，请在页面跳转后粘贴使用。',3)
+      Toast.success('券码复制成功，请在页面跳转后粘贴使用。', 3)
       setTimeout(() => {
         window.location.href = url
       }, 3000);
@@ -374,7 +374,7 @@ class KaiShiChouJ extends React.Component {
   }
   entityexchange = () => {
     this.hiddenModal('entityModal')
-    Toast.show('稍后会有客服人员联系您，请保持手机畅通。')
+    this.props.history.push(`./addaddress?id=${id}`)
   }
   render() {
     const { startTime, endTime, entityModal, eventAnnouncement, eventDesc, prizeList, dataSource, showModal, prizeNum, errModal, filedModal, drawnCount, userlist, modalData, showMallLoginModal, showLoginPageModal } = this.state;
