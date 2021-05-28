@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router';
+import { Toast } from 'antd-mobile';
+
 import erricon from './images/err-icon.png';
 import filedicon from './images/filed-icon.png';
 import Clipboard from 'clipboard';
@@ -38,11 +40,11 @@ export default class PrizeModal extends Component {
         const { prizeData } = this.state;
         if (prizeData.prizeType === '5') {
             this.props.hidePrizeModal();
-            Toast.show('稍后会有客服人员联系您，请保持手机畅通。')
+            this.props.history.push(`/addaddress?id=${prizeData.id}`)
         } else {
             // 1满减券 2折扣券 3 兑换劵
             if (prizeData.batchType !== '3') {
-                this.props.history.push('./mycoupons');
+                this.props.history.push('/mycoupons');
             } else {
                 //将card复制到剪切板
                 Toast.success('券码复制成功，请在页面跳转后粘贴使用。', 3)
@@ -104,7 +106,9 @@ export default class PrizeModal extends Component {
                         </div>
                         </div>
                     </Fragment>}
-                    {prizeData.prizeType !== '-1' && <div className="prize-text">后续会有工作人员和您联系，核对中奖信息，请保持手机畅通</div>}
+                    {prizeData.prizeType !== '-1' && <div className="prize-text">
+                        {prizeData.prizeType === '5' ? '后续会有工作人员和您联系，核对中奖信息，请保持手机畅通' : '关闭页面后可以通过活动页面下方我的奖品查看中奖情况'}
+                    </div>}
                     {/*系统异常*/}
                     {prizeData.prizeType === '-1' && <div className="prize-btn" onClick={this.drawAgain}>重新抽奖</div>}
 
@@ -113,7 +117,7 @@ export default class PrizeModal extends Component {
                     {/*5 实物商品   else 其他商品*/}
                     {prizeData.prizeType !== '-1' && prizeData.prizeType !== '4' && prizeData.prizeType !== '7' &&
                         <div className="prize-btn gotoexchange" data-clipboard-text={prizeData.cards}
-                            onClick={this.exchange}>立即兑换</div>}
+                            onClick={this.exchange}>{prizeData.prizeType === '5' ? '领取奖励' : '立即兑换'}</div>}
 
                 </div>
             </div>

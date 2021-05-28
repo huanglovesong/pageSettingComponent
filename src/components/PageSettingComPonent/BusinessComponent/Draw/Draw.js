@@ -54,6 +54,11 @@ class DrawBox extends Component {
             if (getPrizeNumRes.code === '1000' && drawInfo.relationId === data.lotteryId) {
                 drawInfo.userIntegral = data.integral;
                 drawInfo.prizeNum = data.prizeNum;
+                drawInfo.daySurplusNum = data.daySurplusNum;
+                drawInfo.totalSurplusNum = data.totalSurplusNum;
+                drawInfo.wechartClink = data.wechartClink;
+                drawInfo.androidGuideUrl = data.androidGuideUrl;
+                drawInfo.iosGuideUrl = data.iosGuideUrl;
                 return this.setState({
                     drawInfo
                 })
@@ -80,7 +85,10 @@ class DrawBox extends Component {
                 userId: userInfo.fuluId,
                 mobile: userInfo.fuluId,
             }
-        }).then(() => {
+        }).then((res) => {
+            if (res.code === '-3') {
+                return Toast.info(res.message);
+            }
             this.getPrizeNum();
         })
     }
@@ -177,7 +185,7 @@ class DrawBox extends Component {
                     showPrizeModal={this.showPrizeModal} />}
                 {prizeModal &&
                     <PrizeModal hidePrizeModal={this.hidePrizeModal} prizeData={prizeData} drawInfo={drawInfo}
-                        draw={this.draw} draw={this.draw} showPrizeModal={this.showPrizeModal} />
+                        draw={this.draw} showPrizeModal={this.showPrizeModal} />
                 }
             </div>
         )

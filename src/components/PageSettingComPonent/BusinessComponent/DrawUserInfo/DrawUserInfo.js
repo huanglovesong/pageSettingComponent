@@ -26,6 +26,8 @@ class DrawUserInfo extends Component {
             if (getPrizeNumRes.code === '1000' && drawInfo.relationId === data.lotteryId) {
                 drawInfo.userIntegral = data.integral;
                 drawInfo.prizeNum = data.prizeNum;
+                drawInfo.daySurplusNum = data.daySurplusNum;
+                drawInfo.totalSurplusNum = data.totalSurplusNum;
                 return this.setState({
                     drawInfo
                 })
@@ -51,11 +53,17 @@ class DrawUserInfo extends Component {
             };
             const { drawInfo } = this.state;
             customEle = <div className={`draw-user-info-box-img float-left`} style={{ backgroundImage: `url(${backImage})` }}>
-                <div className="my-point">
+                {drawInfo.lotteryType === 1 && <div className="my-point">
                     <span className="title">我的积分</span>
                     <span className="point">{drawInfo.userIntegral || 0}</span>
+                </div>}
+
+                <div className="remain-num">
+                    {drawInfo.daySurplusNum !== null && `今天可抽 ${drawInfo.daySurplusNum || 0} 次`}
+                    {(drawInfo.daySurplusNum !== 0 && drawInfo.daySurplusNum !== null &&
+                        drawInfo.totalSurplusNum !== 0 && drawInfo.totalSurplusNum !== null) && '，'}
+                    {drawInfo.totalSurplusNum !== null && `共可抽 ${drawInfo.totalSurplusNum || 0} 次`}
                 </div>
-                <div className="remain-num">今天免费可抽 {drawInfo.prizeNum || 0} 次</div>
             </div>
             return <div className="draw-user-info-box clearfix" style={{ ...style1 }}>
                 {customEle}

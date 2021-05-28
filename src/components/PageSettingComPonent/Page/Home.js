@@ -105,6 +105,14 @@ class PageSettingComPonent extends React.Component {
             const { code, data, message } = getPageResult;
             if (code === '0') {
                 this.pageLoadUmBuired(data, data.id);
+                let drawObj = data.pageModuleList.find(item => item.moduleType === 'draw');
+                if (drawObj) {
+                    let nowItem = drawObj.moduleDataList[0] || {};
+                    // 保存活动id
+                    sessionStorage.setItem('activeId', nowItem.relationId);
+                    // 保存eventDd
+                    localStorage.setItem('eventId', nowItem.eventId);
+                }
                 return this.setState({
                     allInfo: data,
                     pageId: data.id

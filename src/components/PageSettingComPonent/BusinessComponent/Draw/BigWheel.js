@@ -1,5 +1,7 @@
 import { Toast } from 'antd-mobile';
 import React from 'react'
+
+import mathManage from '../../../../utils/mathManage'
 import './less/BigWheel.less'
 class BigWheel extends React.Component {
     constructor(props) {
@@ -152,23 +154,51 @@ class BigWheel extends React.Component {
     //点击抽奖让转盘转起来
     draw(e) {
         const { drawInfo } = this.props;
-        // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
-        if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
-            (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
-            return Toast.info('无可用次数');
+        console.log(drawInfo, 222);
+        let userAgentType = mathManage.isAlipayOrWechat();
+        console.log(userAgentType, 3333);
+        // 如果是微信并且需要跳转
+        if (userAgentType === 1 && drawInfo.wechartClink == 1) {
+            let fromPlatform = mathManage.getDeviceType();
+            console.log(fromPlatform, 444);
+            // ios
+            if (fromPlatform === 1) {
+                window.location.href = drawInfo.iosGuideUrl;
+            }
+            // android
+            else if (fromPlatform === 2) {
+                window.location.href = drawInfo.androidGuideUrl;
+            }
+        } else {
+            // 如果是免费抽奖并且可用次数小于1
+            if (drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) {
+                return Toast.info('无可用次数');
+            }
+            // 如果是免费抽奖并且可用次数小于1
+            if (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral) {
+                return Toast.info('积分不足');
+            }
+            // 如果剩余当天可用次数为0
+            if (drawInfo.daySurplusNum !== null && drawInfo.daySurplusNum === 0) {
+                return Toast.info('无可用次数');
+            }
+            // 如果总剩余次数为0
+            if (drawInfo.totalSurplusNum !== null && drawInfo.totalSurplusNum === 0) {
+                return Toast.info('无可用次数');
+            }
+            // 只要抽奖没有结束，就不让再次抽奖
+            if (!this.state.canBeClick) return;
+            this.state.canBeClick = false;
+            // 每次点击抽奖，都将初始化角度重置
+            this.state.startRadian = 0;
+            const distance = this.distanceToStop();
+            this.setState({
+                distance
+            }, () => {
+                this.rotatePanel();//调用处理旋转的方法
+                this.props.draw();// 获取抽奖返回数据
+            });
         }
-        // 只要抽奖没有结束，就不让再次抽奖
-        if (!this.state.canBeClick) return;
-        this.state.canBeClick = false;
-        // 每次点击抽奖，都将初始化角度重置
-        this.state.startRadian = 0;
-        const distance = this.distanceToStop();
-        this.setState({
-            distance
-        }, () => {
-            this.rotatePanel();//调用处理旋转的方法
-            this.props.draw();// 获取抽奖返回数据
-        });
     }
     getBigWheelInfo = (index) => {
         setTimeout(() => {
@@ -233,7 +263,6 @@ class BigWheel extends React.Component {
     render() {
         const { item, index, drawInfo } = this.props;
         const { backImage, buttonImage, ylImage, integralTextColor } = item.modelStyle.drawStyleModel;
-        console.log(drawInfo, 8888999)
         let style = {
             backgroundImage: `url(${backImage})`,
             backgroundSize: 'cover'

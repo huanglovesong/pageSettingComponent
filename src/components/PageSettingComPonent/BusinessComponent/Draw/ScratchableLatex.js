@@ -2,6 +2,7 @@ import React from 'react';
 import { Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
+import mathManage from '../../../../utils/mathManage'
 import './less/scratchableLatex.less';
 
 class ScratchableLatex extends React.Component {
@@ -55,15 +56,43 @@ class ScratchableLatex extends React.Component {
   }
   handleClick = () => {
     const { total, drawInfo } = this.props;
-    // (如果是无门槛抽奖并且次数小于1)     (不是无门槛抽奖并且抽奖次数小于1并且可用积分小于抽奖积分）
-    if ((drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) ||
-      (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral)) {
-      return Toast.info('无可用次数');
-    }
-    if (!this.isDisabled) {
-      this.isDisabled = true;
-      this.start(0, 999999, 50);
-      this.props.draw();// 获取抽奖返回数据
+    console.log(drawInfo, 222);
+    let userAgentType = mathManage.isAlipayOrWechat();
+    console.log(userAgentType, 3333);
+    // 如果是微信并且需要跳转
+    if (userAgentType === 1 && drawInfo.wechartClink == 1) {
+      let fromPlatform = mathManage.getDeviceType();
+      console.log(fromPlatform, 444);
+      // ios
+      if (fromPlatform === 1) {
+        window.location.href = drawInfo.iosGuideUrl;
+      }
+      // android
+      else if (fromPlatform === 2) {
+        window.location.href = drawInfo.androidGuideUrl;
+      }
+    } else {
+      // 如果是免费抽奖并且可用次数小于1
+      if (drawInfo.lotteryType === 0 && drawInfo.prizeNum < 1) {
+        return Toast.info('无可用次数');
+      }
+      // 如果是免费抽奖并且可用次数小于1
+      if (drawInfo.lotteryType === 1 && drawInfo.prizeNum < 1 && drawInfo.userIntegral < drawInfo.consumeIntegral) {
+        return Toast.info('积分不足');
+      }
+      // 如果剩余当天可用次数为0
+      if (drawInfo.daySurplusNum !== null && drawInfo.daySurplusNum <= 0) {
+        return Toast.info('无可用次数');
+      }
+      // 如果总剩余次数为0
+      if (drawInfo.totalSurplusNum !== null && drawInfo.totalSurplusNum <= 0) {
+        return Toast.info('无可用次数');
+      }
+      if (!this.isDisabled) {
+        this.isDisabled = true;
+        this.start(0, 999999, 50);
+        this.props.draw();// 获取抽奖返回数据
+      }
     }
   }
 
